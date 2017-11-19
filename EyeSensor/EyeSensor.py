@@ -45,4 +45,9 @@ class EyeSensor:
 
 if __name__ == '__main__':
     eye_sensor = EyeSensor()
+
+    # 規格統一のために256x256などにリサイズ
+
+    # 計算リソースが足りないので当面は16x16ずつの平均カラーを計算して32x32の画像に落とし込むとかする
+
     eye_sensor.execute("./Apple.jpg")
