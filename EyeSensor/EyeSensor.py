@@ -56,7 +56,7 @@ def preprocess(image_file):
     width, height = img.size
     
     # 256x256 -> 16x16
-    new_size = (24, 24)
+    new_size = (32, 32)
     new_img = Image.new("RGB", new_size)
     for x in range(new_size[0]):
         for y in range(new_size[1]):
@@ -72,14 +72,14 @@ def preprocess(image_file):
     new_img.save(preprocessed_file)
 
     new_img.show()
-
+ 
     return preprocessed_file
 #end def preprocess
 
 if __name__ == '__main__':
     eye_sensor = EyeSensor()
 
-    input_file = "./Apple.jpg"
+    input_file = "./SampleImage/HiroseSuzu.jpg"
 
     test_file = preprocess(input_file)
 
