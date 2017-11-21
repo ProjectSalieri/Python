@@ -5,6 +5,14 @@
 
 from PIL import Image
 
+def round_value(value):
+    if value < 0.0:
+        return 0
+    elif value > 255.0:
+        return 255
+    else:
+        return (int)(value)
+
 class EyeSensor:
 
     # コンストラクタ
@@ -17,28 +25,21 @@ class EyeSensor:
         img = Image.open(img_file)
 
         width, height = img.size
+        
+        image_dim = width*height*3
+        middle_layer_num = width*height
+        import TLP
+        tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
+        output_buf = tlp.output(None)
 
-        col_ave = [0.0, 0.0, 0.0]
-        pix_num = 0
+        new_img = Image.new("RGB", (width, height))
         for x in range(width):
             for y in range(height):
-                pix_col = img.getpixel((x, y))
-                col_ave[0] += pix_col[0]
-                col_ave[1] += pix_col[1]
-                col_ave[2] += pix_col[2]
-                pix_num += 1
-
-        for i in range(3):
-            col_ave[i] = (float)(col_ave[i]) / pix_num
-        for x in range(width):
-            img.putpixel((x, 0), ((int)(col_ave[0]), 0, 0))
-            img.putpixel((x, 1), (0, (int)(col_ave[1]), 0))
-            img.putpixel((x, 2), (0, 0, (int)(col_ave[2])))
-            for i in range(10):
-                img.putpixel((x, 3+i), ((int)(col_ave[0]), (int)(col_ave[1]), (int)(col_ave[2])))
-
-        img.show()
-        pass
+                buf_offset = (y*width + x)*3
+                new_img.putpixel( (x, y), 
+                                  (round_value(output_buf[buf_offset]), round_value(output_buf[buf_offset+1]), round_value(output_buf[buf_offset+2])) )
+        new_img.show()
+        
     # end execute
 
 # end Class EyeSensor
@@ -71,7 +72,7 @@ def preprocess(image_file):
             new_img.putpixel((x, y), tuple(ave))
     new_img.save(preprocessed_file)
 
-    new_img.show()
+#    new_img.show()
  
     return preprocessed_file
 #end def preprocess
@@ -83,4 +84,4 @@ if __name__ == '__main__':
 
     test_file = preprocess(input_file)
 
-#    eye_sensor.execute(test_file)
+    eye_sensor.execute(test_file)
