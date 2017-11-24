@@ -13,6 +13,7 @@ class TLP:
         self.output_dim = output_dim
         self.w_i = []
         self.w_o = []
+        self.alpha = 1.0
 
         # input -> middleのウェイト
         for i in range(self.input_dim+1):
@@ -54,7 +55,7 @@ class TLP:
                 sum += input_buf[i] * self.w_i[i][m]
             try:
                 exp_v = math.exp(-sum)
-                middle_output_buf[m] = 1.0 / ( 1.0 + math.exp(-sum) )
+                middle_output_buf[m] = 1.0 / ( 1.0 + math.exp(-alpha*sum) )
             except OverflowError:
                 middle_output_buf[m] = 0.0
             
