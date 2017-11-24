@@ -6,6 +6,8 @@
 from PIL import Image
 
 def round_value(value):
+    value /= 10.0
+    value *= 255
     value += 128.0
     if value < 0.0:
         return 0
@@ -31,6 +33,20 @@ class EyeSensor:
         middle_layer_num = width*height
         import TLP
         tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
+        input_buf = self._create_input_from_img(img)
+
+        # 学習Start
+        answer_buf = self._create_input_from_img(img)
+        for i in range(20):
+            for j in range(1):
+                tlp.backpropagation(input_buf, answer_buf)
+            output_buf = tlp.output(input_buf)
+            error = 0.0
+            for o in range(len(output_buf)):
+                error += (output_buf[o] - answer_buf[o])*(output_buf[o] - answer_buf[o])
+            print(error)
+        # 学習End
+
         output_buf = tlp.output(self._create_input_from_img(img))
 
         new_img = Image.new("RGB", (width, height))
@@ -52,7 +68,7 @@ class EyeSensor:
                 offset = h*width*3 + w*3
                 pix = img.getpixel((w, h))
                 for c in range(3):
-                    input_buf[offset + c] = pix[c] / 255.0 - 128.0 # 正規化 + 左右対称に
+                    input_buf[offset + c] = (pix[c] - 128.0)/ 255.0*10.0 # 正規化 + 左右対称に( -5 ~ 5)
 
         return input_buf
 
@@ -71,7 +87,8 @@ def preprocess(image_file):
     width, height = img.size
     
     # 256x256 -> 16x16
-    new_size = (32, 32)
+    #new_size = (32, 32)
+    new_size = (16, 16)
     new_img = Image.new("RGB", new_size)
     for x in range(new_size[0]):
         for y in range(new_size[1]):
@@ -86,7 +103,7 @@ def preprocess(image_file):
             new_img.putpixel((x, y), tuple(ave))
     new_img.save(preprocessed_file)
 
-#    new_img.show()
+    new_img.show()
  
     return preprocessed_file
 #end def preprocess
@@ -94,7 +111,7 @@ def preprocess(image_file):
 if __name__ == '__main__':
     eye_sensor = EyeSensor()
 
-    input_file = "./SampleImage/HiroseSuzu.jpg"
+    input_file = "./SampleImage/Apple.jpg"
 
     test_file = preprocess(input_file)
 

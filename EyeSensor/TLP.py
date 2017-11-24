@@ -56,6 +56,21 @@ class TLP:
         return output_buf
     # end middle_to_output
 
+    def backpropagation(self, input_buf, output_buf):
+        eta = 0.01
+
+        middle_output_buf = self.middle_output(input_buf)
+        predict_buf = self.middle_to_output(middle_output_buf)
+
+        # 最終層修正
+        for o in range(self.output_dim):
+            delta_error = (predict_buf[o] - output_buf[o])
+            for m in range(self.middle_layer_num):
+                self.w_o[o][m] -= eta*(delta_error)*(middle_output_buf[m])
+            self.w_o[o][self.middle_layer_num] -= eta*delta_error
+
+    # end backpropagation
+
     def _random_weight(self):
         return random.uniform(-1, 1)
     # end _random_weight
