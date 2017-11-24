@@ -96,7 +96,7 @@ class EyeSensor:
         img = Image.open(img_file)
         
         input_buf = self._create_input_from_img(img)
-        output_buf = self.tlp.output(self._create_input_from_img(img))
+        output_buf = self.tlp.output(input_buf)
 
         width, height = img.size
         new_img = Image.new("RGB", (width, height))
@@ -127,16 +127,25 @@ class EyeSensor:
 if __name__ == '__main__':
     eye_sensor = EyeSensor(16, 16)
 
+    learn_itr = 1
+
     input_files = [
         "./SampleImage/Apple.jpg",
         "./SampleImage/HiroseSuzu.jpg",
         "./SampleImage/Forest.jpg",
-        "./SampleImage/Cat.jpg"
+        "./SampleImage/Cat.jpg",
+        "./SampleImage/Chris.jpg",
+        "./SampleImage/Mushroom.jpg",
+        "./SampleImage/Orange.jpg",
+        "./SampleImage/Masu.jpg"
         ]
-    for input_file in input_files:
-        error = eye_sensor.learn(input_file)
-        print(error)
-        eye_sensor.save()
+    import random
+    random.shuffle(input_files)
+    for itr in range(learn_itr):
+        for input_file in input_files:
+            error = eye_sensor.learn(input_file)
+            print(str(error) + " : " + input_file)
+            eye_sensor.save()
 
     for input_file in input_files:
         eye_sensor.execute(input_file)
