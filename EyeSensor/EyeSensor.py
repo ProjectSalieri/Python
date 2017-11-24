@@ -6,6 +6,7 @@
 from PIL import Image
 
 def round_value(value):
+    value += 128.0
     if value < 0.0:
         return 0
     elif value > 255.0:
@@ -30,7 +31,7 @@ class EyeSensor:
         middle_layer_num = width*height
         import TLP
         tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
-        output_buf = tlp.output(None)
+        output_buf = tlp.output(self._create_input_from_img(img))
 
         new_img = Image.new("RGB", (width, height))
         for x in range(width):
@@ -41,6 +42,19 @@ class EyeSensor:
         new_img.show()
         
     # end execute
+
+    def _create_input_from_img(self, img):
+        width, height = img.size
+        image_dim = width*height*3
+        input_buf = [ 0.0 for i in range(image_dim) ]
+        for h in range(height):
+            for w in range(width):
+                offset = h*width*3 + w*3
+                pix = img.getpixel((w, h))
+                for c in range(3):
+                    input_buf[offset + c] = pix[c] / 255.0 - 128.0 # 正規化 + 左右対称に
+
+        return input_buf
 
 # end Class EyeSensor
 

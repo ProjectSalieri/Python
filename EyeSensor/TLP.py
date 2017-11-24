@@ -3,31 +3,62 @@
 # @file TLP.py
 # @note 三層パーセプトロン
 
+import random
+import math
+
 class TLP:
     def __init__(self, input_dim, middle_layer_num, output_dim):
         self.input_dim = input_dim
         self.middle_layer_num = middle_layer_num
         self.output_dim = output_dim
-        pass
+        self.w_i = []
+        self.w_o = []
+
+        # input -> middleのウェイト
+        for i in range(self.input_dim+1):
+            self.w_i.append([self._random_weight() for m in range(self.middle_layer_num)])
+
+        # middle -> outputのウェイト
+        for o in range(self.output_dim):
+            self.w_o.append([self._random_weight() for m in range(self.middle_layer_num+1)])
+
     # end __init__
 
     def output(self, input_buf):
         middle_output_buf = self.middle_output(input_buf)
         output_buf = self.middle_to_output(middle_output_buf)
         return output_buf
-    # end __output__
+    # end output
 
     def middle_output(self, input_buf):
-        middle_output_buf = [ 0.0 for i in range(self.middle_layer_num) ]
+        middle_output_buf = [ 0.0 for m in range(self.middle_layer_num) ]
+        for m in range(self.middle_layer_num):
+            sum = self.w_i[self.input_dim][m]
+            for i in range(self.input_dim):
+                sum += input_buf[i] * self.w_i[i][m]
+            try:
+                exp_v = math.exp(-sum)
+                middle_output_buf[m] = 1.0 / ( 1.0 + math.exp(-sum) )
+            except OverflowError:
+                middle_output_buf[m] = 0.0
+            
         return middle_output_buf
 
     def middle_to_output(self, middle_output_buf):
-        output_buf = [ 0.0 for i in range(self.output_dim) ]
-        # test
-        import random
-        output_buf = [ random.uniform(0, 255) for i in range(self.output_dim) ]
+        output_buf = [ self.w_o[o][self.middle_layer_num] for o in range(self.output_dim) ]
+
+        for o in range(self.output_dim):
+            sum = 0.0
+            for m in range(self.middle_layer_num):
+                sum += middle_output_buf[m] * self.w_o[o][self.middle_layer_num]
+            output_buf[o] += sum
+
         return output_buf
-    # end __middle_to_output
+    # end middle_to_output
+
+    def _random_weight(self):
+        return random.uniform(-1, 1)
+    # end _random_weight
 # end class TLP
 
 if __name__ == '__main__':
