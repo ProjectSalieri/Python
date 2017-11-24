@@ -31,6 +31,13 @@ class EyeSensor:
         self.tlp = self.tlp.deserialize(self.param_path)
     # end __init__
 
+    def learn(self, image_file):
+        preprocessed_file = self._preprocess(image_file)
+        return self._learn(preprocessed_file)
+
+    def save(self):
+        self.tlp.serialize(self.param_path)
+
     def execute(self, image_file):
         preprocessed_file = self._preprocess(image_file)
         self._execute(preprocessed_file)
@@ -69,29 +76,29 @@ class EyeSensor:
         return preprocessed_file
     #end def preprocess
 
-    # 実行関数
-    def _execute(self, img_file):
+    # 学習関数
+    def _learn(self, img_file):
         img = Image.open(img_file)
-
-        width, height = img.size
-        
         input_buf = self._create_input_from_img(img)
 
         # 学習Start
         answer_buf = self._create_input_from_img(img)
-        for i in range(0):
-            for j in range(1):
-                self.tlp.backpropagation(input_buf, answer_buf)
-            output_buf = self.tlp.output(input_buf)
-            error = 0.0
-            for o in range(len(output_buf)):
-                error += (output_buf[o] - answer_buf[o])*(output_buf[o] - answer_buf[o])
-            print(error)
+        self.tlp.backpropagation(input_buf, answer_buf)
+        output_buf = self.tlp.output(input_buf)
+        error = 0.0
+        for o in range(len(output_buf)):
+            error += (output_buf[o] - answer_buf[o])*(output_buf[o] - answer_buf[o])
         # 学習End
+        return error
 
+    # 実行関数
+    def _execute(self, img_file):
+        img = Image.open(img_file)
+        
+        input_buf = self._create_input_from_img(img)
         output_buf = self.tlp.output(self._create_input_from_img(img))
-        self.tlp.serialize(self.param_path)
 
+        width, height = img.size
         new_img = Image.new("RGB", (width, height))
         for x in range(width):
             for y in range(height):
@@ -126,5 +133,10 @@ if __name__ == '__main__':
         "./SampleImage/Forest.jpg",
         "./SampleImage/Cat.jpg"
         ]
+    for input_file in input_files:
+        error = eye_sensor.learn(input_file)
+        print(error)
+        eye_sensor.save()
+
     for input_file in input_files:
         eye_sensor.execute(input_file)

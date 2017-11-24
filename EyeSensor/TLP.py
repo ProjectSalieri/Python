@@ -21,8 +21,24 @@ class TLP:
         # middle -> outputのウェイト
         for o in range(self.output_dim):
             self.w_o.append([self._random_weight() for m in range(self.middle_layer_num+1)])
-
     # end __init__
+
+    def deserialize(self, param_file):
+        import pickle
+        import os
+        if os.path.exists(param_file) == False:
+            return self
+        tlp = self
+        with open(param_file, "rb") as f:
+            tlp = pickle.load(f)
+        return tlp
+    # end deserialize
+
+    def serialize(self, param_file):
+        import pickle
+        with open(param_file, "wb") as f:
+            pickle.dump(self, f)
+    # end serialize
 
     def output(self, input_buf):
         middle_output_buf = self.middle_output(input_buf)
