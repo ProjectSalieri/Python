@@ -55,7 +55,7 @@ class TLP:
                 sum += input_buf[i] * self.w_i[i][m]
             try:
                 exp_v = math.exp(-sum)
-                middle_output_buf[m] = 1.0 / ( 1.0 + math.exp(-alpha*sum) )
+                middle_output_buf[m] = 1.0 / ( 1.0 + math.exp(-self.alpha*sum) )
             except OverflowError:
                 middle_output_buf[m] = 0.0
             
@@ -80,11 +80,24 @@ class TLP:
         predict_buf = self.middle_to_output(middle_output_buf)
 
         # 最終層修正
+        delta_error = [ 0.0 for o in range(self.output_dim) ]
         for o in range(self.output_dim):
-            delta_error = (predict_buf[o] - output_buf[o])
+            delta_error[o] = (predict_buf[o] - output_buf[o])
             for m in range(self.middle_layer_num):
-                self.w_o[o][m] -= eta*(delta_error)*(middle_output_buf[m])
-            self.w_o[o][self.middle_layer_num] -= eta*delta_error
+                self.w_o[o][m] -= eta*(delta_error[o])*(middle_output_buf[m])
+            self.w_o[o][self.middle_layer_num] -= eta*delta_error[o]
+
+        # 入力層 -> 中間層 ウェイト修正
+        for o in range(self.output_dim):
+            sum = 0.0
+            for m in range(self.middle_layer_num):
+                sigmoid_out = middle_output_buf[m]
+                sum += delta_error[o]*(self.alpha*sigmoid_out*(1.0 - sigmoid_out))
+
+                for i in range(self.input_dim):
+                    self.w_i[i][m] = sum*input_buf[i]
+                self.w_i[self.input_dim][m] = sum # x 1.0(=bias)
+                
 
     # end backpropagation
 
