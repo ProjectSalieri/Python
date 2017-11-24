@@ -27,6 +27,8 @@ class EyeSensor:
         image_dim = self.width*self.height*3
         middle_layer_num = self.width*self.height
         self.tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
+        self.param_path = "./TLP.param"
+        self.tlp = self.tlp.deserialize(self.param_path)
     # end __init__
 
     def execute(self, image_file):
@@ -62,7 +64,7 @@ class EyeSensor:
                 new_img.putpixel((x, y), tuple(ave))
         new_img.save(preprocessed_file)
 
-        new_img.show()
+        #new_img.show()
  
         return preprocessed_file
     #end def preprocess
@@ -77,7 +79,7 @@ class EyeSensor:
 
         # 学習Start
         answer_buf = self._create_input_from_img(img)
-        for i in range(20):
+        for i in range(0):
             for j in range(1):
                 self.tlp.backpropagation(input_buf, answer_buf)
             output_buf = self.tlp.output(input_buf)
@@ -88,6 +90,7 @@ class EyeSensor:
         # 学習End
 
         output_buf = self.tlp.output(self._create_input_from_img(img))
+        self.tlp.serialize(self.param_path)
 
         new_img = Image.new("RGB", (width, height))
         for x in range(width):
@@ -117,5 +120,11 @@ class EyeSensor:
 if __name__ == '__main__':
     eye_sensor = EyeSensor(16, 16)
 
-    input_file = "./SampleImage/Apple.jpg"
-    eye_sensor.execute(input_file)
+    input_files = [
+        "./SampleImage/Apple.jpg",
+        "./SampleImage/HiroseSuzu.jpg",
+        "./SampleImage/Forest.jpg",
+        "./SampleImage/Cat.jpg"
+        ]
+    for input_file in input_files:
+        eye_sensor.execute(input_file)
