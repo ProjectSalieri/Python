@@ -40,7 +40,7 @@ class EyeSensor:
 
     def execute(self, image_file):
         preprocessed_file = self._preprocess(image_file)
-        self._execute(preprocessed_file)
+        return self._execute(preprocessed_file)
 
     def _preprocess(self, image_file):
         preprocessed_file = "./Test.jpg"
@@ -94,20 +94,24 @@ class EyeSensor:
     # 実行関数
     def _execute(self, img_file):
         img = Image.open(img_file)
-        
-        input_buf = self._create_input_from_img(img)
-        output_buf = self.tlp.output(input_buf)
 
-        width, height = img.size
-        new_img = Image.new("RGB", (width, height))
-        for x in range(width):
-            for y in range(height):
-                buf_offset = (y*width + x)*3
+        # 特徴量に変換
+        input_buf = self._create_input_from_img(img)
+        middle_output_buf = self.tlp.middle_output(input_buf)
+
+        return middle_output_buf
+    # end execute
+
+    def reconstruct(self, middle_output_buf):
+        output_buf = self.tlp.middle_to_output(middle_output_buf)
+
+        new_img = Image.new("RGB", (self.width, self.height))
+        for x in range(self.width):
+            for y in range(self.height):
+                buf_offset = (y*self.width + x)*3
                 new_img.putpixel( (x, y), 
                                   (round_value(output_buf[buf_offset]), round_value(output_buf[buf_offset+1]), round_value(output_buf[buf_offset+2])) )
         new_img.show()
-        
-    # end execute
 
     def _create_input_from_img(self, img):
         width, height = img.size
@@ -139,13 +143,13 @@ if __name__ == '__main__':
         "./SampleImage/Orange.jpg",
         "./SampleImage/Masu.jpg"
         ]
-    import random
-    random.shuffle(input_files)
     for itr in range(learn_itr):
+        import random
+        random.shuffle(input_files)
         for input_file in input_files:
             error = eye_sensor.learn(input_file)
             print(str(error) + " : " + input_file)
             eye_sensor.save()
 
     for input_file in input_files:
-        eye_sensor.execute(input_file)
+        eye_sensor.reconstruct(eye_sensor.execute(input_file))
