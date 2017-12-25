@@ -27,7 +27,7 @@ class EyeSensor:
         image_dim = self.width*self.height*3
         middle_layer_num = self.width*self.height
         self.tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
-        self.param_path = "./TLP.param"
+        self.param_path = "./TLP" + str(self.width) + "x" + str(self.height) + ".param"
         self.tlp = self.tlp.deserialize(self.param_path)
     # end __init__
 
@@ -42,36 +42,20 @@ class EyeSensor:
         preprocessed_file = self._preprocess(image_file)
         return self._execute(preprocessed_file)
 
+    def _resize_image(self, image_file, output_file, size_tuple):
+        img = Image.open(image_file)
+        resize_image = img.resize(size_tuple)
+        resize_image.save(output_file)
+
     def _preprocess(self, image_file):
         preprocessed_file = "./Test.jpg"
 
         # 規格統一のために256x256などにリサイズ
-        import subprocess
-        cmd = "convert -scale 256x256! " + image_file + " " + preprocessed_file
-        subprocess.call(cmd, shell=True)
+        self._resize_image(image_file, preprocessed_file, (256, 256))
 
         # 計算リソースが足りないので当面は16x16ずつの平均カラーを計算して32x32の画像に落とし込むとかする
-        img = Image.open(preprocessed_file)
-        width, height = img.size
-    
         # 256x256 -> 16x16
-        new_size = (self.width, self.height)
-        block_size = (256/new_size[0], 256/new_size[1])
-        block_num = block_size[0]*block_size[1]
-        new_img = Image.new("RGB", new_size)
-        for x in range(new_size[0]):
-            for y in range(new_size[1]):
-                ave = [0, 0, 0]
-                ranges = (range(block_size[0]), range(block_size[1]))
-                for i in ranges[0]:
-                    for j in ranges[1]:
-                        pix_col = img.getpixel((x*block_size[0]+i, y*block_size[1]+j))
-                        for c in range(3): ave[c] += pix_col[c]
-                for c in range(3): ave[c] = (int)((float)(ave[c])/block_num)
-                new_img.putpixel((x, y), tuple(ave))
-        new_img.save(preprocessed_file)
-
-        #new_img.show()
+        self._resize_image(preprocessed_file, preprocessed_file, (self.width, self.height))
  
         return preprocessed_file
     #end def preprocess
@@ -143,6 +127,7 @@ if __name__ == '__main__':
         "./SampleImage/Orange.jpg",
         "./SampleImage/Masu.jpg"
         ]
+
     for itr in range(learn_itr):
         import random
         random.shuffle(input_files)
