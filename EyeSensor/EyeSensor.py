@@ -4,7 +4,7 @@
 # @note 画像情報を抽出
 
 from PIL import Image
-import TLP
+import AutoEncoder
 
 def round_value(value):
     value /= 10.0
@@ -25,10 +25,11 @@ class EyeSensor:
         self.height = height
 
         image_dim = self.width*self.height*3
-        middle_layer_num = self.width*self.height
-        self.tlp = TLP.TLP(image_dim, middle_layer_num, image_dim)
-        self.param_path = "./TLP" + str(self.width) + "x" + str(self.height) + ".param"
-        self.tlp = self.tlp.deserialize(self.param_path)
+        middle_layer_num_array = [self.width*self.height*3*2, self.width*self.height/2, self.width*self.height*3*2]
+        output_layer_middle_layer_num = self.width*self.height*3 + 10
+        self.auto_encoder = AutoEncoder.AutoEncoder(image_dim, middle_layer_num_array, output_layer_middle_layer_num)
+        self.param_path = "./AutoEncoder" + str(self.width) + "x" + str(self.height) + ".param"
+        self.auto_encoder = self.auto_encoder.deserialize(self.param_path)
     # end __init__
 
     def learn(self, image_file):
@@ -36,7 +37,7 @@ class EyeSensor:
         return self._learn(preprocessed_file)
 
     def save(self):
-        self.tlp.serialize(self.param_path)
+        self.auto_encoder.serialize(self.param_path)
 
     def execute(self, image_file):
         preprocessed_file = self._preprocess(image_file)
@@ -67,8 +68,8 @@ class EyeSensor:
 
         # 学習Start
         answer_buf = self._create_input_from_img(img)
-        self.tlp.backpropagation(input_buf, answer_buf)
-        output_buf = self.tlp.output(input_buf)
+        self.auto_encoder.pre_learn(input_buf)
+        output_buf = self.auto_encoder.output(input_buf)
         error = 0.0
         for o in range(len(output_buf)):
             error += (output_buf[o] - answer_buf[o])*(output_buf[o] - answer_buf[o])
@@ -81,13 +82,13 @@ class EyeSensor:
 
         # 特徴量に変換
         input_buf = self._create_input_from_img(img)
-        middle_output_buf = self.tlp.middle_output(input_buf)
+        feature = self.auto_encoder.calc_feature(input_buf)
 
-        return middle_output_buf
+        return feature
     # end execute
 
-    def reconstruct(self, middle_output_buf):
-        output_buf = self.tlp.middle_to_output(middle_output_buf)
+    def reconstruct(self, feature):
+        output_buf = self.auto_encoder.calc_feature_to_output(feature)
 
         new_img = Image.new("RGB", (self.width, self.height))
         for x in range(self.width):
@@ -113,9 +114,9 @@ class EyeSensor:
 # end Class EyeSensor
 
 if __name__ == '__main__':
-    eye_sensor = EyeSensor(16, 16)
+    eye_sensor = EyeSensor(8, 8)
 
-    learn_itr = 1
+    learn_itr = 10
 
     input_files = [
         "./SampleImage/Apple.jpg",
