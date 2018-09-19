@@ -16,6 +16,22 @@ class MockAI:
     #
     def look(self, image_file):
         feature = self.eye_sensor.execute(image_file)
+
+        import subprocess, os, tempfile
+        from PIL import Image
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as fp:
+            img = AIUtil.create_paste_img_h(Image.open(image_file),
+                                      self.eye_sensor.create_feature_img(feature))
+            img.save(fp.name)
+            cmd_arr = [
+                "ruby",
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), "ExpressModule", "TwitterAccessor.rb"),
+                "--post_text",
+                "テスト投稿",
+                "--image_path",
+                fp.name
+            ]
+            subprocess.call(cmd_arr)
         pass
     # def look
     
@@ -43,7 +59,7 @@ if __name__ == '__main__':
     import AIUtil
     AIUtil.initialize()
 
-    input_file = "./EyeSensor/SampleImage/Chris.jpg"
+    input_file = "./EyeSensor/SampleImage/Apple.jpg"
 
     ai = MockAI()
     ai.look(input_file)
