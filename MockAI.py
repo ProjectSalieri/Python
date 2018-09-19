@@ -3,8 +3,11 @@
 # @file MockAI.py
 # @note AIのモック
 
+from SensorModule import SimpleEyeSensor
+
 class MockAI:
     def __init__(self):
+        self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
         pass
     # def __init__
     
@@ -12,7 +15,8 @@ class MockAI:
     # 見る
     #
     def look(self, image_file):
-    	pass
+        feature = self.eye_sensor.execute(image_file)
+        pass
     # def look
     
     #
@@ -39,6 +43,7 @@ if __name__ == '__main__':
     import AIUtil
     AIUtil.initialize()
 
-    input_file = "./SampleImage/Chris.jpg"
+    input_file = "./EyeSensor/SampleImage/Chris.jpg"
 
     ai = MockAI()
+    ai.look(input_file)

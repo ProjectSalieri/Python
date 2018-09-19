@@ -25,8 +25,13 @@ class SimpleEyeSensor:
     # 画像を特徴量変換する
     #
     def execute(self, image_path):
-        preprocessed_file = self._preprocess(image_path)
-        return self._execute(preprocessed_file)
+        import tempfile
+        feature = None
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as fp:
+            preprocessed_file = self._preprocess(image_path, fp.name)
+            #print(fp.name)
+            feature = self._execute(preprocessed_file)
+        return feature
     #def execute
 
     #
@@ -112,17 +117,12 @@ class SimpleEyeSensor:
     #
     # 前処理
     #
-    def _preprocess(self, image_file):
-        import os
-        preprocessed_file = os.environ.get("TOOL_TMP")
-        if preprocessed_file == None:
-            preprocessed_file = "./"
-        preprocessed_file = os.path.join(preprocessed_file, "Test.jpg")
+    def _preprocess(self, image_file, preprocessed_img_path):
 
         # 規格統一のために256x256などにリサイズ
-        self._resize_image(image_file, preprocessed_file, (256, 256))
+        self._resize_image(image_file, preprocessed_img_path, (256, 256))
  
-        return preprocessed_file
+        return preprocessed_img_path
     #def _preprocess
     	
 
