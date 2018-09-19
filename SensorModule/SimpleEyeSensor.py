@@ -131,6 +131,11 @@ class SimpleEyeSensor:
 
 # SampleCode
 if __name__ == '__main__':
+    import os, sys
+    sys.path.append(os.path.dirname(__file__) + "/..")
+    import AIUtil
+    AIUtil.initialize()
+    
     eye_sensor = SimpleEyeSensor(256, 256)
 
     import os
