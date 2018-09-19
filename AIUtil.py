@@ -21,6 +21,21 @@ def initialize():
     
 # def initialize
 
+def create_paste_img_h(img1, img2):
+    from PIL import Image
+    blank_color = (255, 255, 255)
+    border_width = 4
+    img = Image.new("RGB",
+                    (img1.width + img2.width + border_width, max(img1.height, img2.height)),
+                        blank_color
+        )
+    img.paste(img1, (0, 0))
+    img.paste(Image.new("RGB", (border_width, img.height), (0, 0, 0)), (img1.width, 0)) # ボーダー
+    img.paste(img2, (img1.width + border_width, 0)) # 特徴量可視化
+    return img
+# def create_paste_img_h
+    
+
 # test code
 if __name__ == '__main__':
     import AIUtil
