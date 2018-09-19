@@ -37,33 +37,20 @@ class SimpleEyeSensor:
     #
     # 特徴量を視覚化
     #
-    def visualize_feature(self,  feature):
-        height = 64
-        width = 64
-        img = Image.new("RGB", (height, width))
-
-        import math
-        v_arr = [feature[3], feature[4], feature[5]]
-        diff_arr = list(map(lambda v: 2.0*math.sqrt(v), v_arr)) # 2*sigmaが95%におさまる
-
-        half_h = height / 2
-        half_w = width / 2
-        dist_max = half_h #math.sqrt(half_h*half_h + half_w*half_w)
-
-        # 上から正規分布でグラーデーション
-        for w in range(width):
-            for h in range(height):
-                pix_arr = [0, 0, 0]
-                pos_y = -half_h + h
-                r = pos_y / dist_max
-                for c in range(3):
-                    pix_arr[c] = (int)(clamp(feature[c] + r*diff_arr[c], 0, 255))
-                # for c
-                img.putpixel((w, h), (pix_arr[0], pix_arr[1], pix_arr[2]))
-            # for h
-        # for w
+    def visualize(self,  feature, input_image_file):
+        feature_img = self._create_feature_img(feature)
+        input_img = Image.open(input_image_file)
+        blank_color = (255, 255, 255)
+        border_width = 4
+        img = Image.new("RGB",
+                        (feature_img.width + input_img.width + border_width, max(feature_img.height, input_img.height)),
+                        blank_color
+        )
+        img.paste(input_img, (0, 0)) # 元画像
+        img.paste(Image.new("RGB", (border_width, img.height), (0, 0, 0)), (input_img.width, 0)) # ボーダー
+        img.paste(feature_img, (input_img.width + border_width, 0)) # 特徴量可視化
         img.show()
-    # def visualize_feature
+    # def visualize
 
     # private
     
@@ -124,6 +111,35 @@ class SimpleEyeSensor:
  
         return preprocessed_img_path
     #def _preprocess
+
+    def _create_feature_img(self, feature):
+        height = 64
+        width = 64
+        img = Image.new("RGB", (height, width))
+
+        import math
+        v_arr = [feature[3], feature[4], feature[5]]
+        diff_arr = list(map(lambda v: 2.0*math.sqrt(v), v_arr)) # 2*sigmaが95%におさまる
+
+        half_h = height / 2
+        half_w = width / 2
+        dist_max = half_h #math.sqrt(half_h*half_h + half_w*half_w)
+
+        # 上から正規分布でグラーデーション(下を濃く)
+        for w in range(width):
+            for h in range(height):
+                pix_arr = [0, 0, 0]
+                pos_y = -half_h + h
+                r = pos_y / dist_max
+                for c in range(3):
+                    pix_arr[c] = (int)(clamp(feature[c] - r*diff_arr[c], 0, 255))
+                # for c
+                img.putpixel((w, h), (pix_arr[0], pix_arr[1], pix_arr[2]))
+            # for h
+        # for w
+
+        return img
+    # _create_feature_img
     	
 
 # Class SimpleEyeSensor
@@ -153,6 +169,6 @@ if __name__ == '__main__':
         print(img_file)
         feature = eye_sensor.execute(img_file)
         # 
-        eye_sensor.visualize_feature(feature)
+        eye_sensor.visualize(feature, img_file)
     # for img_file
 
