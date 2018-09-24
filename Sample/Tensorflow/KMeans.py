@@ -7,7 +7,7 @@ import tensorflow as tf
 import numpy as np
 
 # Input function for Estimator
-def input_fn():
+def input_fn(raw_data):
     dataset = tf.data.Dataset.from_tensor_slices(raw_data).batch(batch_size=10)
     return dataset.make_one_shot_iterator().get_next()
 
@@ -31,12 +31,12 @@ if __name__ == '__main__':
     num_iterations = 10
     for i in range(num_iterations):
         print('iteration: ', i)
-        kmeans.train(input_fn)
+        kmeans.train(lambda:input_fn(raw_data))
     print('Final cluster centers:', kmeans.cluster_centers())
     print()
 
     # map the input points to their clusters
-    cluster_indices = list(kmeans.predict_cluster_index(input_fn))
+    cluster_indices = list(kmeans.predict_cluster_index(lambda:input_fn(raw_data)))
     cluster_centers = kmeans.cluster_centers()
     for i, point in enumerate(raw_data):
         cluster_index = cluster_indices[i]
