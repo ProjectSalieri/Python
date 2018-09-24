@@ -21,6 +21,17 @@ def rgb_array_to_raw_data_array(rgb_arr):
     return raw_data_arr
 
 def create_color_comfort_module_from_sample_param():
+    import pickle
+    import os
+
+    comfort = None
+
+    sample_param_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ColorComfortModule.pickle")
+    if os.path.exists(sample_param_path):
+        with open(sample_param_path, mode='rb') as f:
+            comfort = pickle.load(f)
+        return comfort
+
     comfort = ComfortModule(5)
 
     # https://ja.wikipedia.org/wiki/%E8%AD%A6%E5%91%8A%E8%89%B2
@@ -63,6 +74,10 @@ def create_color_comfort_module_from_sample_param():
     # uncomfort -> 1
     # normal -> 4
     comfort.train(raw_data_arr, 10)
+
+    with open(sample_param_path, mode='wb') as f:
+        pickle.dump(comfort, f)
+    
     return comfort
     
 
