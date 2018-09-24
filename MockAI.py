@@ -4,10 +4,13 @@
 # @note AIのモック
 
 from SensorModule import SimpleEyeSensor
+from ThinkModule import ComfortModule
 
 class MockAI:
     def __init__(self):
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
+
+        self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
         pass
     # def __init__
     
@@ -16,6 +19,18 @@ class MockAI:
     #
     def look(self, image_file):
         feature = self.eye_sensor.execute(image_file)
+
+        comfort_ret = self.comfort_module.predict(ComfortModule.rgb_array_to_raw_data_array([feature[0:3]]))[0]
+        comfort_response_str = ""
+        if self.comfort_module.is_comfort(comfort_ret):
+            comfort_response_str = "快"
+        elif self.comfort_module.is_uncomfort(comfort_ret):
+            comfort_response_str = "不快"
+        else:
+            comfort_response_str = "普通"
+
+        speak_str = "この画像" + str(comfort_response_str)
+        print(speak_str)
 
         import subprocess, os, tempfile
         from PIL import Image
@@ -27,11 +42,11 @@ class MockAI:
                 "ruby",
                 os.path.join(os.path.dirname(os.path.abspath(__file__)), "ExpressModule", "TwitterAccessor.rb"),
                 "--post_text",
-                "テスト投稿",
+                speak_str,
                 "--image_path",
                 fp.name
             ]
-            subprocess.call(cmd_arr)
+            # subprocess.call(cmd_arr)
         pass
     # def look
     
@@ -59,7 +74,12 @@ if __name__ == '__main__':
     import AIUtil
     AIUtil.initialize()
 
-    input_file = "./EyeSensor/SampleImage/Apple.jpg"
+    input_files = [
+        "./EyeSensor/SampleImage/Apple.jpg",
+        "./EyeSensor/SampleImage/Forest.jpg",
+#        "./EyeSensor/SampleImage/Red.jpg",
+    ]
 
     ai = MockAI()
-    ai.look(input_file)
+    for input_file in input_files:
+        ai.look(input_file)
