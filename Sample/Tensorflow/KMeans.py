@@ -14,7 +14,7 @@ def input_fn():
 # test code
 if __name__ == '__main__':
     # Test Data
-    data_x = np.array([100.0, 110.0, 120.0, 150.0, 155.0, 150.0, 178.0, 180.0, 900.0],
+    data_x = np.array([100.0, 110.0, 120.0, 150.0, 155.0, 150.0, 178.0, 180.0, 300.0],
                       dtype = 'float32')
     data_y = np.array([20.0, 25.0, 30.0, 48.0, 45.0, 50.0, 78.0, 75.0, 180.0],
                       dtype = 'float32')
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         use_mini_batch=False)
 
     # train
-    num_iterations = 5
+    num_iterations = 10
     for i in range(num_iterations):
         print('iteration: ', i)
         kmeans.train(input_fn)
