@@ -24,26 +24,35 @@ if __name__ == '__main__':
     num_clusters = 5
     kmeans = tf.contrib.factorization.KMeansClustering(
         num_clusters=num_clusters,
-        distance_metric=tf.contrib.factorization.KMeansClustering.COSINE_DISTANCE,
+        distance_metric=tf.contrib.factorization.KMeansClustering.SQUARED_EUCLIDEAN_DISTANCE,
         use_mini_batch=False)
 
     # train
     num_iterations = 5
-    previous_centers = None
     for i in range(num_iterations):
         print('iteration: ', i)
         kmeans.train(input_fn)
-        cluster_centers = kmeans.cluster_centers()
-        if previous_centers is not None:
-            print('  delta:', cluster_centers - previous_centers)
-            previous_centers = cluster_centers
-            print('  score:', kmeans.score(input_fn))
-    print('Final cluster centers:', cluster_centers)
+    print('Final cluster centers:', kmeans.cluster_centers())
     print()
 
     # map the input points to their clusters
     cluster_indices = list(kmeans.predict_cluster_index(input_fn))
+    cluster_centers = kmeans.cluster_centers()
     for i, point in enumerate(raw_data):
         cluster_index = cluster_indices[i]
         center = cluster_centers[cluster_index]
         print('point:', point, 'is in cluster', cluster_index, 'centered at',center)
+
+    # plot
+    import matplotlib.pyplot as plt
+    plt.grid(True)
+    color_arr = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+    for i, c in enumerate(cluster_centers):
+        plt.plot(c[0], c[1], color=color_arr[i], marker="*")
+        
+    for i, point in enumerate(raw_data):
+        cluster_index = cluster_indices[i]
+        center = cluster_centers[cluster_index]
+        plt.plot(point[0], point[1], color=color_arr[cluster_index], marker=".")
+        plt.plot([point[0], center[0]], [point[1], center[1]], color=color_arr[cluster_index])
+    plt.show()
