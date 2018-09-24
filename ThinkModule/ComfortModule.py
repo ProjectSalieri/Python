@@ -8,7 +8,7 @@ import numpy as np
 
 class ComfortModule:
     def __init__(self):
-        self.num_clusters = 3
+        self.num_clusters = 7
         self.kmeans = tf.contrib.factorization.KMeansClustering(
             num_clusters = self.num_clusters,
             distance_metric=tf.contrib.factorization.KMeansClustering.SQUARED_EUCLIDEAN_DISTANCE,
@@ -56,24 +56,54 @@ class ComfortModule:
 
 # class ComfortModule
 
+def rgb_array_to_raw_data_array(rgb_arr):
+    r_arr = list(map(lambda a: a[0], rgb_arr))
+    g_arr = list(map(lambda a: a[1], rgb_arr))
+    b_arr = list(map(lambda a: a[2], rgb_arr))
+
+    data_0 = np.array(r_arr,
+                      dtype = 'float32')
+    data_1 = np.array(g_arr,
+                      dtype = 'float32')
+    data_2 = np.array(b_arr,
+                      dtype = 'float32')
+    raw_data_arr = np.c_[data_0, data_1, data_2]
+    return raw_data_arr
+
 # test code
 if __name__ == '__main__':
     comfort = ComfortModule()
-    data_0 = np.array([0.0, 1.0],
-                      dtype = 'float32')
-    data_1 = np.array([0.0, 1.0],
-                      dtype = 'float32')
-    data_2 = np.array([0],
-                      dtype = 'float32')
-    raw_data_arr = np.c_[data_0, data_1]
 
-    data_x = np.array([100.0, 110.0, 120.0, 150.0, 155.0, 150.0, 178.0, 180.0, 300.0],
-                      dtype = 'float32')
-    data_y = np.array([20.0, 25.0, 30.0, 48.0, 45.0, 50.0, 78.0, 75.0, 180.0],
-                      dtype = 'float32')
-    raw_data = np.c_[data_x, data_y]
+    # https://ja.wikipedia.org/wiki/%E8%AD%A6%E5%91%8A%E8%89%B2
+    comfort_color = [
+        [124.0, 252.0, 0.0], # lawngreen 7cfc00
+        [173.0, 255.0, 47.0], # greenyellow adff2f
+        [0.0, 255.0, 0.0], # lime 00ff00
+        [0.0, 176.0, 107.0], # 緑 00b06b
+        [25.0, 113.0, 255.0], # 青 1971ff
+        [0.0, 0.0, 255.0], # blue 0000ff
+    ]
+    uncomfort_color = [
+        [255.0, 0.0, 0.0], # red ff0000
+        [220.0, 20.0, 60.0], # climson dc143c
+        [255.0, 69.0, 0.0], # orangered ff4500
+        [246.0, 170.0, 0.0], # 黄赤 f6aa00
+        [242.0, 231.0, 0.0], # 黄 f2e700
+        [255.0, 255.0, 0.0], # yellow ffff00
+    ]
+    normal_color = [
+        [0.0, 0.0, 0.0], # black 000000
+        [255.0, 255.0, 255.0], # white ffffff
+        [255.0, 165.0, 0.0], # orange ffa500
+        [128.0, 128.0, 128.0], # gray 808080
+        [218.0, 165.0, 32.0], # goldenrod daa520
+        [95.0, 95.0, 95.0], # whitesmoke 5f5f5f
+    ]
+
+    rgb_arr = comfort_color + uncomfort_color + normal_color
+    raw_data_arr = rgb_array_to_raw_data_array(rgb_arr)
     
-    comfort.train(raw_data)
-    comfort.predict_and_2d_visualize(raw_data)
+    comfort.train(raw_data_arr)
+    comfort.predict_and_2d_visualize(raw_data_arr)
     pass
 
