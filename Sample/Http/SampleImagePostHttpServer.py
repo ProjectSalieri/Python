@@ -56,6 +56,36 @@ class SampleHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+        #content_len=int(self.headers.get('content-length'))
+        #post_body = self.rfile.read(content_len)
+        #print(post_body)
+
+        # POST されたフォームデータを解析する
+        import cgi
+        form = cgi.FieldStorage(
+            fp=self.rfile, 
+            headers=self.headers,
+            environ={'REQUEST_METHOD':'POST',
+                     'CONTENT_TYPE':self.headers['Content-Type'],
+                     })
+
+        # フォームに POST されたデータの情報を送り返す
+        import os
+        for field in form.keys():
+            field_item = form[field]
+            if field_item.filename:
+                # field はアップロードされたファイルを含みます
+                file_data = field_item.file.read()
+                file_len = len(file_data)
+                print('\tUploaded %s as "%s" (%d bytes)\n' % \
+                        (field, field_item.filename, file_len))
+                tmp_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "tmp.jpg")
+                with open(tmp_file, "wb") as f:
+                    f.write(file_data)
+            else:
+                # 通常のフォーム値
+                print('\t%s=%s\n' % (field, form[field].value))
+
 # test code
 if __name__ == '__main__':
     host = 'localhost'
