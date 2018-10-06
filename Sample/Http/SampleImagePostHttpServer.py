@@ -12,16 +12,18 @@ class SampleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         import os
         import re
-        sample_html = os.path.join(os.path.abspath(os.path.dirname(__file__)), "SampleImagePost.html")
+        sample_html = os.path.join(os.path.abspath(os.getcwd()), self.path[1:]) # self.pathは「/」から始まる。joinの仕様のため先頭「/」を削除
         body = b""
-        with open(sample_html) as f:
-            content = f.read()
-            print(content)
-            ret = re.search('<body>(.*)</body>', content, re.DOTALL)
-            if ret:
+        try:
+            with open(sample_html) as f:
+                content = f.read()
+                ret = re.search('<body>(.*)</body>', content, re.DOTALL)
                 body = ret.groups()[0].encode()
-                print(body)
-        
+        except:
+            import sys
+            print(str(sys.exc_info()[0]))
+            body = ('<h3><font color=\"#ff0000\">' + sample_html + "<br>" + str(sys.exc_info()[0]).replace(">", "&gt;").replace("<", "&lt;") + '</font></h3>').encode()
+            
         parse_result = urllib.parse.urlparse(self.path)
         #print(parse_result)
 
@@ -46,8 +48,13 @@ class SampleHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self):
-        super().do_POST()
-        print("post")
+        body = b'Post'
+        
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.send_header('Content-length', len(body))
+        self.end_headers()
+        self.wfile.write(body)
 
 # test code
 if __name__ == '__main__':
