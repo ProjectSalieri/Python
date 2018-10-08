@@ -39,7 +39,45 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
     # def do_GET
 
     def do_POST(self):
-        pass
+        body = b'Post'
+        
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.send_header('Content-length', len(body))
+        self.end_headers()
+        self.wfile.write(body)
+
+        # POST されたフォームデータを解析する
+        import cgi
+        form = cgi.FieldStorage(
+            fp=self.rfile, 
+            headers=self.headers,
+            environ={'REQUEST_METHOD':'POST',
+                     'CONTENT_TYPE':self.headers['Content-Type'],
+                     })
+
+        # フォームに POST されたデータの情報を送り返す
+        import os
+        for field in form.keys():
+            field_item = form[field]
+            if field_item.filename:
+                # field はアップロードされたファイルを含みます
+                file_data = field_item.file.read()
+                file_len = len(file_data)
+                print('\tUploaded %s as "%s" (%d bytes)\n' % \
+                        (field, field_item.filename, file_len))
+                import tempfile
+                # fixme .jpg以外 拡張子取得する
+                with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as fp:
+                    print(fp.name)
+                    with open(fp.name, "wb") as f:
+                        f.write(file_data)
+                    # スレッド処理 スレッド処理と画像の生存期間が怪しいかも...
+                    executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+                    executor.submit(MockAIHttpHandler.ai.look(fp.name))
+            else:
+                # 通常のフォーム値
+                print('\t%s=%s\n' % (field, form[field].value))
     # def do_POST
 
     def _get_url_param(self):
