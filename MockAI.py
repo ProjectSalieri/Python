@@ -6,6 +6,8 @@
 from SensorModule import SimpleEyeSensor
 from ThinkModule import ComfortModule
 
+import AIUtil
+
 class MockAI:
     def __init__(self):
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
@@ -63,23 +65,29 @@ class MockAI:
     def express(self, text, image_file):
     	pass
     # def express
+
+    # static関数
+    def create_mock_ai():
+        # .pycを生成しない
+        import sys
+        sys.dont_write_bytecode = True
+
+        # AI初期化
+        import AIUtil
+        AIUtil.initialize()
+
+        return MockAI()
 # end class MockAI
 
+# def 
+
 if __name__ == '__main__':
-    # .pycを生成しない
-    import sys
-    sys.dont_write_bytecode = True
-
-    # AI初期化
-    import AIUtil
-    AIUtil.initialize()
-
     input_files = [
         "./EyeSensor/SampleImage/Apple.jpg",
         "./EyeSensor/SampleImage/Forest.jpg",
 #        "./EyeSensor/SampleImage/Red.jpg",
     ]
 
-    ai = MockAI()
+    ai = MockAI.create_mock_ai()
     for input_file in input_files:
         ai.look(input_file)
