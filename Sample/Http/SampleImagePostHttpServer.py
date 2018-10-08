@@ -20,9 +20,11 @@ class SampleHandler(BaseHTTPRequestHandler):
                 ret = re.search('<body>(.*)</body>', content, re.DOTALL)
                 body = ret.groups()[0].encode()
         except:
-            import sys
-            print(str(sys.exc_info()[0]))
-            body = ('<h3><font color=\"#ff0000\">' + sample_html + "<br>" + str(sys.exc_info()[0]).replace(">", "&gt;").replace("<", "&lt;") + '</font></h3>').encode()
+            error_str = ""
+            for e_str in sys.exc_info():
+                error_str += str(e_str) + "\n"
+            print(error_str)
+            body = ('<h3><font color=\"#ff0000\">' + html_path + "<br>" + error_str.replace(">", "&gt;").replace("<", "&lt;").replace("\n", "<br>") + '</font></h3>').encode()
             
         parse_result = urllib.parse.urlparse(self.path)
         #print(parse_result)
