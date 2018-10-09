@@ -6,6 +6,8 @@
 from SensorModule import SimpleEyeSensor
 from ThinkModule import ComfortModule
 
+from multiprocessing import Manager
+
 from time import sleep
 
 import AIUtil
@@ -16,11 +18,13 @@ class MockAI:
 
         self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
 
-        self.stimulus_stack = []
-        self.action_stack = []
+        # multiprocessing
+        self.manager = Manager()
+        self.stimulus_stack = self.manager.list()
+        self.action_stack = self.manager.list()
 
         # デバッグ用に近い
-        self.tmp_memory_look = []
+        self.tmp_memory_look = self.manager.list()
         pass
     # def __init__
     
@@ -32,6 +36,7 @@ class MockAI:
         feature = self.eye_sensor.execute(image_file)
         self.stimulus_stack.append({"look" : feature}) # fixme : ロック
         self.tmp_memory_look.append({"image_file" : image_file, "feature" : feature})
+        print("[look]" + "self=" + hex(id(self)) + " stimulus_stack(" + str(len(self.stimulus_stack)) + ")=" + hex(id(self.stimulus_stack)))
     # def look
     
     #
@@ -63,10 +68,10 @@ class MockAI:
     def _think_core(self):
         # 何もしない
         if len(self.stimulus_stack) <= 0:
-            print("think none")
+            print("[think]" + "(None)" + "self=" + hex(id(self)) + " stimulus_stack(" + str(len(self.stimulus_stack))+ ")=" + hex(id(self.stimulus_stack)))
             sleep(5) # 5秒ぼーっと
             return None
-        print("think")
+        print("[think]" + "(think)" + "self=" + hex(id(self)))
 
         # 受けた刺激情報を処理。
         stimulus = self.stimulus_stack.pop(0) # fixme : ロック
@@ -92,10 +97,10 @@ class MockAI:
     def _action_core(self):
         # 何もしない
         if len(self.action_stack) <= 0:
-            print("action none")
+            print("[action]" + "(None)" + "self=" + hex(id(self)))
             sleep(5) # 5秒ぼーっと
             return None
-        print("action")
+        print("[action]" + "(action)" + "self=" + hex(id(self)))
 
         action = self.action_stack.pop(0) # fixme : ロック
         if "express" in action:
