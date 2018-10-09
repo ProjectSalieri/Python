@@ -49,6 +49,7 @@ class MockAI:
     # 考える(スレッド実行想定)
     #
     def think(self):
+        AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ
         while True:
             self._think_core()
     # def think
@@ -68,7 +69,7 @@ class MockAI:
         # 何もしない
         if len(self.stimulus_stack) <= 0:
             print("[think]" + "(None)" + "self=" + hex(id(self)) + " stimulus_stack(" + str(len(self.stimulus_stack))+ ")=" + hex(id(self.stimulus_stack)))
-            AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ
+            #AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ / HDD/SSD消耗するのでテスト実行はコメントアウト
             sleep(5) # 5秒ぼーっと
             return None
         print("[think]" + "(think)" + "self=" + hex(id(self)))
