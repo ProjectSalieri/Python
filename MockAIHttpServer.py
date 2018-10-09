@@ -71,7 +71,7 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
                 print('\tUploaded %s as "%s" (%d bytes)\n' % \
                         (field, field_item.filename, file_len))
                 import tempfile
-                # fixme .jpg以外 拡張子取得する
+                # fixme .jpg以外 拡張子取得する fixme : tmp画像にすると、内部でプロセス処理にしたときに生存期間が...
                 with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as fp:
                     print(fp.name)
                     with open(fp.name, "wb") as f:
