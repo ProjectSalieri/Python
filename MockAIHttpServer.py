@@ -75,6 +75,9 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
                     # スレッド処理 スレッド処理と画像の生存期間が怪しいかも...
                     executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
                     executor.submit(MockAIHttpHandler.ai.look(fp.name))
+                    # テスト(本番は別スレッドでループしている)
+                    executor.submit(MockAIHttpHandler.ai._think_core())
+                    executor.submit(MockAIHttpHandler.ai._action_core())
             else:
                 # 通常のフォーム値
                 print('\t%s=%s\n' % (field, form[field].value))
