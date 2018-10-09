@@ -8,17 +8,21 @@ import urllib.parse
 from MockAI import MockAI
 
 import concurrent.futures
+from multiprocessing import Process
 import os
 import re
 
 class MockAIHttpHandler(BaseHTTPRequestHandler):
 
-    # クラス変数
-    ai = MockAI.create_mock_ai()
+    # クラス変数 @fimxe 複数AI実装できないぞ。。。このクラスはリクエストごとにインスタンスがくる
+    ai = None
 
     def do_GET(self):
-        body = MockAIHttpHandler._create_body(self.path)
-        url_params = self._get_url_param()
+        parse_result = self._parse_url()
+        body = MockAIHttpHandler._create_body(parse_result["url_path"])
+        url_params = {}
+        if "url_query" in parse_result:
+            url_params = parse_result["url_query"]
 
         if MockAIHttpHandler._is_valid_bool_param(url_params, "shutdown"):
             print("shutdown")
@@ -76,18 +80,18 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
                     executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
                     executor.submit(MockAIHttpHandler.ai.look(fp.name))
                     # テスト(本番は別スレッドでループしている)
-                    executor.submit(MockAIHttpHandler.ai._think_core())
-                    executor.submit(MockAIHttpHandler.ai._action_core())
+                    #executor.submit(MockAIHttpHandler.ai._think_core())
+                    #executor.submit(MockAIHttpHandler.ai._action_core())
             else:
                 # 通常のフォーム値
                 print('\t%s=%s\n' % (field, form[field].value))
     # def do_POST
 
-    def _get_url_param(self):
+    def _parse_url(self):
         parse_result = urllib.parse.urlparse(self.path)
         url_params = urllib.parse.parse_qs(parse_result.query)
-        return url_params
-    # def _getURLParam
+        return {"url_query":url_params, "url_path":parse_result.path}
+    # def _parse_url
 
     def _is_valid_bool_param(url_params, key):
         if key in url_params and 'true' in url_params[key]:
@@ -118,16 +122,36 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
 # class MockAIHttpHandler
 
 class MockAIHttpServer(HTTPServer):
-    def __init__(self, info, handler):
-        HTTPServer.__init__(info, handler)
+    # クラス変数
+    ai = MockAI.create_mock_ai()
+    
+#    def __init__(self, info, handler):
+#        HTTPServer.__init__(info, handler)
+#        handler.ai = MockAIHttpServer.ai
+
+    def activate_ai(self):
+        process_list = []
+        
+        # AIのthinkとactionをスレッド実行
+        print("think function register")
+        p1 = Process(target=MockAIHttpHandler.ai.think)
+        p1.start()
+        process_list.append(p1)
+        print("action function register")
+        p2 = Process(target=MockAIHttpHandler.ai.action)
+        p2.start()
+        process_list.append(p2)
+        
 # class MockAIHttpServer
 
 if __name__ == '__main__':
     host = 'localhost'
     port = 8000
-    httpd = HTTPServer(
+    httpd = MockAIHttpServer(
         (host, port),
         MockAIHttpHandler
     )
+    MockAIHttpHandler.ai = httpd.ai
+    httpd.activate_ai()
     print('serving at port', port)
     httpd.serve_forever()

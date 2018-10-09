@@ -63,8 +63,10 @@ class MockAI:
     def _think_core(self):
         # 何もしない
         if len(self.stimulus_stack) <= 0:
+            print("think none")
             sleep(5) # 5秒ぼーっと
             return None
+        print("think")
 
         # 受けた刺激情報を処理。
         stimulus = self.stimulus_stack.pop(0) # fixme : ロック
@@ -90,8 +92,10 @@ class MockAI:
     def _action_core(self):
         # 何もしない
         if len(self.action_stack) <= 0:
+            print("action none")
             sleep(5) # 5秒ぼーっと
             return None
+        print("action")
 
         action = self.action_stack.pop(0) # fixme : ロック
         if "express" in action:
