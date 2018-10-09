@@ -68,6 +68,7 @@ class MockAI:
         # 何もしない
         if len(self.stimulus_stack) <= 0:
             print("[think]" + "(None)" + "self=" + hex(id(self)) + " stimulus_stack(" + str(len(self.stimulus_stack))+ ")=" + hex(id(self.stimulus_stack)))
+            AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ
             sleep(5) # 5秒ぼーっと
             return None
         print("[think]" + "(think)" + "self=" + hex(id(self)))
@@ -117,7 +118,7 @@ class MockAI:
     def _express(self, text, tmp_memory):
         import subprocess, os, tempfile
         from PIL import Image
-        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=True) as fp:
+        with tempfile.NamedTemporaryFile(suffix=".jpg", dir=AIUtil.ai_image_memory_path(), delete=False) as fp:
             img = AIUtil.create_paste_img_h(Image.open(tmp_memory["image_file"]),
                                         self.eye_sensor.create_feature_img(tmp_memory["feature"]))
             img.save(fp.name)
