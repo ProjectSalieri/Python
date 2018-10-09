@@ -14,18 +14,17 @@ import AIUtil
 
 class MockAI:
     def __init__(self):
+        # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
-
+        # read_onlyなexecute可能
         self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
 
         # multiprocessing
         self.manager = Manager()
         self.stimulus_stack = self.manager.list()
         self.action_stack = self.manager.list()
-
-        # デバッグ用に近い
+        # multiprocessing デバッグ用に近い
         self.tmp_memory_look = self.manager.list()
-        pass
     # def __init__
     
     #
