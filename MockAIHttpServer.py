@@ -33,7 +33,7 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
         elif MockAIHttpHandler._is_valid_bool_param(url_params, "test"):
             # スレッド処理
             executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
-            executor.submit(MockAIHttpHandler.ai.look("./EyeSensor/SampleImage/Apple.jpg"))
+            executor.submit(MockAIHttpHandler.ai.force_look("./EyeSensor/SampleImage/Apple.jpg"))
 
         self.send_response(200)
         self.send_header('Content-type', 'text/html; charset=utf-8')
@@ -80,7 +80,7 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
                         f.write(file_data)
                     # スレッド処理 スレッド処理と画像の生存期間が怪しいかも...
                     executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
-                    executor.submit(MockAIHttpHandler.ai.look(fp.name))
+                    executor.submit(MockAIHttpHandler.ai.force_look(fp.name))
                     # テスト(本番は別スレッドでループしている)
                     #executor.submit(MockAIHttpHandler.ai._think_core())
                     #executor.submit(MockAIHttpHandler.ai._action_core())

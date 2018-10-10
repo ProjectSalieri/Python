@@ -3,6 +3,7 @@
 # @file MockAI.py
 # @note AIのモック
 
+import AIBase
 import AIUtil
 from SensorModule import SimpleEyeSensor
 from ThinkModule import ComfortModule
@@ -12,7 +13,7 @@ from multiprocessing import Manager
 
 from time import sleep
 
-class MockAI:
+class MockAI(AIBase.AIBase):
     def __init__(self):
         # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
@@ -30,37 +31,13 @@ class MockAI:
     #
     # 見る(刺激関数)
     #
-    def look(self, image_file):
+    def _look_core(self, image_file):
         # 刺激情報をスタック
         feature = self.eye_sensor.execute(image_file)
         self.stimulus_stack.append({"look" : feature}) # fixme : ロック
         self.tmp_memory_look.append({"image_file" : image_file, "feature" : feature})
         print("[look]" + "self=" + hex(id(self)) + " stimulus_stack(" + str(len(self.stimulus_stack)) + ")=" + hex(id(self.stimulus_stack)))
     # def look
-    
-    #
-    # 聴く(刺激関数)
-    #	
-    def listen(self, sound_file):
-    	pass
-    # def listen
-
-    #
-    # 考える(スレッド実行想定)
-    #
-    def think(self):
-        AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ
-        while True:
-            self._think_core()
-    # def think
-
-    #
-    # 考える(スレッド実行想定)
-    #
-    def action(self):
-        while True:
-            self._action_core()
-    # def think
 
     #
     # 考える
@@ -136,13 +113,7 @@ class MockAI:
 
     # static関数
     def create():
-        # .pycを生成しない
-        import sys
-        sys.dont_write_bytecode = True
-
-        # AI初期化
-        AIUtil.initialize()
-
+        AIBase.AIBase._initialize()
         return MockAI()
 # end class MockAI
 
@@ -157,4 +128,4 @@ if __name__ == '__main__':
 
     ai = MockAI.create()
     for input_file in input_files:
-        ai.look(input_file)
+        ai.force_look(input_file)
