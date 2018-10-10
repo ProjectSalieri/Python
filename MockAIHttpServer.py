@@ -5,7 +5,10 @@
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib.parse
-from MockAI import MockAI
+
+# AI
+from AI import AIUtil
+from AI import MockAI
 
 import concurrent.futures
 from multiprocessing import Process
@@ -71,7 +74,6 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
                 print('\tUploaded %s as "%s" (%d bytes)\n' % \
                         (field, field_item.filename, file_len))
                 import tempfile
-                import AIUtil
                 # fixme .jpg以外 拡張子取得する fixme : tmp画像にすると、内部でプロセス処理にしたときに生存期間が...
                 with tempfile.NamedTemporaryFile(suffix=".jpg", dir=AIUtil.ai_image_memory_path(), delete=False) as fp:
                     print(fp.name)
@@ -124,7 +126,7 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
 
 class MockAIHttpServer(HTTPServer):
     # クラス変数
-    ai = MockAI.create_mock_ai()
+    ai = MockAI.MockAI.create_mock_ai() # MockAIモジュールのMockAIクラスのクラススタテイック関数呼び出し
     
 #    def __init__(self, info, handler):
 #        HTTPServer.__init__(info, handler)
@@ -146,6 +148,9 @@ class MockAIHttpServer(HTTPServer):
 # class MockAIHttpServer
 
 if __name__ == '__main__':
+    # AI
+    AIUtil.initialize()
+    
     host = 'localhost'
     port = 8000
     httpd = MockAIHttpServer(

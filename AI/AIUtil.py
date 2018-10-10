@@ -13,7 +13,9 @@ import datetime
 #
 def initialize():
     # .tmpフォルダを設定
-    tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".tmp")
+    tmp_dir = os.path.abspath(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".tmp")
+    )
     os.environ["TOOL_TMP"] = tmp_dir
     ## python3 tempfileモジュール用
     os.environ["TMPDIR"] = tmp_dir

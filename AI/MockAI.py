@@ -3,14 +3,14 @@
 # @file MockAI.py
 # @note AIのモック
 
+import AIUtil
 from SensorModule import SimpleEyeSensor
 from ThinkModule import ComfortModule
+
 
 from multiprocessing import Manager
 
 from time import sleep
-
-import AIUtil
 
 class MockAI:
     def __init__(self):
@@ -141,7 +141,6 @@ class MockAI:
         sys.dont_write_bytecode = True
 
         # AI初期化
-        import AIUtil
         AIUtil.initialize()
 
         return MockAI()
