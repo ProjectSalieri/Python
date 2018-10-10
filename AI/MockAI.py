@@ -135,7 +135,7 @@ class MockAI:
     # def express
 
     # static関数
-    def create_mock_ai():
+    def create():
         # .pycを生成しない
         import sys
         sys.dont_write_bytecode = True
@@ -155,6 +155,6 @@ if __name__ == '__main__':
 #        "./EyeSensor/SampleImage/Red.jpg",
     ]
 
-    ai = MockAI.create_mock_ai()
+    ai = MockAI.create()
     for input_file in input_files:
         ai.look(input_file)

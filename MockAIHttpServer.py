@@ -8,7 +8,6 @@ import urllib.parse
 
 # AI
 from AI import AIUtil
-from AI import MockAI
 
 import concurrent.futures
 from multiprocessing import Process
@@ -126,7 +125,7 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
 
 class MockAIHttpServer(HTTPServer):
     # クラス変数
-    ai = MockAI.MockAI.create_mock_ai() # MockAIモジュールのMockAIクラスのクラススタテイック関数呼び出し
+    ai = None
     
 #    def __init__(self, info, handler):
 #        HTTPServer.__init__(info, handler)
@@ -150,6 +149,8 @@ class MockAIHttpServer(HTTPServer):
 if __name__ == '__main__':
     # AI
     AIUtil.initialize()
+
+    ai_name = "MockAI"
     
     host = 'localhost'
     port = 8000
@@ -157,6 +158,12 @@ if __name__ == '__main__':
         (host, port),
         MockAIHttpHandler
     )
+    # AI設定
+    httpd.ai = AIUtil.create_ai_by_name(ai_name)
+    if httpd.ai == None:
+        print("未定義のAI:" + ai_name)
+        import sys
+        sys.exit(1)
     MockAIHttpHandler.ai = httpd.ai
     httpd.activate_ai()
     print('serving at port', port)

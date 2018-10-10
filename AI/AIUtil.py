@@ -27,6 +27,24 @@ def initialize():
     
 # def initialize
 
+#
+# AIインスタンスの生成
+#
+def create_ai_by_name(ai_name):
+    if ai_name == "MockAI":
+        from . import MockAI
+        return MockAI.MockAI.create() # MockAIモジュールのMockAIクラスのクラススタテイック関数呼び出し
+    elif ai_name == "Salieri":
+        print("Salieriは未実装")
+        return None
+    elif ai_name == "Amadeus":
+        print("Amadeusは未実装")
+        return None
+    else:
+        print("未定義のAI")
+        return None
+# def create_ai_by_name
+
 def ai_image_memory_dirname():
     return "AIImageMemory"
 # def ai_image_memory_dirname
