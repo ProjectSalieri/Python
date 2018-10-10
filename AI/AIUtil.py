@@ -96,7 +96,19 @@ def create_paste_img_h(img1, img2):
     img.paste(img2, (img1.width + border_width, 0)) # 特徴量可視化
     return img
 # def create_paste_img_h
-    
+
+def tweet(text, image_file):
+    import subprocess, os, tempfile
+    cmd_arr = [
+        "ruby",
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "ExpressModule", "TwitterAccessor.rb"),
+        "--post_text",
+        text,
+        "--image_path",
+        image_file
+    ]
+    subprocess.call(cmd_arr)
+# def tweet
 
 # test code
 if __name__ == '__main__':

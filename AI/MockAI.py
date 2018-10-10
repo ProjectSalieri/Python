@@ -94,21 +94,13 @@ class MockAI(AIBase.AIBase):
     # 表現する
     #
     def _express(self, text, tmp_memory):
-        import subprocess, os, tempfile
+        import tempfile
         from PIL import Image
         with tempfile.NamedTemporaryFile(suffix=".jpg", dir=AIUtil.ai_image_memory_path(), delete=False) as fp:
             img = AIUtil.create_paste_img_h(Image.open(tmp_memory["image_file"]),
                                         self.eye_sensor.create_feature_img(tmp_memory["feature"]))
             img.save(fp.name)
-            cmd_arr = [
-                "ruby",
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "ExpressModule", "TwitterAccessor.rb"),
-                "--post_text",
-                text,
-                "--image_path",
-                fp.name
-            ]
-            subprocess.call(cmd_arr)
+            AIUtil.tweet(text, fp.name)
     # def express
 
     # static関数
