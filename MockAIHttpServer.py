@@ -147,24 +147,28 @@ class MockAIHttpServer(HTTPServer):
 # class MockAIHttpServer
 
 if __name__ == '__main__':
-    # AI
-    AIUtil.initialize()
-
-    ai_name = "MockAI"
-    
+    # コマンドライン引数にしよう
+    ai_name = "MockAI"    
     host = 'localhost'
     port = 8000
+
+    # AI設定
+    AIUtil.initialize()
+    ai = AIUtil.create_ai_by_name(ai_name)
+    if ai == None:
+        print("未定義のAI:" + ai_name)
+        import sys
+        sys.exit(1)
+
+    # サーバー設定
     httpd = MockAIHttpServer(
         (host, port),
         MockAIHttpHandler
     )
-    # AI設定
-    httpd.ai = AIUtil.create_ai_by_name(ai_name)
-    if httpd.ai == None:
-        print("未定義のAI:" + ai_name)
-        import sys
-        sys.exit(1)
+    httpd.ai = ai
     MockAIHttpHandler.ai = httpd.ai
     httpd.activate_ai()
+
+    # サーバー起動
     print('serving at port', port)
     httpd.serve_forever()
