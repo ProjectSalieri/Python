@@ -32,8 +32,9 @@ class SimplePainModule:
     def print_raw(self):
         import psutil # pip install psutil
         import shutil
+        inter = 5
         
-        cpu_percent = psutil.cpu_percent(interval=0)
+        cpu_percent = psutil.cpu_percent(interval=inter)
         print("CPU使用率:%.1f" % (cpu_percent))
 
         memory_info = psutil.virtual_memory()
@@ -48,6 +49,15 @@ class SimplePainModule:
         print("\t総量:%s" % (bytesize(disk_usage.total)))
         print("\t空き:%s" % (bytesize(disk_usage.free)))
         print("\t使用中:%s" % (bytesize(disk_usage.used)))
+
+        process = filter(lambda p: p.name() == "Python", psutil.process_iter())
+        import time
+        # プロセスごとの情報取得
+        for i in process:
+            print("Python" in i.name())
+            retval = [time.time(),i.name,i.pid,i.cpu_percent(interval=inter),i.memory_percent()]
+            print(retval)
+        
     # def print_raw
 
     # private method
