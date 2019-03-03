@@ -7,6 +7,8 @@ import AIBase
 import AIUtil
 from SensorModule import SimpleEyeSensor
 from ThinkModule import ComfortModule
+from Component import IComponentArg
+from Component import ComponentArgExpress
 
 
 from multiprocessing import Manager
@@ -43,9 +45,9 @@ class MockAIBridgeModule:
         return {"feature" : stimulus["look"]["feature"], "memory" : stimulus["look"]["memory"]}
     # def get_look_arg
 
-    def think_to_express(self, speak_str, memory):
+    def think_to_action(self, component_arg):
         # 受けた刺激情報を処理。
-        self.action_stack.append({"express" : {"speak" : speak_str, "memory": memory}})
+        self.action_stack.append(component_arg)
     # def think_to_express
 
     def try_get_action(self):
@@ -54,11 +56,9 @@ class MockAIBridgeModule:
         return self.action_stack.pop(0) # fixme : ロック
     
     def is_action_express(self, action):
-        return "express" in action
+        return action.arg_type == ComponentArgExpress.ComponentArgExpress.arg_type()
     # def is_action_express
-    def get_express_arg(self, action):
-        return {"speak" : action["express"]["speak"], "memory" : action["express"]["memory"]}
-    # def get_express_arg
+
 # class MockAIBridgeModule
 
 class MockAI(AIBase.AIBase):
@@ -113,7 +113,10 @@ class MockAI(AIBase.AIBase):
                 comfort_response_str = "普通"
 
             speak_str = "この画像" + str(comfort_response_str)
-            self.bridge_module.think_to_express(speak_str, look_arg["memory"])
+            express_arg = ComponentArgExpress.ComponentArgExpress()
+            express_arg.speak_str = speak_str
+            express_arg.memory = look_arg["memory"]
+            self.bridge_module.think_to_action(express_arg)
     # def _think_core
 
     #
@@ -127,11 +130,10 @@ class MockAI(AIBase.AIBase):
             return None
 
         if self.bridge_module.is_action_express(action):
-            express_arg = self.bridge_module.get_express_arg(action)
-            self._express(express_arg["speak"], express_arg["memory"])
+            self._express(action.speak_str, action.memory)
 
         # elifにしない、並行実行
-        if "other_action" in action:
+        if action.arg_type == "other action":
             pass
         return None
     # def _action_core
