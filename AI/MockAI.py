@@ -5,8 +5,10 @@
 
 import AIBase
 import AIUtil
+
+import MockAIThinkComponent
+
 from SensorModule import SimpleEyeSensor
-from ThinkModule import ComfortModule
 from Component import IComponentArg
 from Component import ComponentArgExpress
 
@@ -56,7 +58,7 @@ class MockAIBridgeModule:
         return self.action_stack.pop(0) # fixme : ロック
     
     def is_action_express(self, action):
-        return action.arg_type == ComponentArgExpress.ComponentArgExpress.arg_type()
+        return action.arg_type() == ComponentArgExpress.ComponentArgExpress.ARG_TYPE
     # def is_action_express
 
 # class MockAIBridgeModule
@@ -66,7 +68,7 @@ class MockAI(AIBase.AIBase):
         # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
         # read_onlyなexecute可能
-        self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
+        self.think_component = MockAIThinkComponent.MockAIThinkComponent()
 
         # multiprocessing
         self.manager = Manager()
@@ -78,6 +80,7 @@ class MockAI(AIBase.AIBase):
 
     def reload(self):
         self.bridge_module = self.bridge_module.reload()
+        self.think_component = self.think_component.reload()
         self.eye_sensor = self.eye_sensor.reload()
     # def reload
     
@@ -102,21 +105,8 @@ class MockAI(AIBase.AIBase):
         
         if self.bridge_module.is_stimulus_look(stimulus):
             look_arg = self.bridge_module.get_look_arg(stimulus)
-            feature = look_arg["feature"]
-            comfort_ret = self.comfort_module.predict(ComfortModule.rgb_array_to_raw_data_array([feature[0:3]]))[0]
-            comfort_response_str = ""
-            if self.comfort_module.is_comfort(comfort_ret):
-                comfort_response_str = "快"
-            elif self.comfort_module.is_uncomfort(comfort_ret):
-                comfort_response_str = "不快"
-            else:
-                comfort_response_str = "普通"
-
-            speak_str = "この画像" + str(comfort_response_str)
-            express_arg = ComponentArgExpress.ComponentArgExpress()
-            express_arg.speak_str = speak_str
-            express_arg.memory = look_arg["memory"]
-            self.bridge_module.think_to_action(express_arg)
+            action_arg = self.think_component.comfort(look_arg)
+            self.bridge_module.think_to_action(action_arg)
     # def _think_core
 
     #

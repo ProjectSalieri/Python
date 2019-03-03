@@ -6,17 +6,16 @@
 from IComponentArg import IComponentArg
 
 class ComponentArgExpress(IComponentArg):
+    ARG_TYPE = "Express"
+    
     def __init__(self):
         self.speak_str = ""
         self.memory = None
     # def __init__
 
     def arg_type(self):
-        return ComponentArgExpress.arg_type()
+        return ComponentArgExpress.ARG_TYPE
     # def arg_type
-
-    def arg_type():
-        return "Express"
 # class ComponentArgExpress
 
 if __name__ == '__main__':
