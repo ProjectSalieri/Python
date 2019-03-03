@@ -59,7 +59,11 @@ class AIBase:
     def think(self):
         AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ
         while True:
-            self._think_core()
+            try:
+                self._think_core()
+            except:
+                import sys
+                print("Unexpected error at _think_core:", sys.exc_info()[0])
     # def think
 
     #
@@ -67,7 +71,11 @@ class AIBase:
     #
     def action(self):
         while True:
-            self._action_core()
+            try:
+                self._action_core()
+            except:
+                import sys
+                print("Unexpected error at action_core:", sys.exc_info()[0])
     # def action
 
     def _look_core(self, image_file):
