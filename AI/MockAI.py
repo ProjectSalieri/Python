@@ -20,6 +20,14 @@ class MockAIBridgeModule:
         pass
     # def __init__
 
+    def reload(self):
+        import importlib
+        importlib.import_module("MockAIBridgeModule")
+        new_inst = MockAIBridgeModule(self.stimulus_stack, self.action_stack)
+        print("reload")
+        return new_inst
+    #def reload
+
     def look_to_think(self, feature, image_file):
         self.stimulus_stack.append({"look" : {"feature" : feature, "memory" : {"image_file" : image_file, "feature" : feature}}}) # fixme : ロック
     # def look_to_think
@@ -68,6 +76,13 @@ class MockAI(AIBase.AIBase):
             self.manager.list()  # action_stack
             )
     # def __init__
+
+    def reload(self):
+        print("reload")
+#        self.bridge_module = self.bridge_module.reload()
+        self.eye_sensor = self.eye_sensor.reload()
+        self.eye_sensor.execute("AA")
+    # def reload
     
     #
     # 見る(刺激関数)
@@ -146,14 +161,9 @@ class MockAI(AIBase.AIBase):
 # def 
 
 if __name__ == '__main__':
-    input_files = [
-        ".././EyeSensor/SampleImage/Apple.jpg",
-#        "./EyeSensor/SampleImage/Forest.jpg",
-#        "./EyeSensor/SampleImage/Red.jpg",
-    ]
-
     ai = MockAI.create()
-    for input_file in input_files:
-        ai.force_look(input_file)
-    import time
-    time.sleep(10)
+
+    while True:
+        ai.reload()
+        sleep(5)
+

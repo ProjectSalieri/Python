@@ -17,8 +17,17 @@ class SimpleEyeSensor:
 
     # コンストラクタ
     def __init__(self, width, height):
+        self.width = width
+        self.height = height
         pass
     # end __init__
+
+    def reload(self):
+        import importlib
+        tmp = importlib.reload(importlib.import_module(".", "SimpleEyeSensor"))
+        new_inst = tmp.SimpleEyeSensor(self.width, self.height)
+        return new_inst
+    # def relaod
     
     #
     # 実行
