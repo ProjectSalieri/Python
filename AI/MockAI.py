@@ -159,8 +159,12 @@ class MockAI(AIBase.AIBase):
 
 if __name__ == '__main__':
     ai = MockAI.create()
-
+    ai.force_look("../EyeSensor/SampleImage/Apple.jpg")
+    ai._think_core()
+    ai._action_core()
+'''    
     while True:
         ai.reload()
         sleep(5)
+'''
 
