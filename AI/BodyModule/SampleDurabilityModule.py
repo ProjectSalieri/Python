@@ -44,12 +44,15 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
             process_cpu_per = []
             for i in process:
                 process_cpu_per.append(i.cpu_percent(interval=calc_interval))
+            sum = 0.0
+            for per in process_cpu_per:
+                sum += per
 
-            rate = process_cpu_per[0]/100.0 # 100%に近いほど減る
+            rate = sum/100.0 # 100%に近いほど減る
             if rate < 0.01:
                 self._durability += 1.0 # ほぼ何もしてない場合は回復
             else:
-                self._durability -= calc_interval*rate
+                self._durability -= calc_interval*len(process_cpu_per)*rate
 
             if self._durability > self._durability_max:
                 self._durability = self._durability_max
