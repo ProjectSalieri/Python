@@ -36,7 +36,6 @@ class MockAIThinkComponent:
     # def try_sleep
 
     def calc_enable_think(self, durability_arg):
-        print(str(durability_arg.durability) + ":" + str(durability_arg.durability > 990.0))
         return durability_arg.durability > 990.0 # TODO : 実装
     # def calc_enable_think
 
