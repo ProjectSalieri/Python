@@ -15,6 +15,10 @@ class AIBase:
         pass
     # def update
 
+    def get_status(self):
+        return {}
+    # def get_status
+
     #
     # 見せる
     #

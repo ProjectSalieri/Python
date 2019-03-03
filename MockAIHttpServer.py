@@ -108,8 +108,13 @@ class MockAIHttpHandler(BaseHTTPRequestHandler):
         html_path = MockAIHttpHandler._get_html_path_from_handler_path(handler_path)
         body = b''
         try:
+            status = MockAIHttpHandler.ai.get_status()
             with open(html_path) as f:
                 content = f.read()
+                # htmlの内容を一部AI情報に置き換える
+                for key in status:
+                    content = content.replace("<%= AI." + key + " %>", str(status[key]))
+                # body部分をテンプレから取得
                 ret = re.search('<body>(.*)</body>', content, re.DOTALL)
                 body = ret.groups()[0].encode()
         except:

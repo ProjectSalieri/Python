@@ -92,8 +92,11 @@ class MockAI(AIBase.AIBase):
 
     def update(self):
         self.body.update()
-        print("\rDurability:%f" % (self.body.getDurability()), end="")
     # def update
+
+    def get_status(self):
+        return { "durability" : self.body.getDurability() }
+    # def get_status
     
     #
     # 見る(刺激関数)
