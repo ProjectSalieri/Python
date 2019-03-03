@@ -6,6 +6,7 @@
 import AIBase
 import AIUtil
 
+import MockAIActionComponent
 import MockAIThinkComponent
 
 from SensorModule import SimpleEyeSensor
@@ -69,6 +70,7 @@ class MockAI(AIBase.AIBase):
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
+        self.action_component = MockAIActionComponent.MockAIActionComponent()
 
         # multiprocessing
         self.manager = Manager()
@@ -81,6 +83,7 @@ class MockAI(AIBase.AIBase):
     def reload(self):
         self.bridge_module = self.bridge_module.reload()
         self.think_component = self.think_component.reload()
+        self.action_component = self.action_component.reload()
         self.eye_sensor = self.eye_sensor.reload()
     # def reload
     
@@ -120,26 +123,13 @@ class MockAI(AIBase.AIBase):
             return None
 
         if self.bridge_module.is_action_express(action):
-            self._express(action.speak_str, action.memory)
+            self.action_component.express(action)
 
         # elifにしない、並行実行
         if action.arg_type == "other action":
             pass
         return None
     # def _action_core
-
-    #
-    # 表現する
-    #
-    def _express(self, text, tmp_memory):
-        import tempfile
-        from PIL import Image
-        with tempfile.NamedTemporaryFile(suffix=".jpg", dir=AIUtil.ai_image_memory_path(), delete=False) as fp:
-            img = AIUtil.create_paste_img_h(Image.open(tmp_memory["image_file"]),
-                                        self.eye_sensor.create_feature_img(tmp_memory["feature"]))
-            img.save(fp.name)
-            AIUtil.tweet(text, fp.name)
-    # def express
 
     # static関数
     def create():

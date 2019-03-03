@@ -43,7 +43,7 @@ class SimpleEyeSensor:
         return feature
     #def execute
 
-    def create_feature_img(self, feature):
+    def create_feature_img(feature):
         height = 64
         width = 64
         img = Image.new("RGB", (height, width))
