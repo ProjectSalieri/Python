@@ -75,12 +75,21 @@ class MockAI(AIBase.AIBase):
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
         self.action_component = MockAIActionComponent.MockAIActionComponent()
 
+        # スレッド実行
+        import threading
+        self.think_thread = threading.Thread(target=self.think)
+        self.action_thread = threading.Thread(target=self.action)
+
         # multiprocessing
         self.manager = Manager()
         self.bridge_module = MockAIBridgeModule(
             self.manager.list(), # stimulus_stack
             self.manager.list()  # action_stack
             )
+
+        # 生成が終わるまで待つので最後
+        self.think_thread.start()
+        self.action_thread.start()
     # def __init__
 
     def reload(self):
@@ -110,27 +119,33 @@ class MockAI(AIBase.AIBase):
     # 考える
     #
     def _think_core(self):
+        self.think_component.start()
+        
         stimulus = self.bridge_module.try_get_stimulus()
                 # 何もしない FIXME : 自発的な思考
         if stimulus == None:
             #AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ / HDD/SSD消耗するのでテスト実行はコメントアウト
-            sleep(5) # 5秒ぼーっと
+            self.think_component.try_sleep()
             return None
         
         if self.bridge_module.is_stimulus_look(stimulus):
             look_arg = self.bridge_module.get_look_arg(stimulus)
             action_arg = self.think_component.comfort(look_arg)
             self.bridge_module.think_to_action(action_arg)
+
+        self.think_component.try_sleep()
     # def _think_core
 
     #
     # 行動関数
     #
     def _action_core(self):
+        self.action_component.start()
+        
         action = self.bridge_module.try_get_action()
         # 何もしない
         if action == None:
-            sleep(5) # 5秒ぼーっと
+            self.action_component.try_sleep()
             return None
 
         if self.bridge_module.is_action_express(action):
@@ -139,6 +154,8 @@ class MockAI(AIBase.AIBase):
         # elifにしない、並行実行
         if action.arg_type == "other action":
             pass
+
+        self.action_component.try_sleep()
         return None
     # def _action_core
 

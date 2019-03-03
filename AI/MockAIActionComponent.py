@@ -3,6 +3,8 @@
 # @file MockAIActionComponent.py
 # @note AIのモック
 
+import time
+
 import AIUtil
 
 from Component import ComponentArgExpress
@@ -12,15 +14,28 @@ from SensorModule import SimpleEyeSensor
 
 class MockAIActionComponent:
     def __init__(self):
+        self.start_t = time.time()
         pass
     # def __init__
 
     def reload(self):
+        # FIXME : self.start_tがreloadと利用で初期化と参照が発生するので注意
         import importlib
         tmp = importlib.reload(importlib.import_module(".", "MockAIActionComponent"))
         new_inst = tmp.MockAIActionComponent()
         return new_inst
     # def reload
+
+    def start(self):
+        self.start_t = time.time()
+    # def start
+
+    def try_sleep(self):
+        end_t = time.time()
+        time_diff = end_t - self.start_t
+        if time_diff < 5.0:
+            time.sleep(5.0 - time_diff)
+    # def try_sleep
 
     def express(self, express_arg):
         import tempfile
