@@ -3,13 +3,14 @@
 # @file SampleDurabilityModule.py
 # @note サンプル耐久度モジュール
 
-import IDurabilityModule
+from . import IDurabilityModule
 import threading
 import psutil # pip install psutil
 
 class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
-    def __init__(self):
-        self._durability = 100.0
+    def __init__(self, max_value):
+        self._durability = 1000.0
+        self._durability_max = max_value
         self.update_thread = threading.Thread(target=self._update_by_thread)
         self.update_thread.start()
     # def __init__
@@ -44,15 +45,21 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
             for i in process:
                 process_cpu_per.append(i.cpu_percent(interval=calc_interval))
 
-            if process_cpu_per[0] > 80.0:
-                self._durability -= calc_interval
+            rate = process_cpu_per[0]/100.0 # 100%に近いほど減る
+            if rate < 0.01:
+                self._durability += 1.0 # ほぼ何もしてない場合は回復
+            else:
+                self._durability -= calc_interval*rate
+
+            if self._durability > self._durability_max:
+                self._durability = self._durability_max
     # def _update_by_thread
 
 # class SampleDurabilityModule
 
 # test code
 if __name__ == '__main__':
-    module = SampleDurabilityModule()
+    module = SampleDurabilityModule(1000.0)
     print("Name:\t\t" + module.getName())
     print("Durability:\t\t%f" % (module.getDurability()))
     module.setDurability(module.getDurability() - 10.0)
@@ -71,7 +78,6 @@ if __name__ == '__main__':
             tmp = math.exp(math.exp(3.0))
         else:
             time.sleep(1)
-            module.setDurability(module.getDurability() + 1.0)
             
         #time.sleep(1)
 # test code

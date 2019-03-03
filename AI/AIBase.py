@@ -10,6 +10,11 @@ class AIBase:
     def __init__(self):
         pass
 
+    # 外部刺激関係ないupdate
+    def update(self):
+        pass
+    # def update
+
     #
     # 見せる
     #

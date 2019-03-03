@@ -9,6 +9,7 @@ import AIUtil
 import MockAIActionComponent
 import MockAIThinkComponent
 
+from BodyModule import SampleDurabilityModule
 from SensorModule import SimpleEyeSensor
 from Component import IComponentArg
 from Component import ComponentArgExpress
@@ -68,6 +69,8 @@ class MockAI(AIBase.AIBase):
     def __init__(self):
         # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
+        self.body = SampleDurabilityModule.SampleDurabilityModule(2000.0)
+        
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
         self.action_component = MockAIActionComponent.MockAIActionComponent()
@@ -86,6 +89,11 @@ class MockAI(AIBase.AIBase):
         self.action_component = self.action_component.reload()
         self.eye_sensor = self.eye_sensor.reload()
     # def reload
+
+    def update(self):
+        self.body.update()
+        print("\rDurability:%f" % (self.body.getDurability()), end="")
+    # def update
     
     #
     # 見る(刺激関数)
@@ -141,12 +149,15 @@ class MockAI(AIBase.AIBase):
 
 if __name__ == '__main__':
     ai = MockAI.create()
+
+    while True:
+        ai.reload()
+        ai.update()
+        sleep(1.0 / 30.0) # 30fps風
+
+
+'''
     ai.force_look("../EyeSensor/SampleImage/Apple.jpg")
     ai._think_core()
     ai._action_core()
-'''    
-    while True:
-        ai.reload()
-        sleep(5)
 '''
-

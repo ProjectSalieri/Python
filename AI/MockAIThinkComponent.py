@@ -19,7 +19,7 @@ class MockAIThinkComponent:
         return new_inst
     # def reload
 
-    def comfort(self, look_arg):
+    def comfort(self, look_arg):        
         feature = look_arg["feature"]
         comfort_ret = self.comfort_module.predict(ComfortModule.rgb_array_to_raw_data_array([feature[0:3]]))[0]
         comfort_response_str = ""
