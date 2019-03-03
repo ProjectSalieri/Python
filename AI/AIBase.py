@@ -62,8 +62,9 @@ class AIBase:
             try:
                 self._think_core()
             except:
-                import sys
+                import sys, traceback
                 print("Unexpected error at _think_core:", sys.exc_info()[0])
+                traceback.print_exc()
     # def think
 
     #
@@ -74,8 +75,9 @@ class AIBase:
             try:
                 self._action_core()
             except:
-                import sys
+                import sys, traceback
                 print("Unexpected error at action_core:", sys.exc_info()[0])
+                traceback.print_exc()
     # def action
 
     def _look_core(self, image_file):

@@ -6,6 +6,7 @@
 import time
 
 from ThinkModule import ComfortModule
+from Component import ComponentArgDurability
 from Component import ComponentArgExpress
 
 class MockAIThinkComponent:
@@ -33,6 +34,11 @@ class MockAIThinkComponent:
         if time_diff < 5.0:
             time.sleep(5.0 - time_diff)
     # def try_sleep
+
+    def calc_enable_think(self, durability_arg):
+        print(str(durability_arg.durability) + ":" + str(durability_arg.durability > 990.0))
+        return durability_arg.durability > 990.0 # TODO : 実装
+    # def calc_enable_think
 
     def comfort(self, look_arg):        
         feature = look_arg["feature"]

@@ -12,6 +12,7 @@ import MockAIThinkComponent
 from BodyModule import SampleDurabilityModule
 from SensorModule import SimpleEyeSensor
 from Component import IComponentArg
+from Component import ComponentArgDurability
 from Component import ComponentArgExpress
 
 
@@ -120,9 +121,15 @@ class MockAI(AIBase.AIBase):
     #
     def _think_core(self):
         self.think_component.start()
+
+        # Durabilityが不足しているので何もしない
+        durability_arg = ComponentArgDurability.ComponentArgDurability(self.body.getDurability(), "Sample")
+        if self.think_component.calc_enable_think(durability_arg) == False:
+            self.think_component.try_sleep()
+            return None
         
         stimulus = self.bridge_module.try_get_stimulus()
-                # 何もしない FIXME : 自発的な思考
+        # 何もしない FIXME : 自発的な思考
         if stimulus == None:
             #AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ / HDD/SSD消耗するのでテスト実行はコメントアウト
             self.think_component.try_sleep()

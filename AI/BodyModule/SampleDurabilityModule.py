@@ -50,7 +50,7 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
 
             rate = sum/100.0 # 100%に近いほど減る
             if rate < 0.01:
-                self._durability += 1.0 # ほぼ何もしてない場合は回復
+                self._durability += calc_interval*len(process_cpu_per)*(1.0-rate) # ほぼ何もしてない場合は回復
             else:
                 self._durability -= calc_interval*len(process_cpu_per)*rate
 
