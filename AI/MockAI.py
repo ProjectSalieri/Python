@@ -22,9 +22,8 @@ class MockAIBridgeModule:
 
     def reload(self):
         import importlib
-        importlib.import_module("MockAIBridgeModule")
-        new_inst = MockAIBridgeModule(self.stimulus_stack, self.action_stack)
-        print("reload")
+        tmp = importlib.reload(importlib.import_module(".", "MockAI"))
+        new_inst = tmp.MockAIBridgeModule(self.stimulus_stack, self.action_stack)
         return new_inst
     #def reload
 
@@ -78,10 +77,8 @@ class MockAI(AIBase.AIBase):
     # def __init__
 
     def reload(self):
-        print("reload")
-#        self.bridge_module = self.bridge_module.reload()
+        self.bridge_module = self.bridge_module.reload()
         self.eye_sensor = self.eye_sensor.reload()
-        self.eye_sensor.execute("AA")
     # def reload
     
     #
