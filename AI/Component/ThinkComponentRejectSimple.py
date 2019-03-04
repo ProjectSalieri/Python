@@ -62,7 +62,8 @@ if __name__ == '__main__':
         # for
         import sys
         sys.exit(0)
-    
+
+    reject_module_old = ThinkComponentRejectSimple()
     # 別スレッドで実行する負荷関数
     import threading
     class TestLoadThread(threading.Thread):
@@ -108,7 +109,10 @@ if __name__ == '__main__':
         module.update()
         time.sleep(1) # 5秒間隔
         durability = module.getDurability()
-        print("\rDurability:" + str(durability), end="")
+        result_str = "permit"
+        if reject_module_old.calc_reject(durability):
+            result_str = "reject"
+        print("\rDurability:" + str(durability) + " => " + result_str, end="")
         # 150個バッファを持っておく
         record_buf.append(durability)
         if len(record_buf) > 150:
