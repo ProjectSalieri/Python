@@ -11,9 +11,18 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
     def __init__(self, max_value):
         self._durability = 1000.0
         self._durability_max = max_value
+        self._stop_event = threading.Event()
         self.update_thread = threading.Thread(target=self._update_by_thread)
         self.update_thread.start()
     # def __init__
+
+    def stop(self):
+        self._stop_event.set()
+        self.update_thread.join(0.1)
+    # def stop
+
+    def join(self):
+        self.update_thread.join()
 
     # private
 
@@ -36,7 +45,7 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
     def _update_by_thread(self):
         import time
         calc_interval=10
-        while True:
+        while not self._stop_event.is_set():
             # 全体CPU
             cpu_per = psutil.cpu_percent(interval=calc_interval)
             # Python関連のCPU
