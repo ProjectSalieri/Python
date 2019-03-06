@@ -7,6 +7,7 @@ import threading
 
 from IBodyComponent import IBodyComponent
 from IDurabilityComponent import IDurabilityComponent
+from ComponentArgStimulusLook import ComponentArgStimulusLook
 
 import psutil # pip install psutil
 # PC情報から仮想のCpuDurabilityを設定
@@ -58,8 +59,18 @@ class DurabilityComponentCpuVitual(IDurabilityComponent):
 # 標準的なPC情報を使った仮想ボディ
 class BodyComponentPCVirtual(IBodyComponent):
     def __init__(self):
-        self._virtual_durability = DurabilityComponentCpuVitual(2000.0)
         # TODO : 他のdurabilityも平行で
+        self._virtual_durability = DurabilityComponentCpuVitual(2000.0)
+        
+        # 刺激情報スタック (TODO : SimpleStimulusStack~というクラスでBodyComponentで差し替えてもいいかも)
+        self._stimulus_stack = [] # ComponentArgStimulus~
+
+        # センサー処理した特徴量スタック(TODO : SimpleFeatureStack~というクラスでBodyComponentで差し替えてもいいかも)
+        self._feature_stack = [] # ComponentArgFeature~
+
+        # 条件反射行動
+        self._self_update_feature_stack = []
+        self._action_stack = []
 
         self._stop_event = threading.Event()
         self._update_thread = threading.Thread(target=self._update_by_thread)
@@ -88,15 +99,65 @@ class BodyComponentPCVirtual(IBodyComponent):
         return True
     # def disable
 
+    def try_stimulate(self, component_arg):
+        # FIXME : 上限儲けたほうがいいかも
+        self.append(component_arg)
+    # def stimulate
+
+    def pop_to_brain(query_arg_types):
+        result = []
+        tmp = []
+        # self._feature_stackをresult / tmpに振り分け
+        for i in range(len(self._feature_stack)):
+            component_arg = self._feature_stack.pop(0)
+            if component_arg.arg_type() in query_arg_types:
+                result.append(component_arg)
+            else:
+                tmp.append(component_arg)
+        # for
+        self._feature_stack + self._feature_stack + tmp # tmpの内容を書き戻し
+        return result
+    # def pop_to_brain
+
+    def pop_to_body_component(self):
+        result = []
+        for i in range(len(self._action_stack)):
+            result.append(self._action_stack.pop(0))
+        return result
+    # def pop_to_body_component
+
     def update(self):
         pass
     # def update
 
     # private
 
+    def _update_self(self):
+        if len(self._self_update_feature_stack()) > 0:
+            # 条件反射(BodyComponentがBodyComponentを操作)を実装するならここで
+            # self._action_stack.append(ComponentArgAction~)
+            pass
+
     def _update_by_thread(self):
         while self.is_enable():
+            # Durabilityのupdate
             self._virtual_durability.update()
+
+            # センサー類のupdate
+            # TODO : 刺激の種類に応じて並列処理してもいいかも ex)ハードで処理するケースとか
+            #        結果を配列で受け取る形式にしてもいいかも。Simpleなものは要素数1だけど、高機能なものは整理して複数返してくるとか
+            if len(self._stimulus_stack) > 0:
+                stimulus = self._stimulus_stack.pop(0)
+                arg_type = stimulus.arg_type()
+                if arg_type == ComponentArgStimulusLook.ARG_TYPE:
+                    # なにがしかのセンサー処理を行って ComponentArgFeatureImage(画像特徴量 直接視覚じゃなくても使えるように) のようなクラスを返す
+                    # self._feature_stack.append(ComponentArgFeatureImage)
+                    # self._self_update_feature_stack.append(ComponentArgFeatureImage)
+                    pass
+                elif arg_type == "other....":
+                    pass
+
+            self._update_self()
     # def _update_thread
 # class BodyComponentPCVirtual
 

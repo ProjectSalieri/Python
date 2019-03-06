@@ -21,8 +21,33 @@ class IBodyComponent:
         pass
     # def disable
 
+    # 刺激関数
+    # NOTE : BodyComponentの状態によって刺激を拒否するかも( ex. Bodyの故障 / 仮想麻痺 )
+    # TODO : ThinkComponent側で刺激を間引く仕組みいれたい
+    def try_stimulate(self, component_arg):
+        pass
+    # def stimulate
+
+    # ThinkComponentに渡す情報を
+    def pop_to_brain(self, query_arg_types):
+        pass
+    # def pop_to_brain
+
+    def pop_to_body_component(self):
+        pass
+    # def pop_to_body_component
+
     def update(self):
         pass
     # def update
+
+    # private
+
+    # 条件反射などBodyComponent自身で判断して、何かする処理
+    def _update_self(self):
+        pass
+    # def _update_self
+        
+
 
 # class IBodyComponent
