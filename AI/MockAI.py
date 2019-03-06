@@ -14,6 +14,7 @@ from SensorModule import SimpleEyeSensor
 from Component import IComponentArg
 from Component import ComponentArgDurability
 from Component import ComponentArgExpress
+from Component import ComponentArgDirectAction
 
 
 from multiprocessing import Manager
@@ -63,6 +64,8 @@ class MockAIBridgeModule:
     def is_action_express(self, action):
         return action.arg_type() == ComponentArgExpress.ComponentArgExpress.ARG_TYPE
     # def is_action_express
+    def is_action_direct_action(self, action):
+        return action.arg_type() == ComponentArgExpress.ComponentArgDirectAction.ARG_TYPE
 
 # class MockAIBridgeModule
 
@@ -140,6 +143,10 @@ class MockAI(AIBase.AIBase):
             action_arg = self.think_component.comfort(look_arg)
             self.bridge_module.think_to_action(action_arg)
 
+        # TODO : 何かをトリガーにAIが体を直接操作
+        if False:
+            self.bridge_module.think_to_action(ComponentArgDirectAction())
+
         self.think_component.try_sleep()
     # def _think_core
 
@@ -157,6 +164,8 @@ class MockAI(AIBase.AIBase):
 
         if self.bridge_module.is_action_express(action):
             self.action_component.express(action)
+        if self.bridge_module.is_action_direct_action(action):
+            pass
 
         # elifにしない、並行実行
         if action.arg_type == "other action":
