@@ -9,4 +9,20 @@ class IBodyComponent:
         pass
     # def __init__
 
+    def is_enable(self):
+        return False
+    # def is_enable
+
+    def enable(self):
+        pass
+    # def eable
+
+    def disable(self):
+        pass
+    # def disable
+
+    def update(self):
+        pass
+    # def update
+
 # class IBodyComponent
