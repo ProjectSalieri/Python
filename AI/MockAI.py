@@ -115,6 +115,8 @@ class MockAI(AIBase.AIBase):
     # 見る(刺激関数)
     #
     def _look_core(self, image_file):
+        # TODO
+        # self._pc_virtual_body.try_stimulate(ComponentArgStimulusLook(image_file))
         feature = self.eye_sensor.execute(image_file)
         self.bridge_module.look_to_think(feature, image_file)
     # def look
@@ -130,6 +132,12 @@ class MockAI(AIBase.AIBase):
         if self.think_component.calc_enable_think(durability_arg) == False:
             self.think_component.try_sleep()
             return None
+
+        # TODO
+        # look_args = self._pc_virtual_body.pop_to_brain([ComponentArgStimulusLook.ARG_TYPE])
+        # for arg in look_args
+        #         or
+        # arg = look_args.pop(0) かつ 残りをバッファリング
         
         stimulus = self.bridge_module.try_get_stimulus()
         # 何もしない FIXME : 自発的な思考
