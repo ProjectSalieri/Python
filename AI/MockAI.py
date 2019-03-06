@@ -9,7 +9,7 @@ import AIUtil
 import MockAIActionComponent
 import MockAIThinkComponent
 
-from BodyModule import SampleDurabilityModule
+from Component import SampleDurabilityComponent
 from SensorModule import SimpleEyeSensor
 from Component import IComponentArg
 from Component import ComponentArgDurability
@@ -70,7 +70,7 @@ class MockAI(AIBase.AIBase):
     def __init__(self):
         # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
-        self.body = SampleDurabilityModule.SampleDurabilityModule(2000.0)
+        self.body = SampleDurabilityComponent.SampleDurabilityComponent(2000.0)
         
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()

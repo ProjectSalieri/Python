@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file SampleDurabilityModule.py
+# @file SampleDurabilityComponent.py
 # @note サンプル耐久度モジュール
 
-from . import IDurabilityModule
+import IDurabilityComponent
 import threading
 import psutil # pip install psutil
 
-class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
+class SampleDurabilityComponent(IDurabilityComponent.IDurabilityComponent):
     def __init__(self, max_value):
         self._durability = 1000.0
         self._durability_max = max_value
@@ -27,7 +27,7 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
     # private
 
     def _getName(self):
-        return "SampleDurabilityModule"
+        return "SampleDurabilityComponent"
     # def _getName
 
     def _getDurability(self):
@@ -67,11 +67,11 @@ class SampleDurabilityModule(IDurabilityModule.IDurabilityModule):
                 self._durability = self._durability_max
     # def _update_by_thread
 
-# class SampleDurabilityModule
+# class SampleDurabilityComponent
 
 # test code
 if __name__ == '__main__':
-    module = SampleDurabilityModule(1000.0)
+    module = SampleDurabilityComponent(1000.0)
     print("Name:\t\t" + module.getName())
     print("Durability:\t\t%f" % (module.getDurability()))
     module.setDurability(module.getDurability() - 10.0)

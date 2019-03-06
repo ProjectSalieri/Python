@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file IDurabilityModule.py
+# @file IDurabilityComponent.py
 # @note 耐久度モジュール
 
-class IDurabilityModule():
+class IDurabilityComponent():
     def __init__(self):
         pass
     # def __init__
@@ -39,7 +39,7 @@ class IDurabilityModule():
     # private method
 
     def _getName(self):
-        return "IDurabilityModule"
+        return "IDurabilityComponent"
     # def _getName
 
     def _getDurability(self):
@@ -58,5 +58,5 @@ class IDurabilityModule():
 
 # test code
 if __name__ == '__main__':
-    module = IDurabilityModule()
+    module = IDurabilityComponent()
 # test code
