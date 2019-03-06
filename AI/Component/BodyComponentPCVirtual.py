@@ -9,8 +9,8 @@ from IBodyComponent import IBodyComponent
 from IDurabilityComponent import IDurabilityComponent
 
 import psutil # pip install psutil
-# PC情報から仮想のDurabilityを設定
-class DurabilityComponentPCVitual(IDurabilityComponent):
+# PC情報から仮想のCpuDurabilityを設定
+class DurabilityComponentCpuVitual(IDurabilityComponent):
     def __init__(self, max_value):
         self._durability = max_value
         self._durability_max = max_value
@@ -18,7 +18,7 @@ class DurabilityComponentPCVitual(IDurabilityComponent):
     # private
 
     def _getName(self):
-        return "DurabilityComponentPCVitual"
+        return "DurabilityComponentCpuVitual"
     # def _getName
 
     def _getDurability(self):
@@ -53,12 +53,13 @@ class DurabilityComponentPCVitual(IDurabilityComponent):
             self._durability = self._durability_max
     # _update
 
-# class DurabilityComponentPCVitual
+# class DurabilityComponentCpuVitual
 
-# PC情報を使った仮想ボディ
+# 標準的なPC情報を使った仮想ボディ
 class BodyComponentPCVirtual(IBodyComponent):
     def __init__(self):
-        self._virtual_durability = DurabilityComponentPCVitual(2000.0)
+        self._virtual_durability = DurabilityComponentCpuVitual(2000.0)
+        # TODO : 他のdurabilityも平行で
 
         self._stop_event = threading.Event()
         self._update_thread = threading.Thread(target=self._update_by_thread)
