@@ -8,6 +8,10 @@ class ComponentArgCollection:
         self._args = [] # 最初はarrayから始める
     # def __init__
 
+    def is_exist(self):
+        return len(self._args) > 0
+    # def is_exist
+
     def append(self, arg):
         # TODO : 上限数などもうけるかも
         self._args.append(arg)
