@@ -29,7 +29,7 @@ class IBodyComponent:
     # def stimulate
 
     # ThinkComponentに渡す情報を
-    def pop_to_brain(self, query_arg_types):
+    def pop_features(self, query_arg_types):
         pass
     # def pop_to_brain
 

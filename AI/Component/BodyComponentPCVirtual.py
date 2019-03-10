@@ -105,7 +105,7 @@ class BodyComponentPCVirtual(IBodyComponent):
         self._stimuli.append(component_arg)
     # def stimulate
 
-    def pop_to_brain(query_arg_types):
+    def pop_features(query_arg_types):
         return self._features.pop_by_query(query_arg_types)
     # def pop_to_brain
 

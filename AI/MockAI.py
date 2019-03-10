@@ -9,6 +9,8 @@ import AIUtil
 import MockAIActionComponent
 import MockAIThinkComponent
 
+from Component import ActionComponentLookWebPage
+from Component import BodyComponentPCVirtual
 from Component import SampleDurabilityComponent
 from SensorModule import SimpleEyeSensor
 from Component import IComponentArg
@@ -74,10 +76,12 @@ class MockAI(AIBase.AIBase):
         # read_onlyなexecute可能
         self.eye_sensor = SimpleEyeSensor.SimpleEyeSensor(256, 256)
         self.body = SampleDurabilityComponent.SampleDurabilityComponent(2000.0)
+        self._virtual_body = BodyComponentPCVirtual.BodyComponentPCVirtual()
         
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
         self.action_component = MockAIActionComponent.MockAIActionComponent()
+        self._action_look_web_page = ActionComponentLookWebPage.ActionComponentLookWebPage(self._virtual_body)
 
         # スレッド実行
         import threading
@@ -105,6 +109,7 @@ class MockAI(AIBase.AIBase):
 
     def update(self):
         self.body.update()
+        self._virtual_body.update()
     # def update
 
     def get_status(self):
@@ -115,8 +120,7 @@ class MockAI(AIBase.AIBase):
     # 見る(刺激関数)
     #
     def _look_core(self, image_file):
-        # TODO
-        # self._pc_virtual_body.try_stimulate(ComponentArgStimulusLook(image_file))
+        self._virtual_body.try_stimulate(ComponentArgStimulusLook(image_file))
         feature = self.eye_sensor.execute(image_file)
         self.bridge_module.look_to_think(feature, image_file)
     # def look
@@ -133,12 +137,7 @@ class MockAI(AIBase.AIBase):
             self.think_component.try_sleep()
             return None
 
-        # TODO
-        # look_args = self._pc_virtual_body.pop_to_brain([ComponentArgStimulusLook.ARG_TYPE])
-        # for arg in look_args
-        #         or
-        # arg = look_args.pop(0) かつ 残りをバッファリング
-        
+
         stimulus = self.bridge_module.try_get_stimulus()
         # 何もしない FIXME : 自発的な思考
         if stimulus == None:
@@ -174,6 +173,8 @@ class MockAI(AIBase.AIBase):
             self.action_component.express(action)
         if self.bridge_module.is_action_direct_action(action):
             pass
+        if self.action.arg_type == ComponentArgLookWebPage.ARG_TYPE:
+            self._action_look_web_page.execute(ComponentArgLookWebPage())
 
         # elifにしない、並行実行
         if action.arg_type == "other action":
