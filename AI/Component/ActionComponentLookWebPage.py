@@ -4,29 +4,23 @@
 # @note
 
 from IActionComponent import IActionComponent
-from BodyComponentPCVirtual import BodyComponentPCVirtual
-
-from IComponentArg import IComponentArg
-class ComponentArgLookWebPage(IComponentArg):
-    ARG_TYPE = "LookWebPage"
-
-    def __init__(self):
-        pass
-    # def __init__
-
-    def arg_type(self):
-        return ComponentArgLookWebPage.ARG_TYPE
-    # def arg_type
-# class ComponentArgLookWebPage
+from ComponentArgLookWebPage import ComponentArgLookWebPage
 
 class ActionComponentLookWebPage(IActionComponent):
     def __init__(self, virtual_body):
         self._virtual_body = virtual_body
     # def __init__
 
-    def execute(self, arg):
+    def execute(self, args):
+        execute_args = _try_get_execute_args(args)
+        
         # look_arg = 
         # self._virtual_body.try_stimulate(look_arg)
         pass
     # def execute
+
+    # private
+    def _execute_arg_types(self):
+        return [ComponentArgLookWebPage.ARG_TYPE]
+    # def _execute_arg_types
 # class ActionComponentLookWebPage

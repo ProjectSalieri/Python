@@ -79,7 +79,6 @@ class MockAI(AIBase.AIBase):
         
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
-        self.action_component = MockAIActionComponent.MockAIActionComponent(self._virtual_body)
 
         # スレッド実行
         import threading
@@ -101,7 +100,6 @@ class MockAI(AIBase.AIBase):
     def reload(self):
         self.bridge_module = self.bridge_module.reload()
         self.think_component = self.think_component.reload()
-        self.action_component = self.action_component.reload()
         self.eye_sensor = self.eye_sensor.reload()
     # def reload
 
@@ -142,6 +140,8 @@ class MockAI(AIBase.AIBase):
             #AIUtil.refresh_old_ai_image_memory() # tmpファイルリフレッシュ / HDD/SSD消耗するのでテスト実行はコメントアウト
             self.think_component.try_sleep()
             return None
+
+        self.think_component.execute([stimulus])
         
         if self.bridge_module.is_stimulus_look(stimulus):
             look_arg = self.bridge_module.get_look_arg(stimulus)
@@ -159,15 +159,12 @@ class MockAI(AIBase.AIBase):
     # 行動関数
     #
     def _action_core(self):
-        self.action_component.start()
-        
         action = self.bridge_module.try_get_action()
         # 何もしない
         if action == None:
-            self.action_component.try_sleep()
             return None
 
-        self.action_component.execute([action])
+        self._virtual_body.execute_action([action])
 
         if self.bridge_module.is_action_direct_action(action):
             pass
@@ -176,7 +173,6 @@ class MockAI(AIBase.AIBase):
         if action.arg_type == "other action":
             pass
 
-        self.action_component.try_sleep()
         return None
     # def _action_core
 

@@ -10,6 +10,8 @@ from IDurabilityComponent import IDurabilityComponent
 from ComponentArgCollection import ComponentArgCollection
 from ComponentArgStimulusLook import ComponentArgStimulusLook
 
+from ActionComponentLookWebPage import ActionComponentLookWebPage
+
 import psutil # pip install psutil
 # PC情報から仮想のCpuDurabilityを設定
 class DurabilityComponentCpuVitual(IDurabilityComponent):
@@ -73,6 +75,11 @@ class BodyComponentPCVirtual(IBodyComponent):
         self._self_update_features = ComponentArgCollection()
         self._actions = ComponentArgCollection()
 
+        # ActionComponents
+        self._action_components = [
+            ActionComponentLookWebPage(self),
+            ]
+
         self._stop_event = threading.Event()
         self._update_thread = threading.Thread(target=self._update_by_thread)
 
@@ -117,6 +124,11 @@ class BodyComponentPCVirtual(IBodyComponent):
         pass
     # def update
 
+    def execute_action(self, args):
+        for action in self._action_components:
+            action.execute(args)
+    # def execute_action
+    
     # private
 
     def _update_self(self):

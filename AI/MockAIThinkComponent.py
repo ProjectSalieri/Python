@@ -8,11 +8,14 @@ import time
 from ThinkModule import ComfortModule
 from Component import ComponentArgDurability
 from Component import ComponentArgExpress
+from Component import ThinkComponentLookWebPage
 
 class MockAIThinkComponent:
     def __init__(self):
         self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
         self.start_t = time.time()
+
+        self._look_web_page = ThinkComponentLookWebPage.ThinkComponentLookWebPage()
         pass
     # def __init__
 
@@ -38,6 +41,10 @@ class MockAIThinkComponent:
     def calc_enable_think(self, durability_arg):
         return durability_arg.durability > 990.0 # TODO : 実装
     # def calc_enable_think
+
+    def execute(self, args):
+        self._look_web_page.execute(args)
+    # def execute
 
     def comfort(self, look_arg):        
         feature = look_arg["feature"]

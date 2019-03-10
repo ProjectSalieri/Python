@@ -23,7 +23,7 @@ class IBodyComponent:
 
     # 刺激関数
     # NOTE : BodyComponentの状態によって刺激を拒否するかも( ex. Bodyの故障 / 仮想麻痺 )
-    # TODO : ThinkComponent側で刺激を間引く仕組みいれたい
+    # TODO : 自身で処理できないCoponentArgは登録しない
     def try_stimulate(self, component_arg):
         pass
     # def stimulate
@@ -40,6 +40,10 @@ class IBodyComponent:
     def update(self):
         pass
     # def update
+
+    def execute_action(self):
+        pass
+    # def execute_action
 
     # private
 

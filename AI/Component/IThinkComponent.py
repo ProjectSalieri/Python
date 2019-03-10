@@ -8,7 +8,8 @@ class IThinkComponent:
         pass
     # def __init__
 
-    def update(self):
+    # ComponentArgsAction~をarrayで返す
+    def execute(self, args):
         pass
-    # def update
+    # def execute
 # class IThinkComponent
