@@ -124,7 +124,9 @@ class BodyComponentPCVirtual(IBodyComponent):
         pass
     # def update
 
-    def execute_action(self, args):
+    def execute_action(self):
+        args = self._actions.pop()
+        
         for action in self._action_components:
             action.execute(args)
     # def execute_action

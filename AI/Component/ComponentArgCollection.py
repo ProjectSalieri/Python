@@ -17,6 +17,10 @@ class ComponentArgCollection:
         self._args.append(arg)
     # def append
 
+    def pop(self):
+        return [self._args.pop(0)]
+    # def pop
+    
     def pop_by_query(self, query_arg_types):
         result = []
         tmp = []
