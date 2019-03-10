@@ -5,6 +5,7 @@
 
 from IActionComponent import IActionComponent
 from IBodyComponent import IBodyComponent
+from ComponentArgStimulusLook import ComponentArgStimulusLook
 from ComponentArgLookWebPage import ComponentArgLookWebPage
 
 class ActionComponentLookWebPage(IActionComponent):
@@ -13,9 +14,15 @@ class ActionComponentLookWebPage(IActionComponent):
     # def __init__
 
     def execute(self, args):
-        self._execute_core(args)
+        result = self._execute_core(args)
+        print(result)
 
-        self._stimulate([])
+        # 結果をComponentArgに変換
+        stimulate_args = []
+        for image_file in result["image_file"]:
+            stimulate_args.append(ComponentArgStimulusLook(image_file))
+
+        self._stimulate(stimulate_args)
         
         # look_arg = 
         # self._virtual_body.try_stimulate(look_arg)
@@ -29,6 +36,16 @@ class ActionComponentLookWebPage(IActionComponent):
 
     def _execute_core(self, args):
         execute_args = self._executable_args(args)
+
+        result = {"text" : [], "image_file" : []}
+        for arg in execute_args:
+            sub_result = ActionComponentLookWebPage._access_to_url(arg.url)
+            for k in sub_result:
+                result[k] += sub_result[k]
+            # for
+        # for args
+
+        return result
     # def _execute_core
 
     def _stimulate(self, args):
@@ -36,6 +53,16 @@ class ActionComponentLookWebPage(IActionComponent):
             self._virtual_body.try_stimulate(arg)
         # for
     # def _stimulate
+
+    def _access_to_url(url):
+        result = {"text" : [], "image_file" : []}
+
+        # test code
+        import os
+        result["image_file"].append(os.path.join(os.path.dirname(__file__), "..", "..", "EyeSensor", "SampleImage", "Orange.jpg"))
+        
+        return result
+    # def _access_to_url
 # class ActionComponentLookWebPage
 
 
