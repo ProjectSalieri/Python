@@ -9,7 +9,6 @@ import AIUtil
 import MockAIActionComponent
 import MockAIThinkComponent
 
-from Component import ActionComponentLookWebPage
 from Component import BodyComponentPCVirtual
 from Component import SampleDurabilityComponent
 from SensorModule import SimpleEyeSensor
@@ -80,8 +79,7 @@ class MockAI(AIBase.AIBase):
         
         # read_onlyなexecute可能
         self.think_component = MockAIThinkComponent.MockAIThinkComponent()
-        self.action_component = MockAIActionComponent.MockAIActionComponent()
-        self._action_look_web_page = ActionComponentLookWebPage.ActionComponentLookWebPage(self._virtual_body)
+        self.action_component = MockAIActionComponent.MockAIActionComponent(self._virtual_body)
 
         # スレッド実行
         import threading
@@ -169,12 +167,10 @@ class MockAI(AIBase.AIBase):
             self.action_component.try_sleep()
             return None
 
-        if self.bridge_module.is_action_express(action):
-            self.action_component.express(action)
+        self.action_component.execute([action])
+
         if self.bridge_module.is_action_direct_action(action):
             pass
-        if self.action.arg_type == ComponentArgLookWebPage.ARG_TYPE:
-            self._action_look_web_page.execute(ComponentArgLookWebPage())
 
         # elifにしない、並行実行
         if action.arg_type == "other action":

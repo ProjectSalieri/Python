@@ -7,14 +7,19 @@ import time
 
 import AIUtil
 
+from Component import ActionComponentLookWebPage
 from Component import ComponentArgExpress
 
 # いつか消すかも
 from SensorModule import SimpleEyeSensor
 
 class MockAIActionComponent:
-    def __init__(self):
+    def __init__(self, virtual_body):
         self.start_t = time.time()
+
+        self._virtual_body = virtual_body
+        
+        self._action_look_web_page = ActionComponentLookWebPage.ActionComponentLookWebPage(virtual_body)
         pass
     # def __init__
 
@@ -22,7 +27,7 @@ class MockAIActionComponent:
         # FIXME : self.start_tがreloadと利用で初期化と参照が発生するので注意
         import importlib
         tmp = importlib.reload(importlib.import_module(".", "MockAIActionComponent"))
-        new_inst = tmp.MockAIActionComponent()
+        new_inst = tmp.MockAIActionComponent(self._virtual_body)
         return new_inst
     # def reload
 
@@ -36,6 +41,15 @@ class MockAIActionComponent:
         if time_diff < 5.0:
             time.sleep(5.0 - time_diff)
     # def try_sleep
+
+    def execute(self, args):
+        for arg in args:
+            if arg.arg_type() == ComponentArgLookWebPage.ARG_TYPE:
+                self._action_look_web_page.execute(ComponentArgLookWebPage())
+            if arg.arg_type() == ComponentArgLookWebPage.ARG_TYPE:
+                self.express(arg)
+        pass
+    # def execute
 
     def express(self, express_arg):
         import tempfile
