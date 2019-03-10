@@ -8,6 +8,7 @@ import threading
 from IBodyComponent import IBodyComponent
 from IDurabilityComponent import IDurabilityComponent
 from ComponentArgCollection import ComponentArgCollection
+from ComponentArgFeatureImage import ComponentArgFeatureImage
 from ComponentArgStimulusLook import ComponentArgStimulusLook
 
 from ActionComponentLookWebPage import ActionComponentLookWebPage
@@ -112,7 +113,7 @@ class BodyComponentPCVirtual(IBodyComponent):
         self._stimuli.append(component_arg)
     # def stimulate
 
-    def pop_features(query_arg_types):
+    def pop_features(self, query_arg_types):
         return self._features.pop_by_query(query_arg_types)
     # def pop_to_brain
 
@@ -156,6 +157,7 @@ class BodyComponentPCVirtual(IBodyComponent):
         stimuli_look  = self._stimuli.pop_by_query(ComponentArgStimulusLook.ARG_TYPE)
         if len(stimuli_look) > 0:
             # なにがしかのセンサー処理を行って ComponentArgFeatureImage(画像特徴量 直接視覚じゃなくても使えるように) のようなクラスを返す
+            self._features.append(ComponentArgFeatureImage([1, 2, 3, 4, 5]))
             # self._feature_stack.append(ComponentArgFeatureImage)
             # self._self_update_feature_stack.append(ComponentArgFeatureImage)
             pass        

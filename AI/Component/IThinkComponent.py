@@ -3,7 +3,9 @@
 # @file IThinkComponent.py
 # @note 思考Componentのインターフェース
 
-class IThinkComponent:
+from IArgExecuteModule import IArgExecuteModule
+
+class IThinkComponent(IArgExecuteModule):
     def __init__(self):
         pass
     # def __init__

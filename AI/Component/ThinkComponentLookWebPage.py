@@ -17,6 +17,10 @@ class ThinkComponentLookWebPage(IThinkComponent):
         # self._action_args.append(ComponentArgLookWebPage())
         pass
     # def execute
-    
+
+    # private
+    def _executable_arg_types(self):
+        return []
+    # def _execute_arg_types
     
 # class ThinkComponentLookWebPage

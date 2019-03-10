@@ -13,9 +13,9 @@ class ActionComponentLookWebPage(IActionComponent):
     # def __init__
 
     def execute(self, args):
-        _execute_core(args)
+        self._execute_core(args)
 
-        _stimulate([])
+        self._stimulate([])
         
         # look_arg = 
         # self._virtual_body.try_stimulate(look_arg)
