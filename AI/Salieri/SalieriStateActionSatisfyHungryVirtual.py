@@ -7,6 +7,7 @@ import SalieriImporter
 
 from ISalieriStateAction import ISalieriStateAction
 
+# TODO : sin -> sin位相違いと変わっていく課題を学習、エラー率が低くなったらパラメータを渡してBodyComponent経由でHungryVirtualを回復してもらう
 class SalieriStateActionSatisfyHungryVirtual(ISalieriStateAction):
     def __init__(self):
         pass
