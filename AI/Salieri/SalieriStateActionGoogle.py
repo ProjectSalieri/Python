@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
 # @file SalieriStateActionGoogle.py
-# @note Googleで何か検索して、達成 or 諦めるまでをハードコーディングしたステート
+# @note Googleで何か検索して、達成 or 諦めるまでをハードコーディングしたステート(Actionパート)
 
 import SalieriImporter
 
@@ -9,6 +9,7 @@ from Component.ActionComponentLookWebPage import ActionComponentLookWebPage
 
 class SalieriStateActionGoogle:
     def __init__(self):
+        self._action_look_web_page = ActionComponentLookWebPage()
         pass
     # def
 

@@ -18,6 +18,10 @@ class ISalieriStateAction:
         pass
     # def start
 
+    def execute(self):
+        pass
+    # def execute
+
     # ThinkComponentからの強制停止命令
     def stop(self):
         pass
