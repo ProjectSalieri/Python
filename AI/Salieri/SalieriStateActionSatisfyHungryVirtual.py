@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file SalieriStateActionGoogle.py
-# @note Googleで何か検索して、達成 or 諦めるまでをハードコーディングしたステート(Actionパート)
+# @file SalieriStateActionSatisfyHungryVirtual.py
+# @note 仮想空腹を満たすテスト用アクションステート
 
 import SalieriImporter
 
-from Component.ActionComponentLookWebPage import ActionComponentLookWebPage
 from ISalieriStateAction import ISalieriStateAction
 
-class SalieriStateActionGoogle(ISalieriStateAction):
+class SalieriStateActionSatisfyHungryVirtual(ISalieriStateAction):
     def __init__(self):
-        self._action_look_web_page = ActionComponentLookWebPage()
         pass
     # def
 
@@ -27,7 +25,7 @@ class SalieriStateActionGoogle(ISalieriStateAction):
     def stop(self):
         pass
     # def stop
-# class SalieriStateActionGoogle
+# class SalieriStateActionSatisfyHungryVirtual
 
 # test code
 if __name__ == "__main__":
