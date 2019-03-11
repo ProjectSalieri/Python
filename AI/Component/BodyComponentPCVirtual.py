@@ -131,6 +131,14 @@ class BodyComponentPCVirtual(IBodyComponent):
         for action in self._action_components:
             action.execute(args)
     # def execute_action
+
+    def get_paramters(self):
+        return [self._virtual_durability]
+    # def get_paramters
+
+    def get_paramter_virtual_durability(self):
+        return self.get_paramters[0]
+    # def get_paramter_virtual_durability
     
     # private
 

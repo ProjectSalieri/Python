@@ -45,6 +45,12 @@ class IBodyComponent:
         pass
     # def execute_action
 
+    # 汎用AI作成時にBodyComponentから得られるパラメータを全て得る
+    # ハードコーディングAI用にはget_durabilityなど、個別のget関数を実装してください
+    def get_parameters(self):
+        pass
+    # def get_parameters
+
     # private
 
     # 条件反射などBodyComponent自身で判断して、何かする処理
