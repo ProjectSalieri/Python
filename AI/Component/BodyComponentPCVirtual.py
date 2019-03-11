@@ -133,11 +133,11 @@ class BodyComponentPCVirtual(IBodyComponent):
     # def execute_action
 
     def get_paramters(self):
-        return [self._virtual_durability]
+        return [self._virtual_durability] # TODO : _featuresの内容を固定数になるようにいれるんだろうか。。
     # def get_paramters
 
     def get_paramter_virtual_durability(self):
-        return self.get_paramters[0]
+        return self.get_paramters()[0]
     # def get_paramter_virtual_durability
     
     # private
