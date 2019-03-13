@@ -1,2 +1,8 @@
 ブランチ作成
 git checkout -b ブランチ名
+
+ブランチ一覧
+git branch -a
+
+ブランチをマスターに反映
+git push -u origin
