@@ -37,7 +37,7 @@ class ActionComponentLookWebPage(IActionComponent):
     def _execute_core(self, args):
         execute_args = self._executable_args(args)
 
-        result = {"text" : [], "image_file" : []}
+        result = {"text" : [], "image_file" : [], "url" : []}
         for arg in execute_args:
             sub_result = ActionComponentLookWebPage._access_to_url(arg.url)
             for k in sub_result:
@@ -55,7 +55,7 @@ class ActionComponentLookWebPage(IActionComponent):
     # def _stimulate
 
     def _access_to_url(url):
-        result = {"text" : [], "image_file" : []}
+        result = {"text" : [], "image_file" : [], "url" : []}
 
         # test code
         import os

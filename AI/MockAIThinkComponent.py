@@ -6,6 +6,7 @@
 import time
 
 from ThinkModule import ComfortModule
+from Component import ComponentArgCollection
 from Component import ComponentArgDurability
 from Component import ComponentArgExpress
 from Component import ThinkComponentLookWebPage
@@ -14,6 +15,8 @@ class MockAIThinkComponent:
     def __init__(self):
         self.comfort_module = ComfortModule.create_color_comfort_module_from_sample_param()
         self.start_t = time.time()
+
+        self._desire_args = ComponentArgCollection()
 
         self._look_web_page = ThinkComponentLookWebPage.ThinkComponentLookWebPage()
         pass
@@ -41,6 +44,16 @@ class MockAIThinkComponent:
     def calc_enable_think(self, durability_arg):
         return durability_arg.durability > 990.0 # TODO : 実装
     # def calc_enable_think
+
+    def pre_execute(self, args, body_components):
+        # ComponentArgStimulus~からDesireComponentを更新する(ex. 知的好奇心)
+
+        # BodyCompoentから取得したDesireComponent情報(ex. 腹が減った)
+
+        # DesireComponentからThinkComponentArg生成
+
+        pass
+    #def pre_execute
 
     def execute(self, args):
         self._look_web_page.execute(args)

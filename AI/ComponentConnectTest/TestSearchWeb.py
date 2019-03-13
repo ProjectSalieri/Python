@@ -21,16 +21,20 @@ if __name__ == "__main__":
     look_arg = ComponentArgStimulusLook(image_file)
     body.try_stimulate(look_arg)
 
-    features = []
-    cnt = 0
-    while len(features) == 0:
-        print("\rLoopWait for pop_features:" + str(cnt), end="")
-        features = body.pop_features([ComponentArgFeatureImage.ARG_TYPE])
-        cnt += 1
+    for i in range(2):
+        features = []
+        cnt = 0
+        while len(features) == 0:
+            print("\rLoopWait for pop_features:" + str(cnt), end="")
+            features = body.pop_features([ComponentArgFeatureImage.ARG_TYPE])
+            cnt += 1
+
+        # image_fileからDesireComponent更新
+
+        # DesireComponentからurlを生成
+
+        # LookPageAction
+        action = ActionComponentLookWebPage(body)
+        action.execute([ComponentArgLookWebPage("https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%B3%E3%82%B4")])
+    # for 
     body.disable()
-
-    # image_fileからDesireComponent更新
-
-    # LookPageAction
-    action = ActionComponentLookWebPage(body)
-    action.execute([ComponentArgLookWebPage()])

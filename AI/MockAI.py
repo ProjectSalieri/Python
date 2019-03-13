@@ -159,12 +159,12 @@ class MockAI(AIBase.AIBase):
     # 行動関数
     #
     def _action_core(self):
+        self._virtual_body.execute_action()
+        
         action = self.bridge_module.try_get_action()
         # 何もしない
         if action == None:
             return None
-
-        self._virtual_body.execute_action([action])
 
         if self.bridge_module.is_action_direct_action(action):
             pass
