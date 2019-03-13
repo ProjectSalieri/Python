@@ -103,16 +103,20 @@ class BodyComponentPCVirtual(IBodyComponent):
 
     def _update_by_thread(self):
         while self.is_enable():
-            # Durabilityのupdate
-            self._virtual_durability.update()
-
-            # センサー類のupdate
-            # TODO : 刺激の種類に応じて並列処理してもいいかも ex)ハードで処理するケースとか
-            if self._stimuli.is_exist():
-                self._try_process_look()
-                
-            self._update_self()
+            self._update_by_thread_core()
     # def _update_thread
+
+    def _update_by_thread_core(self):
+        # Durabilityのupdate
+        self._virtual_durability.update()
+
+        # センサー類のupdate
+        # TODO : 刺激の種類に応じて並列処理してもいいかも ex)ハードで処理するケースとか
+        if self._stimuli.is_exist():
+            self._try_process_look()
+                
+        self._update_self()
+    # def _update_thread_core
 
     def _try_process_look(self):
         stimuli_look  = self._stimuli.pop_by_query(ComponentArgStimulusLook.ARG_TYPE)
