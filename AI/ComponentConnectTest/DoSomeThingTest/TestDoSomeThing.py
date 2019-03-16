@@ -16,11 +16,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..",  ".."))
 if __name__ == "__main__":
     body = BodyComponentDoSomeThingTest()
     body.try_stimulate(ComponentArgStimulusMemoryCnt())
+    think_component = ThinkComponentDoSomeThing()
 
     for i in range(10):
         body.update()
         features =  body.pop_features([ComponentArgFeatureDoSomeThing.ARG_TYPE])
-        actions = ThinkComponentDoSomeThing.execute(features, body)
+        actions = think_component.execute(features, body)
         for action in actions:
             body.try_action(action)
 
