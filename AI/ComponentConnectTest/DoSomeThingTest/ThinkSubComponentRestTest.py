@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
 # @file ThinkSubComponentRestTest.py
@@ -20,7 +21,7 @@ class ThinkSubComponentRestTest(IThinkComponent):
         import random
         r = (int)(random.random()*10)
         if r < 1:
-            return [ComponentArgRest()]
+            return [ComponentArgRest(args)] # 使わなかったargsを次に保留
         else:
             return []
             

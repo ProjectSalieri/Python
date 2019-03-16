@@ -17,6 +17,7 @@ class ThinkComponentDoSomeThing(IThinkComponent):
         self._pre_sub_components = [
             ThinkSubComponentRestTest(),
         ]
+        self._args_stack = []
         self._sub_components = [
             ThinkSubComponentDoSomeThingCalc(),
         ]
@@ -24,12 +25,16 @@ class ThinkComponentDoSomeThing(IThinkComponent):
     
     # ComponentArgsAction~をarrayで返す
     def execute(self, args, body):
+        _args = args + self._args_stack
+        self._args_stack = []
+        
         for pre_sub_component in self._pre_sub_components:
-            return_args_pre = pre_sub_component.execute(args, body)
+            return_args_pre = pre_sub_component.execute(_args, body)
 
             for arg_pre in return_args_pre:
                 if arg_pre.arg_type() == ComponentArgRest.ARG_TYPE:
                     print("ThinkComponentDoSomeThing : Rest")
+                    self._args_stack += arg_pre._args_stack
                     return []
                 #
             #
@@ -37,7 +42,7 @@ class ThinkComponentDoSomeThing(IThinkComponent):
         
         return_args = []
         for sub_component in self._sub_components:
-            return_args += sub_component.execute(args, body)
+            return_args += sub_component.execute(_args, body)
 
         return return_args
     # def execute

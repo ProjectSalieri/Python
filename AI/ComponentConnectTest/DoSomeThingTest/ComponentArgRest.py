@@ -11,8 +11,8 @@ from Component.IComponentArg import IComponentArg
 class ComponentArgRest(IComponentArg):
     ARG_TYPE = "ComponentArgRest"
     
-    def __init__(self):
-        pass
+    def __init__(self, args):
+        self._args_stack = args
     # def __init__
 
     def arg_type(self):
