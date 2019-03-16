@@ -28,6 +28,13 @@ class IBodyComponent:
         pass
     # def stimulate
 
+    # Bodyを使って行動
+    # NOTE : BodyComponentの状態によって刺激を拒否するかも( ex. Bodyの故障 / 仮想麻痺 / 同じパーツを使って行動中)
+    # TODO : 自身で処理できないCoponentArgは登録しない
+    def try_action(self, component_arg):
+        pass
+    # def try_action
+
     # ThinkComponentに渡す情報を
     def pop_features(self, query_arg_types):
         pass

@@ -18,6 +18,8 @@ class ComponentArgCollection:
     # def append
 
     def pop(self):
+        if len(self._args) <= 0:
+            return []
         return [self._args.pop(0)]
     # def pop
     
