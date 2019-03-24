@@ -4,5 +4,9 @@ git checkout -b ブランチ名
 ブランチ一覧
 git branch -a
 
-ブランチをマスターに反映
-git push -u origin
+ブランチをマスターに反映(マスターブランチ上で)
+git merge ブランチ名
+
+ブランチ削除
+git branch -d ブランチ名
+
