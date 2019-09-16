@@ -11,9 +11,6 @@ class ExecutionNode(NodeBase):
 
     def __init__(self):
         NodeBase.__init__(self)
-
-        self.__next_node = None
-        self.is_finish_self = False
     # def __init__
 
     def initialize(self):
@@ -23,8 +20,6 @@ class ExecutionNode(NodeBase):
         if self.is_exist_children() == False:
             self.status = NodeStatus.FAILUER
             return self.status
-
-        self.is_finish_self = False
         
         return self.status
     # def initialize
@@ -38,20 +33,7 @@ class ExecutionNode(NodeBase):
         # TODO : 低位スレッドでタイムスライス
 
         # 自分自信の処理を実行
-        if self.is_finish_self == False:
-            self.execute_self()
-            if self.is_finish_self:
-                tuple_ret = self.find_next_node_and_status_result()
-                self.__next_node = tuple_ret[0]
-                self.status = tuple_ret[1]
-            return True
-
-        # 子ノードの実行を待つ
-        if self.__next_node != None:
-            self.__next_node.execute()
-        tuple_ret = self.find_next_node_and_status_result()
-        self.__next_node = tuple_ret[0]
-        self.status = tuple_ret[1]
+        self.execute_self()
 
         return True
     # def executep
