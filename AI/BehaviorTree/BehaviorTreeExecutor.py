@@ -44,6 +44,7 @@ class BehaviorTreeExecutor:
         self.is_finish_all_nodes = False
     # def initialize
 
+    # 深さ優先探索
     def execute(self):
         self.cur_execute_node.execute()
 
