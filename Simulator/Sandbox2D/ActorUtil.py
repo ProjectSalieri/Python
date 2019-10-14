@@ -6,6 +6,7 @@
 import json
 import os
 
+from Logic import IEat
 from Logic import IEatable
 
 class ActorUtil:
@@ -27,6 +28,8 @@ class ActorUtil:
         component = None
 
         if component_name == "Eat":
+            component = IEat.IEat()
+        elif component_name == "Eatable":
             component = IEatable.IEatable()
         # if component_name
 

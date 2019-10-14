@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file IEatable.py
+# @file IEat.py
 # @note
 
-class IEatable:
+class IEat:
 
     def __init__(self):
-        self.is_enable_eat = False
+        pass
     # def __init__
 
     def init_from_setting(self, setting):
-        if "IsEnableEat" in setting : self.is_enable_eat = setting["IsEnableEat"]
+        pass
     # def __init__
 
     def update(self):
-        pass
+        print("eat")
     # def update
 
-# class IEatable
+# class IEat
 
 if __name__ == "__main__":
     pass
