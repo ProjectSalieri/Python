@@ -3,16 +3,13 @@
 # @file Simulator2D.py
 # @note
 
-import pygame
 import Object2D
+import IDraw
 
 class SimpleObject(Object2D.Object2D):
 
     def __init__(self):
-        import os
-        image_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ImageData")
-        self.image = pygame.image.load(os.path.join(image_dir, "Sample.png")).convert_alpha()
-        self.half_size = (self.image.get_width()/2, self.image.get_height()/2)
+        self.drawer = IDraw.IDraw("Sample.png")
     # def __init__
 
     def update(self):
@@ -20,7 +17,7 @@ class SimpleObject(Object2D.Object2D):
     # def update
 
     def draw(self, screen):
-        screen.blit(self.image, self.pos)
+        self.drawer.draw(self.pos, screen)
     # def draw
     
 # class SimpleObject
