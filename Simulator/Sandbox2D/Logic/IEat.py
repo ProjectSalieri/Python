@@ -14,7 +14,7 @@ class IEat:
     # def __init__
 
     def update(self):
-        print("eat")
+        pass
     # def update
 
 # class IEat

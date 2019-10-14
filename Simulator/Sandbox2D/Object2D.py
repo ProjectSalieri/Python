@@ -26,8 +26,8 @@ class Object2D:
     # def __init__
 
     def update(self):
-        for name, component in components.items():
-            self.component.update()
+        for name, component in self.components.items():
+            component.update()
     # def update
 
     def draw(self, screen):

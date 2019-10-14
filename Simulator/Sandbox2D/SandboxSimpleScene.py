@@ -31,7 +31,8 @@ class SandboxSimpleScene:
     # def _init_scene_from_data
 
     def update(self):
-        pass
+        for object in self.objects:
+            object.update()
     # def update
 
     def draw(self, screen):
