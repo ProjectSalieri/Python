@@ -3,6 +3,7 @@
 # @file Simulator2D.py
 # @note
 
+from ActorUtil import ActorUtil
 import IDraw
 
 class Object2D:
@@ -12,23 +13,14 @@ class Object2D:
         self.half_size = (0, 0)
 
         # 初期化ファイル
-        import os
-        actor_data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ActorData")
-        actor_json = os.path.join(actor_data_dir, "Actor", "%s.Actor.json" % (name))
-        actor_setting = None
-        import json
-        with open(actor_json) as f:
-            actor_setting = json.load(f)
+        actor_setting = ActorUtil.get_actor_setting(name)
 
         self.components = []
         self.drawer = None
         for component in actor_setting["Components"]:
             if component == "Draw":
-                draw_json = os.path.join(actor_data_dir, actor_setting["Components"]["Draw"])
-                image_name = None
-                with open(draw_json) as f:
-                    image_name = json.load(f)["Image"]
-                self.drawer = IDraw.IDraw(image_name)
+                draw_setting = ActorUtil.get_component_setting(actor_setting, component)
+                self.drawer = IDraw.IDraw(draw_setting["Image"])
     # def __init__
 
     def update(self):
