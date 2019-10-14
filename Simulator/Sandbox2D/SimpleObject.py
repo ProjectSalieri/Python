@@ -9,17 +9,13 @@ import IDraw
 class SimpleObject(Object2D.Object2D):
 
     def __init__(self):
-        self.drawer = IDraw.IDraw("Sample.png")
+        super(SimpleObject, self).__init__("Sample")
     # def __init__
 
     def update(self):
         pass
     # def update
 
-    def draw(self, screen):
-        self.drawer.draw(self.pos, screen)
-    # def draw
-    
 # class SimpleObject
 
 if __name__ == "__main__":

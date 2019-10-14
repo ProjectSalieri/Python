@@ -1,0 +1,7 @@
+{
+	"Name" : "Sample",
+	"Components" :
+	{
+		"Draw" : "Draw/Sample.Draw.json"
+	}
+}
