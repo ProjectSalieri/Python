@@ -13,14 +13,16 @@ class Object2D:
         self.half_size = (0, 0)
 
         # 初期化ファイル
-        actor_setting = ActorUtil.get_actor_setting(name)
+        actor_setting = ActorUtil.load_actor_setting(name)
 
         self.components = []
         self.drawer = None
         for component in actor_setting["Components"]:
             if component == "Draw":
-                draw_setting = ActorUtil.get_component_setting(actor_setting, component)
+                draw_setting = ActorUtil.load_component_setting(actor_setting, component)
                 self.drawer = IDraw.IDraw(draw_setting["Image"])
+            else:
+                self.components.append(ActorUtil.create_component(actor_setting, component))
     # def __init__
 
     def update(self):

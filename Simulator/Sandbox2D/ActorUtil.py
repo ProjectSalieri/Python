@@ -6,10 +6,12 @@
 import json
 import os
 
+from Logic import IEatable
+
 class ActorUtil:
 
     @staticmethod
-    def get_actor_setting(actor_name):
+    def load_actor_setting(actor_name):
         actor_data_dir = ActorUtil._actor_data_dir()
         actor_json = os.path.join(actor_data_dir, "Actor", "%s.Actor.json" % (actor_name))
         actor_setting = None
@@ -20,7 +22,20 @@ class ActorUtil:
     # def actro_setting
 
     @staticmethod
-    def get_component_setting(actor_setting, component_name):
+    def create_component(actor_setting, component_name):
+        component_setting = ActorUtil.load_component_setting(actor_setting, component_name)
+        component = None
+
+        if component_name == "Eat":
+            component = IEatable.IEatable()
+        # if component_name
+
+        component.init_from_setting(component_setting)
+        return component
+    # def create_component
+
+    @staticmethod
+    def load_component_setting(actor_setting, component_name):
         component_json = os.path.join(ActorUtil._actor_data_dir(), actor_setting["Components"][component_name])
         component_setting = None
         with open(component_json) as f:

@@ -1,0 +1,8 @@
+{
+	"Name" : "Apple",
+	"Components" :
+	{
+		"Draw" : "Draw/Apple.Draw.json",
+		"Eat" : "Eat/Apple.Eat.json"
+	}
+}
