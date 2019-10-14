@@ -2,6 +2,7 @@
 	"Name" : "Sample",
 	"Components" :
 	{
-		"Draw" : "Draw/Sample.Draw.json"
+		"Draw" : "Draw/Sample.Draw.json",
+		"Eat" : "Eat/Sample.Eat.json"
 	}
 }

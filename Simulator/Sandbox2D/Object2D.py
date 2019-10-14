@@ -15,18 +15,19 @@ class Object2D:
         # 初期化ファイル
         actor_setting = ActorUtil.load_actor_setting(name)
 
-        self.components = []
+        self.components = {}
         self.drawer = None
         for component in actor_setting["Components"]:
             if component == "Draw":
                 draw_setting = ActorUtil.load_component_setting(actor_setting, component)
                 self.drawer = IDraw.IDraw(draw_setting["Image"])
             else:
-                self.components.append(ActorUtil.create_component(actor_setting, component))
+                self.components[component] = ActorUtil.create_component(actor_setting, component)
     # def __init__
 
     def update(self):
-        pass
+        for name, component in components.items():
+            self.component.update()
     # def update
 
     def draw(self, screen):
