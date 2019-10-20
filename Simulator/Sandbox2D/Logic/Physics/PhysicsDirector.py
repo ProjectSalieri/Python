@@ -31,7 +31,7 @@ class PhysicsDirector:
         for obj in objects:
             if obj.get_component("Physics") == None:
                 continue
-            idx = self._calc_index(obj.pos, range_x, range_y, grid_size)
+            idx = self._calc_index(obj.next_pos, range_x, range_y, grid_size)
             check_objects[idx[0]][idx[1]].append(obj)
 
         len_x = len(check_objects)
@@ -83,8 +83,8 @@ class PhysicsDirector:
                 shape1_offset = shape1.offset
                 shape2_offset = shape2.offset
                 cube_diff = (
-                    math.fabs((obj1.x() + shape1_offset[0]) - (obj2.x() + shape2_offset[0])),
-                    math.fabs((obj1.y() + shape1_offset[1]) - (obj2.y() + shape2_offset[1])),
+                    math.fabs((obj1.next_pos[0] + shape1_offset[0]) - (obj2.next_pos[0] + shape2_offset[0])),
+                    math.fabs((obj1.next_pos[1] + shape1_offset[1]) - (obj2.next_pos[1] + shape2_offset[1])),
                 )
 
                 cube_size1 = shape1.calc_cube_size()

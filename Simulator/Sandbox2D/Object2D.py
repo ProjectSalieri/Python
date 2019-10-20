@@ -10,6 +10,7 @@ class Object2D:
 
     def __init__(self, name):
         self.pos = (0.0, 0.0)
+        self.next_pos = (0.0, 0.0)
         self.velocity = (0.0, 0.0)
         self.half_size = (0, 0)
 
@@ -37,6 +38,8 @@ class Object2D:
     def update(self):
         for name, component in self.components.items():
             component.update()
+
+        self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
     # def update
 
     def draw(self, screen):

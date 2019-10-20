@@ -27,7 +27,7 @@ class SandboxSimpleScene:
         self.objects.append(simple_object)
 
         simple_object2 = Object2D.Object2D("Sample")
-        simple_object2.pos = (0, 0)
+        simple_object2.pos = (32, 32)
         self.objects.append(simple_object2)
 
         simple_object3 = Object2D.Object2D("Apple")
