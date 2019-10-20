@@ -7,6 +7,7 @@ import pygame
 from pygame.locals import *
 
 import Object2D
+import PlayerObject
 from Logic.Physics import PhysicsDirector
 
 class SandboxSimpleScene:
@@ -21,7 +22,7 @@ class SandboxSimpleScene:
     # def __init__
 
     def _init_scene_from_data(self):
-        simple_object = Object2D.Object2D("Sample")
+        simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 32)
         self.objects.append(simple_object)
 
@@ -35,21 +36,6 @@ class SandboxSimpleScene:
     # def _init_scene_from_data
 
     def update(self):
-        player_vel = (0.0, 0.0)
-        pressed_key = pygame.key.get_pressed()
-        if pressed_key[K_LEFT]:
-            player_vel = (-8.0, 0.0)
-        elif pressed_key[K_RIGHT]:
-            player_vel = (8.0, 0.0)
-        elif pressed_key[K_UP]:
-            player_vel = (0.0, -8.0)
-        elif pressed_key[K_DOWN]:
-            player_vel = (0.0, 8.0)
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                pass
-        self.objects[0].add_velocity(player_vel)
-        
         for object in self.objects:
             object.update()
 
