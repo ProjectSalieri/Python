@@ -10,6 +10,7 @@ class Object2D:
 
     def __init__(self, name):
         self.pos = (0.0, 0.0)
+        self.velocity = (0.0, 0.0)
         self.half_size = (0, 0)
 
         # 初期化ファイル
@@ -24,6 +25,10 @@ class Object2D:
             else:
                 self.components[component] = ActorUtil.create_component(actor_setting, component)
     # def __init__
+
+    def get_component(self, component_name):
+        return self.components.get(component_name)
+    # get_component
 
     def update(self):
         for name, component in self.components.items():

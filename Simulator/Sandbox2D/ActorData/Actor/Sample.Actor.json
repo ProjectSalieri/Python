@@ -3,6 +3,7 @@
 	"Components" :
 	{
 		"Draw" : "Draw/Sample.Draw.json",
-		"Eat" : "Eat/Sample.Eat.json"
+		"Eat" : "Eat/Sample.Eat.json",
+		"Physics" : "Physics/Sample.Physics.json"
 	}
 }

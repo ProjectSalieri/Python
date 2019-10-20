@@ -8,6 +8,7 @@ import os
 
 from Logic import IEat
 from Logic import IEatable
+from Logic.Physics import IPhysics
 
 class ActorUtil:
 
@@ -31,6 +32,8 @@ class ActorUtil:
             component = IEat.IEat()
         elif component_name == "Eatable":
             component = IEatable.IEatable()
+        elif component_name == "Physics":
+            component = IPhysics.IPhysics()
         # if component_name
 
         component.init_from_setting(component_setting)

@@ -3,6 +3,9 @@
 # @file IEatable.py
 # @note
 
+# @note
+# IEatからメッセージが送られてきたら食べられるかどうかを返す
+# 食べれられる場合は食べられ状態に遷移(Eatedアクション発行?)
 class IEatable:
 
     def __init__(self):

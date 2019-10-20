@@ -30,10 +30,13 @@ class Sandbox2D:
     # name
 
     def update(self):
+        # Clientの操作情報だけ送信して、サーバーで姿勢等更新するのもあり
         self.scene.update()
     # def update
 
     def draw(self, screen):
+        # クラウドゲームみたくサーバーで画像生成して、画像だけ描画するとかもあり
+        
         # 背景色リセット
         screen.fill((255,255,255,))
 

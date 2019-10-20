@@ -6,6 +6,7 @@
 import pygame
 
 import Object2D
+from Logic.Physics import PhysicsDirector
 
 class SandboxSimpleScene:
 
@@ -14,6 +15,8 @@ class SandboxSimpleScene:
 
         # データ読み込み
         self._init_scene_from_data()
+
+        self.physics_director = PhysicsDirector.PhysicsDirector()
     # def __init__
 
     def _init_scene_from_data(self):
@@ -33,6 +36,8 @@ class SandboxSimpleScene:
     def update(self):
         for object in self.objects:
             object.update()
+
+        self.physics_director.update(self.objects)
     # def update
 
     def draw(self, screen):
