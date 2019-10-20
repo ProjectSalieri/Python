@@ -8,12 +8,16 @@ from pygame.locals import *
 
 import Object2D
 import PlayerObject
+
+from Logic.Input import PlayerController
 from Logic.Physics import PhysicsDirector
 
 class SandboxSimpleScene:
 
     def __init__(self):
         self.objects = []
+
+        self.player_controller = PlayerController.PlayerController()
 
         # データ読み込み
         self._init_scene_from_data()
@@ -24,6 +28,7 @@ class SandboxSimpleScene:
     def _init_scene_from_data(self):
         simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 32)
+        simple_object.set_controller(self.player_controller)
         self.objects.append(simple_object)
 
         simple_object2 = Object2D.Object2D("Sample")
@@ -40,6 +45,22 @@ class SandboxSimpleScene:
     # def _init_scene_from_data
 
     def update(self):
+        # キー解決
+        self.player_controller.clear()
+        pressed_key = pygame.key.get_pressed()
+        if pressed_key[K_LEFT]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_LEFT)
+        elif pressed_key[K_RIGHT]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_RIGHT)
+        elif pressed_key[K_UP]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_UP)
+        elif pressed_key[K_DOWN]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_DOWN)
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                pass
+        
+        
         for object in self.objects:
             object.update()
 
