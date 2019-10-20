@@ -1,0 +1,13 @@
+{
+	"Shapes" : 
+	[
+	  {
+	    "Name" : "Body",
+	    "Shape" : "Shpere",
+	    "Size" :
+	    {
+	      "Radius" : 16
+	    }
+	  }
+	]
+}

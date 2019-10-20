@@ -8,6 +8,7 @@ from . import ShapeBase
 class ShapeSphere(ShapeBase.ShapeBase):
 
     def __init__(self):
+        super().__init__()
         self.radius = 0.0
     # def __init__
 

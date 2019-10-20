@@ -3,6 +3,7 @@
 	"Components" :
 	{
 		"Draw" : "Draw/Apple.Draw.json",
-		"Eatable" : "Eatable/Apple.Eatable.json"
+		"Eatable" : "Eatable/Apple.Eatable.json",
+		"Physics" : "Physics/Apple.Physics.json"
 	}
 }
