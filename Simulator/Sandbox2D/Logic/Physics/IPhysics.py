@@ -14,7 +14,6 @@ class IPhysics:
 
     def init_from_setting(self, setting):
         shape_settings = setting["Shapes"]
-        print(shape_settings)
         for shape_setting in shape_settings:
             shape_type = shape_setting["Shape"]
             shape = None

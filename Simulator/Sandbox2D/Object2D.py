@@ -30,6 +30,10 @@ class Object2D:
         return self.components.get(component_name)
     # get_component
 
+    def add_velocity(self, vel):
+        self.velocity = (self.velocity[0] + vel[0], self.velocity[1] + vel[1])
+    # add_velocity
+
     def update(self):
         for name, component in self.components.items():
             component.update()
