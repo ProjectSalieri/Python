@@ -30,6 +30,10 @@ class SandboxSimpleScene:
         simple_object2.pos = (32, 32)
         self.objects.append(simple_object2)
 
+        simple_object2 = Object2D.Object2D("Sample")
+        simple_object2.pos = (128, 128)
+        self.objects.append(simple_object2)
+
         simple_object3 = Object2D.Object2D("Apple")
         simple_object3.pos = (80, 80)
         self.objects.append(simple_object3)
