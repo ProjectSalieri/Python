@@ -4,6 +4,7 @@
 	{
 		"Draw" : "Draw/Sample.Draw.json",
 		"Eat" : "Eat/Sample.Eat.json",
+		"Sensor" : "Sensor/Sample.Sensor.json",
 		"Physics" : "Physics/Sample.Physics.json"
 	}
 }

@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file IEat.py
+# @file IAI.py
 # @note
 
-class IEat:
+class IAI:
 
     def __init__(self):
         pass
     # def __init__
 
     def init_from_setting(self, setting):
+        type = setting["Type"] # Behavior, Native
+        
         pass
     # def __init__
 
@@ -17,11 +19,7 @@ class IEat:
         pass
     # def update
 
-    def post_update(self):
-        pass
-    # def post_update
-
-# class IEat
+# class IAI
 
 if __name__ == "__main__":
     pass

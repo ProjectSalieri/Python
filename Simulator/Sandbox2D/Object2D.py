@@ -42,6 +42,11 @@ class Object2D:
         self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
     # def update
 
+    def post_update(self):
+        for name, component in self.components.items():
+            component.post_update()
+    # def post_update
+
     def draw(self, screen):
         #pygame.draw.rect(screen, (255,128,0), pygame.Rect(self.x() - self.half_w(),self.y() - self.half_h(),self.x() + self.half_w(),self.y() + self.half_h()))
         if self.drawer != None:

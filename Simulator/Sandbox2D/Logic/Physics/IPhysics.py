@@ -30,6 +30,10 @@ class IPhysics:
         pass
     # def update
 
+    def post_update(self):
+        pass
+    # def post_update
+
 # class Physics
 
 if __name__ == "__main__":

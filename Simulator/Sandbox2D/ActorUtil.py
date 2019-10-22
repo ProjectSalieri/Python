@@ -8,6 +8,8 @@ import os
 
 from Logic import IEat
 from Logic import IEatable
+from Logic.AI import IAI
+from Logic.Sensor import ISensor
 from Logic.Physics import IPhysics
 
 class ActorUtil:
@@ -28,10 +30,14 @@ class ActorUtil:
         component_setting = ActorUtil.load_component_setting(actor_setting, component_name)
         component = None
 
-        if component_name == "Eat":
+        if component_name == "AI":
+            component = IAI.IAI()
+        elif component_name == "Eat":
             component = IEat.IEat()
         elif component_name == "Eatable":
             component = IEatable.IEatable()
+        elif component_name == "Sensor":
+            component = ISensor.ISensor()
         elif component_name == "Physics":
             component = IPhysics.IPhysics()
         # if component_name

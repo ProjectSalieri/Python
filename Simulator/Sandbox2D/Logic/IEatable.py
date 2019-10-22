@@ -20,6 +20,10 @@ class IEatable:
         pass
     # def update
 
+    def post_update(self):
+        pass
+    # def post_update
+
 # class IEatable
 
 if __name__ == "__main__":

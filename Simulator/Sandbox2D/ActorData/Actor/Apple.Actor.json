@@ -4,6 +4,7 @@
 	{
 		"Draw" : "Draw/Apple.Draw.json",
 		"Eatable" : "Eatable/Apple.Eatable.json",
+		"Sensor" : "Sensor/Apple.Sensor.json",
 		"Physics" : "Physics/Apple.Physics.json"
 	}
 }

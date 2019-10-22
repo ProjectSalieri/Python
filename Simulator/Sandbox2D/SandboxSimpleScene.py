@@ -10,6 +10,7 @@ import Object2D
 import PlayerObject
 
 from Logic.Input import PlayerController
+from Logic.Sensor import SensorDirector
 from Logic.Physics import PhysicsDirector
 
 class SandboxSimpleScene:
@@ -22,6 +23,7 @@ class SandboxSimpleScene:
         # データ読み込み
         self._init_scene_from_data()
 
+        self.sensor_director = SensorDirector.SensorDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
     # def __init__
 
@@ -45,6 +47,24 @@ class SandboxSimpleScene:
     # def _init_scene_from_data
 
     def update(self):
+        self._update_player_controller()
+
+        self.sensor_director.update(self.objects)
+        
+        for object in self.objects:
+            object.update()
+            object.post_update()
+        # for self.objects
+
+        self.physics_director.update(self.objects)
+    # def update
+
+    def draw(self, screen):
+        for object in self.objects:
+            object.draw(screen)
+    # def draw
+
+    def _update_player_controller(self):
         # キー解決
         self.player_controller.clear()
         pressed_key = pygame.key.get_pressed()
@@ -59,18 +79,7 @@ class SandboxSimpleScene:
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 pass
-        
-        
-        for object in self.objects:
-            object.update()
-
-        self.physics_director.update(self.objects)
-    # def update
-
-    def draw(self, screen):
-        for object in self.objects:
-            object.draw(screen)
-    # def draw
+    # def _update_player_controller
 
 # class SandboxSimpleScene
 
