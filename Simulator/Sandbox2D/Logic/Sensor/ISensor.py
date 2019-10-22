@@ -50,6 +50,11 @@ class ISensor:
     # コンポーネント処理一周したあとの処理
     def post_update(self):
         for sensor in self.sensors:
+#            if len(sensor.hit_sensors) > 0:
+#                import datetime
+#                print(sensor.hit_sensors)
+#                print(datetime.datetime.now())
+#                print("\n")
             sensor.clear()
         # for self.sensors
     # def post_update
