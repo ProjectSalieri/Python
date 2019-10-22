@@ -6,9 +6,9 @@
 import json
 import os
 
-from Logic import IEat
-from Logic import IEatable
 from Logic.AI import IAI
+from Logic.Eat import IEat
+from Logic.Eat import IEatable
 from Logic.Sensor import ISensor
 from Logic.Physics import IPhysics
 
