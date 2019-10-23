@@ -6,10 +6,12 @@
 class EatableParam:
     def __init__(self):
         self.is_enable_eat = False
+        self.is_default = False
     # def __init__
 
     def init_from_setting(self, one_setting):
         if "IsEnableEat" in one_setting : self.is_enable_eat = one_setting["IsEnableEat"]
+        if "IsDefault" in one_setting : self.is_default = one_setting["IsDefault"]
     # init_from_setting
 # class EatParam
 
@@ -21,6 +23,7 @@ class IEatable:
 
     def __init__(self):
         self.params = {}
+        self.current = None # self.paramsのキーのいずれかを設定
     # def __init__
 
     def init_from_setting(self, setting):
@@ -30,8 +33,10 @@ class IEatable:
             param.init_from_setting(one_setting)
             condition_name = one_setting["Condition"]
             self.params[condition_name] = param
+            if param.is_default == True:
+                self.current = condition_name
         # for setting
-    # def __init__
+    # def init_from_setting
 
     def update(self):
         pass
