@@ -3,17 +3,34 @@
 # @file IEatable.py
 # @note
 
-# @note
-# IEatからメッセージが送られてきたら食べられるかどうかを返す
-# 食べれられる場合は食べられ状態に遷移(Eatedアクション発行?)
-class IEatable:
-
+class EatableParam:
     def __init__(self):
         self.is_enable_eat = False
     # def __init__
 
+    def init_from_setting(self, one_setting):
+        if "IsEnableEat" in one_setting : self.is_enable_eat = one_setting["IsEnableEat"]
+    # init_from_setting
+# class EatParam
+
+# @note
+# IEatからメッセージが送られてきたら食べられるかどうかを返す
+# 食べれられる場合は食べられ状態に遷移(Eatedアクション発行?)
+# コンポーネントが刺さってない場合は食べられない扱い
+class IEatable:
+
+    def __init__(self):
+        self.params = {}
+    # def __init__
+
     def init_from_setting(self, setting):
-        if "IsEnableEat" in setting : self.is_enable_eat = setting["IsEnableEat"]
+        settings = setting["EatableParams"]
+        for one_setting in settings:
+            param = EatableParam()
+            param.init_from_setting(one_setting)
+            condition_name = one_setting["Condition"]
+            self.params[condition_name] = param
+        # for setting
     # def __init__
 
     def update(self):
