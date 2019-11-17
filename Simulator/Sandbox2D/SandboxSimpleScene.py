@@ -23,7 +23,7 @@ class SandboxSimpleScene:
         # データ読み込み
         self._init_scene_from_data()
 
-        self.sensor_director = SensorDirector.SensorDirector()
+        #self.sensor_director = SensorDirector.SensorDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
     # def __init__
 
@@ -49,7 +49,7 @@ class SandboxSimpleScene:
     def update(self):
         self._update_player_controller()
 
-        self.sensor_director.update(self.objects)
+        #self.sensor_director.update(self.objects)
         
         for object in self.objects:
             object.update()

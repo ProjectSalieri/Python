@@ -14,6 +14,14 @@ class IDraw:
         self.half_size = (self.image.get_width()/2, self.image.get_height()/2)
     # def __init__
 
+    def update(self):
+        pass
+    # def update
+
+    def post_update(self):
+        pass
+    # def update
+
     def draw(self, pos, screen):
         screen.blit(self.image, pos)
     # def draw

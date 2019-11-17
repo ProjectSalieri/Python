@@ -29,7 +29,7 @@ class PhysicsDirector:
 
         # 領域分割
         for obj in objects:
-            if obj.get_component("Physics") == None:
+            if obj.get_object_component("Physics") == None:
                 continue
             idx = self._calc_index(obj.next_pos, range_x, range_y, grid_size)
             check_objects[idx[0]][idx[1]].append(obj)
@@ -75,8 +75,8 @@ class PhysicsDirector:
     # def _calc_index
 
     def _update_obj_physics(self, obj1, obj2):
-        physics1 = obj1.get_component("Physics")
-        physics2 = obj2.get_component("Physics")
+        physics1 = obj1.get_object_component("Physics")
+        physics2 = obj2.get_object_component("Physics")
 
         for shape1 in physics1.shapes:
             for shape2 in physics2.shapes:
@@ -103,7 +103,7 @@ class PhysicsDirector:
 
     def _apply_obj_physics(self, obj):
         is_hit_any = False
-        shapes = obj.get_component("Physics").shapes
+        shapes = obj.get_object_component("Physics").shapes
         for shape in shapes:
             if shape.is_hit:
                 is_hit_any = True

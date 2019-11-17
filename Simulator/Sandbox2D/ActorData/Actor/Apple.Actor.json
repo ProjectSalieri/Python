@@ -1,10 +1,16 @@
 {
 	"Name" : "Apple",
-	"Components" :
+	"ObjectComponents":
+	{
+		"Physics" :
+		{
+			"SettingPath" : "Physics/Apple.Physics.json"
+		}
+	},
+	"GameDataComponents" :
 	{
 		"Draw" : "Draw/Apple.Draw.json",
 		"Eatable" : "Eatable/Apple.Eatable.json",
-		"Sensor" : "Sensor/Apple.Sensor.json",
-		"Physics" : "Physics/Apple.Physics.json"
+		"Sensor" : "Sensor/Apple.Sensor.json"
 	}
 }
