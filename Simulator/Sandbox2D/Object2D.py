@@ -18,6 +18,7 @@ class Object2D:
 
         self.object_components = ActorUtil.create_object_components(actor_setting)
         self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
+        self.game_logic_components = {}
 
         self.drawer = self.game_data_components["Draw"]
 
@@ -35,6 +36,9 @@ class Object2D:
         # Object共通コンポーネント
         for name, component in self.object_components.items():
             component.update()
+        # ゲームロジック用コンポーネント
+        for name, component in self.game_logic_components.items():
+            component.update()
         # ゲーム用コンポーネント
         for name, component in self.game_data_components.items():
             component.update()
@@ -45,6 +49,9 @@ class Object2D:
     def post_update(self):
         # Object共通コンポーネント
         for name, component in self.object_components.items():
+            component.post_update()
+        # ゲームロジック用コンポーネント
+        for name, component in self.game_logic_components.items():
             component.post_update()
         # ゲーム用コンポーネント
         for name, component in self.game_data_components.items():
