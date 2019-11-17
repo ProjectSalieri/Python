@@ -1,0 +1,10 @@
+{
+	"Name" : "Sample",
+	"Components":
+	{
+		"Physics" :
+		{
+			"SettingPath" : "Physics/Sample.Physics.json"
+		}
+	}
+}

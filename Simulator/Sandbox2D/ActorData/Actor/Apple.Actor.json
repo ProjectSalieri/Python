@@ -2,10 +2,7 @@
 	"Name" : "Apple",
 	"ObjectComponents":
 	{
-		"Physics" :
-		{
-			"SettingPath" : "Physics/Apple.Physics.json"
-		}
+		"SettingPath" : "ObjectComponents/Object/Apple.Object.json"
 	},
 	"GameDataComponents" :
 	{

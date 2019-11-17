@@ -29,13 +29,21 @@ class ActorUtil:
 
     @staticmethod
     def create_object_components(actor_setting):
-        settings = actor_setting["ObjectComponents"]
+        setting = actor_setting["ObjectComponents"]
         object_components = {}
-        for component_name in settings:
+        if setting == None:
+            return object_components
+        settings = ActorUtil.load_component_setting("", setting["SettingPath"])
+        for component_name in settings["Components"]:
+            component = None
             if component_name == "Physics":
                 component = IPhysics.IPhysics()
             # if component_name
-            component.init_from_setting(ActorUtil.load_component_setting(settings[component_name]["SettingPath"]))
+
+            if component == None:
+                continue
+            
+            component.init_from_setting(ActorUtil.load_component_setting("ObjectComponents", settings["Components"][component_name]["SettingPath"]))
             object_components[component_name] = component
             
         # for settings
@@ -53,7 +61,7 @@ class ActorUtil:
         game_data_components = {}
         for component_name in settings:
             if component_name == "Draw":
-                draw_setting = ActorUtil.load_component_setting(settings[component_name])
+                draw_setting = ActorUtil.load_component_setting("GameDataComponents", settings[component_name])
                 component = IDraw(draw_setting["Image"])
                 game_data_components[component_name] = component
             else:
@@ -64,8 +72,8 @@ class ActorUtil:
     # def create_game_data_component
 
     @staticmethod
-    def load_component_setting(component_setting_path):
-        component_json = os.path.join(ActorUtil._actor_data_dir(), component_setting_path)
+    def load_component_setting(components_category, component_setting_path):
+        component_json = os.path.join(ActorUtil._actor_data_dir(), components_category, component_setting_path)
         component_setting = None
         with open(component_json) as f:
             component_setting = json.load(f)

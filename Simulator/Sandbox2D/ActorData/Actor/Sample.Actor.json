@@ -1,11 +1,8 @@
 {
 	"Name" : "Sample",
-	"ObjectComponents" :
+	"ObjectComponents":
 	{
-		"Physics" : 
-		{
-			"SettingPath" : "Physics/Sample.Physics.json"
-		}
+		"SettingPath" : "ObjectComponents/Object/Sample.Object.json"
 	},
 	"GameDataComponents" :
 	{
