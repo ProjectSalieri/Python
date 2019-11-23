@@ -80,6 +80,7 @@ class PhysicsDirector:
         physics2 = obj2.get_object_component("Physics")
 
         # ここから下はObject2D関係ない計算(=IPhysicsで完結)
+        is_hit_any = False
 
         for shape1 in physics1.shapes:
             for shape2 in physics2.shapes:
@@ -100,8 +101,18 @@ class PhysicsDirector:
 
                 shape1.is_hit = True
                 shape2.is_hit = True
+                is_hit_any = True
             # for shape2
         # for shape1
+
+        # モーメントは無視して衝突による速度反映
+        if is_hit_any == True:
+            # TODO : 質量差
+            vel1 = physics1.velocity
+            vel2 = physics2.velocity
+            new_vel = ((vel1[0] + vel2[0])/2.0, (vel1[1] + vel2[1])/2.0)
+            physics1.velocity = new_vel
+            physics2.velocity = new_vel
     # def _update_obj_physics
 
     def _apply_obj_physics(self, obj):
@@ -116,8 +127,8 @@ class PhysicsDirector:
                 break
         # for shape
 
-        if is_hit_any == True:
-            physics.velocity = (0.0, 0.0)
+#        if is_hit_any == True:
+#            physics.velocity = (0.0, 0.0)
 
         physics.apply()
 
