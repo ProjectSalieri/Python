@@ -1,5 +1,8 @@
 {
-	"Image" : "Ice.png",
 	"Priority" : -1,
-	"Drawer" : "TileDrawer"
+	"Drawer" : "TileDrawer",
+	"Images" : 
+	{
+		"Ice" : "Ice.png"
+	}
 }
