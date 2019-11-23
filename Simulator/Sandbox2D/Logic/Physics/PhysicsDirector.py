@@ -109,10 +109,14 @@ class PhysicsDirector:
         if is_hit_any == True:
             # TODO : 質量差
             vel1 = physics1.velocity
+            m1 = 1.0
             vel2 = physics2.velocity
-            new_vel = ((vel1[0] + vel2[0])/2.0, (vel1[1] + vel2[1])/2.0)
-            physics1.velocity = new_vel
-            physics2.velocity = new_vel
+            m2 = 1.0
+            sum_m = m1 + m2
+            new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m, ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m )
+            new_vel2 = ( (2.0*m2*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m2*vel1[1] + (m2-m1)*vel2[1])/sum_m )
+            physics1.velocity = new_vel1
+            physics2.velocity = new_vel2
     # def _update_obj_physics
 
     def _apply_obj_physics(self, obj):
@@ -133,7 +137,7 @@ class PhysicsDirector:
         physics.apply()
 
         # 2Dなので慣性なしで実装スタート
-        if True:
+        if False:
             physics.velocity = (0.0, 0.0)
     # def _apply_obj_physics
 

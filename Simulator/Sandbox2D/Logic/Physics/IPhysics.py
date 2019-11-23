@@ -42,7 +42,8 @@ class IPhysics:
 
     def update(self):
         # 物理挙動による速度更新(ex. 摩擦)
-        pass
+        fric_tmp = 0.5
+        self.velocity = (self.velocity[0]*fric_tmp, self.velocity[1]*fric_tmp)
     # def update
 
     def post_update(self):
