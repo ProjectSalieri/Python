@@ -7,8 +7,9 @@
 	    "Shape" : "Cube",
 	    "Size" :
 	    {
-	      "Width" : 16,
-	      "Height" : 16
+	      "WidthX" : 16,
+	      "Height" : 16,
+	      "WidthZ" : 16
 	    }
 	  }
 	]

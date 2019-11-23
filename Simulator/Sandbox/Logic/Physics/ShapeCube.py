@@ -16,7 +16,7 @@ class ShapeCube(ShapeBase.ShapeBase):
         super().init_from_setting(setting)
 
         size_setting = setting["Size"]
-        self.half_size = (float(size_setting["Width"]), 0.0, float(size_setting["Height"]))
+        self.half_size = (float(size_setting["WidthX"]), float(size_setting["Height"]), float(size_setting["WidthZ"]))
 
     # def __init__
 
