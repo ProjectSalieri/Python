@@ -44,6 +44,11 @@ class SandboxSimpleScene:
         simple_object4 = Object.Object("Sample")
         simple_object4.reset_pos((128, 0, 128))
         self.objects.append(simple_object4)
+
+        
+        ground1 = Object.Object("IceGround")
+        ground1.reset_pos((256, 0, 256))
+        self.objects.append(ground1)
     # def _init_scene_from_data
 
     def update(self):

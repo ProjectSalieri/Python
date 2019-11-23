@@ -10,6 +10,7 @@ class IPhysics:
 
     def __init__(self):
         self.shapes = []
+        self.is_ground = False
 
         self.mass = 0.0
 
@@ -20,6 +21,10 @@ class IPhysics:
     # def __init__
 
     def init_from_setting(self, setting):
+        self.is_ground = True if setting.get("IsGround") == "True" else False
+        if self.is_ground == True:
+            return None
+        
         self.mass = setting["Mass"]
         shape_settings = setting["Shapes"]
         for shape_setting in shape_settings:

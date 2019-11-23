@@ -1,0 +1,10 @@
+{
+	"Name" : "IceGround",
+	"Components":
+	{
+		"Physics" :
+		{
+			"SettingPath" : "Physics/IceGround.Physics.json"
+		}
+	}
+}

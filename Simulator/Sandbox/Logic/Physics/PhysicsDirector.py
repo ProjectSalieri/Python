@@ -81,6 +81,11 @@ class PhysicsDirector:
         physics2 = obj2.get_object_component("Physics")
 
         # ここから下はObject2D関係ない計算(=IPhysicsで完結)
+
+        # 床は判定無視
+        if physics1.is_ground == True or physics2.is_ground == True:
+            return None
+        
         is_hit_any = False
 
         for shape1 in physics1.shapes:

@@ -1,0 +1,11 @@
+{
+	"Name" : "IceGround",
+	"ObjectComponents":
+	{
+		"SettingPath" : "ObjectComponents/Object/IceGround.Object.json"
+	},
+	"GameDataComponents" :
+	{
+		"Draw" : "Draw/Ice.Draw.json"
+	}
+}
