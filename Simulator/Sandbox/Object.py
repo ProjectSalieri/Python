@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file Simulator2D.py
+# @file Object.py
 # @note
 
 from ActorUtil import ActorUtil
 
-class Object2D:
+class Object:
 
     def __init__(self, name):
         # 初期化ファイル
@@ -59,7 +59,7 @@ class Object2D:
     def _pos(self):
         return self.get_object_component("Physics").pos
 
-# class Object2D
+# class Object
 
 if __name__ == "__main__":
     pass

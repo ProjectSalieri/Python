@@ -12,7 +12,7 @@ class SampleMove:
         self.counter = 0
         self.state = 0
         self.actions = {"Move" : SimpleMove.SimpleMove(host_actor)}
-        self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0) })
+        self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) })
         pass
     # def __init__
 
@@ -22,12 +22,12 @@ class SampleMove:
             self.state = (self.state+1) %4
 
         if self.state == 0:
-            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0) })
+            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) })
         elif self.state == 2:
-            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (-1.0, 0.0) })
+            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (-1.0, 0.0, 0.0) })
         else:
             # Stop
-            self.actions["Move"].set_action_param({"Speed" : 0.0, "Dir" : (0.0, 0.0) })
+            self.actions["Move"].set_action_param({"Speed" : 0.0, "Dir" : (0.0, 0.0, 0.0) })
 
 
         self.actions["Move"].update()

@@ -113,8 +113,8 @@ class PhysicsDirector:
             vel2 = physics2.velocity
             m2 = physics2.mass
             sum_m = m1 + m2
-            new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m, ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m )
-            new_vel2 = ( (2.0*m1*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m1*vel1[1] + (m2-m1)*vel2[1])/sum_m )
+            new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m, ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m, 0.0 )
+            new_vel2 = ( (2.0*m1*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m1*vel1[1] + (m2-m1)*vel2[1])/sum_m, 0.0 )
             physics1.velocity = new_vel1
             physics2.velocity = new_vel2
     # def _update_obj_physics
@@ -138,7 +138,7 @@ class PhysicsDirector:
 
         # 2Dなので慣性なしで実装スタート
         if False:
-            physics.velocity = (0.0, 0.0)
+            physics.velocity = (0.0, 0.0, 0.0)
     # def _apply_obj_physics
 
 # class PhysicsDirector

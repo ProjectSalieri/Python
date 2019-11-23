@@ -14,9 +14,9 @@ class IPhysics:
         self.mass = 0.0
 
         # 代表位置、速度
-        self.pos = (0.0, 0.0)
-        self.next_pos = (0.0, 0.0)
-        self.velocity = (0.0, 0.0)
+        self.pos = (0.0, 0.0, 0.0)
+        self.next_pos = (0.0, 0.0, 0.0)
+        self.velocity = (0.0, 0.0, 0.0)
     # def __init__
 
     def init_from_setting(self, setting):
@@ -35,28 +35,28 @@ class IPhysics:
     # def init_from_setting
 
     def reset_pos(self, pos):
-        self.velocity = (0.0, 0.0)
+        self.velocity = (0.0, 0.0, 0.0)
         self.pos = pos
         # TODO : 前フレームの結果使うようならフラグ立てる
 
     def add_velocity(self, vel):
-        self.velocity = (self.velocity[0] + vel[0], self.velocity[1] + vel[1])
+        self.velocity = (self.velocity[0] + vel[0], self.velocity[1] + vel[1], self.velocity[2] + vel[2])
     # add_velocity
 
     def update(self):
         # 物理挙動による速度更新(ex. 摩擦)
         fric_tmp = 0.8
-        self.velocity = (self.velocity[0]*fric_tmp, self.velocity[1]*fric_tmp)
+        self.velocity = (self.velocity[0]*fric_tmp, self.velocity[1]*fric_tmp, self.velocity[2]*fric_tmp)
     # def update
 
     def post_update(self):
         # Physics + AIによる速度決定後にPhysicsDirector
-        self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
+        self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1], self.pos[2] + self.velocity[2])
     # def post_update
 
     # 全ての計算の後に結果反映
     def apply(self):
-        self.pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
+        self.pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1], self.pos[2] + self.velocity[2])
         for shape in self.shapes:
             shape.update(self.pos)
     # def apply

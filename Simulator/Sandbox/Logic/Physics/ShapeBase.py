@@ -6,7 +6,7 @@
 class ShapeBase:
 
     def __init__(self):
-        self.offset = (0.0, 0.0)
+        self.offset = (0.0, 0.0, 0.0)
         self.name = ""
 
         self.is_hit = False
@@ -16,7 +16,11 @@ class ShapeBase:
         self.name = setting.get("Name")
         offset_setting = setting.get("Offset")
         if offset_setting != None:
-            self.offset = (float(offset_setting["X"]), float(offset_setting["Y"]))
+            self.offset = (
+                float(offset_setting["X"] if offset_setting.get("X") else 0.0),
+                float(offset_setting["Y"] if offset_setting.get("Y") else 0.0),
+                float(offset_setting["Z"] if offset_setting.get("Z") else 0.0)
+            )
         # if offset_setting
     # def __init__
 

@@ -23,6 +23,6 @@ class IDraw:
     # def update
 
     def draw(self, pos, screen):
-        screen.blit(self.image, pos)
+        screen.blit(self.image, (pos[0], pos[1]))
     # def draw
 # class IDraw

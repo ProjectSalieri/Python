@@ -3,12 +3,12 @@
 # @file PlayerObject.py
 # @note
 
-import Object2D
+import Object
 import IDraw
 
 from Logic.GameLogicComponents.ObjectControl.PlayerControl import PlayerControl
 
-class PlayerObject(Object2D.Object2D):
+class PlayerObject(Object.Object):
 
     def __init__(self):
         super(PlayerObject, self).__init__("Player")

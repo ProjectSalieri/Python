@@ -22,7 +22,7 @@ class PlayerControl:
     # def set_control_actor
 
     def update(self):        
-        player_vel = [0.0, 0.0]
+        player_vel = [0.0, 0.0, 0.0]
         for input in self._controller.inputs:
             if input == PlayerController.PlayerController.KEY_LEFT:
                 player_vel[0] = -1.0
