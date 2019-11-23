@@ -3,25 +3,35 @@
 # @file SampleMove.py
 # @note
 
+from ..CharacterAction import SimpleMove
 
 class SampleMove:
 
     def __init__(self, host_actor):
         self.actor = host_actor
         self.counter = 0
-        self.is_reverse = False
+        self.state = 0
+        self.actions = {"Move" : SimpleMove.SimpleMove(host_actor)}
+        self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0) })
         pass
     # def __init__
 
     def update(self):
         self.counter = self.counter + 1
         if self.counter % 60 == 0:
-            self.is_reverse = self.is_reverse == False
-        
-        if self.is_reverse:
-            self.actor.add_velocity((-1.0, 0.0))
+            self.state = (self.state+1) %4
+
+        if self.state == 0:
+            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0) })
+        elif self.state == 2:
+            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (-1.0, 0.0) })
         else:
-            self.actor.add_velocity((1.0, 0.0))
+            # Stop
+            self.actions["Move"].set_action_param({"Speed" : 0.0, "Dir" : (0.0, 0.0) })
+
+
+        self.actions["Move"].update()
+
         #if counter
 
     def post_update(self):
