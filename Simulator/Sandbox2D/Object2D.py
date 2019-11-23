@@ -8,11 +8,6 @@ from ActorUtil import ActorUtil
 class Object2D:
 
     def __init__(self, name):
-        self.pos = (0.0, 0.0)
-        self.next_pos = (0.0, 0.0)
-        self.velocity = (0.0, 0.0)
-        self.half_size = (0, 0)
-
         # 初期化ファイル
         actor_setting = ActorUtil.load_actor_setting(name)
 
@@ -24,13 +19,12 @@ class Object2D:
 
     # def __init__
 
+    def reset_pos(self, pos):
+        self.get_object_component("Physics").reset_pos(pos)
+
     def get_object_component(self, component_name):
         return self.object_components.get(component_name)
     # get_object_component
-
-    def add_velocity(self, vel):
-        self.velocity = (self.velocity[0] + vel[0], self.velocity[1] + vel[1])
-    # add_velocity
 
     def update(self):
         # Object共通コンポーネント
@@ -42,8 +36,6 @@ class Object2D:
         # ゲーム用コンポーネント
         for name, component in self.game_data_components.items():
             component.update()
-
-        self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
     # def update
 
     def post_update(self):
@@ -61,17 +53,11 @@ class Object2D:
     def draw(self, screen):
         #pygame.draw.rect(screen, (255,128,0), pygame.Rect(self.x() - self.half_w(),self.y() - self.half_h(),self.x() + self.half_w(),self.y() + self.half_h()))
         if self.drawer != None:
-            self.drawer.draw(self.pos, screen)
+            self.drawer.draw(self._pos(), screen)
     # def draw
 
-    def x(self):
-        return self.pos[0]
-    def y(self):
-        return self.pos[1]
-    def half_w(self):
-        return self.half_size[0]
-    def half_h(self):
-        return self.half_size[1]
+    def _pos(self):
+        return self.get_object_component("Physics").pos
 
 # class Object2D
 

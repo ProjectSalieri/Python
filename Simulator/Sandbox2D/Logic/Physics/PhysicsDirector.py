@@ -29,9 +29,10 @@ class PhysicsDirector:
 
         # 領域分割
         for obj in objects:
-            if obj.get_object_component("Physics") == None:
+            physics = obj.get_object_component("Physics")
+            if physics == None:
                 continue
-            idx = self._calc_index(obj.next_pos, range_x, range_y, grid_size)
+            idx = self._calc_index(physics.next_pos, range_x, range_y, grid_size)
             check_objects[idx[0]][idx[1]].append(obj)
 
         len_x = len(check_objects)
@@ -78,13 +79,15 @@ class PhysicsDirector:
         physics1 = obj1.get_object_component("Physics")
         physics2 = obj2.get_object_component("Physics")
 
+        # ここから下はObject2D関係ない計算(=IPhysicsで完結)
+
         for shape1 in physics1.shapes:
             for shape2 in physics2.shapes:
                 shape1_offset = shape1.offset
                 shape2_offset = shape2.offset
                 cube_diff = (
-                    math.fabs((obj1.next_pos[0] + shape1_offset[0]) - (obj2.next_pos[0] + shape2_offset[0])),
-                    math.fabs((obj1.next_pos[1] + shape1_offset[1]) - (obj2.next_pos[1] + shape2_offset[1])),
+                    math.fabs((physics1.next_pos[0] + shape1_offset[0]) - (physics2.next_pos[0] + shape2_offset[0])),
+                    math.fabs((physics1.next_pos[1] + shape1_offset[1]) - (physics2.next_pos[1] + shape2_offset[1])),
                 )
 
                 cube_size1 = shape1.calc_cube_size()
@@ -103,23 +106,24 @@ class PhysicsDirector:
 
     def _apply_obj_physics(self, obj):
         is_hit_any = False
-        shapes = obj.get_object_component("Physics").shapes
+        physics = obj.get_object_component("Physics")
+
+        # ここから下はObject2D関係ない計算(=IPhysics)
+        shapes = physics.shapes
         for shape in shapes:
             if shape.is_hit:
                 is_hit_any = True
                 break
         # for shape
 
-        # 特に接触がなかったので移動反映
-        if is_hit_any == False:
-            obj.pos = (obj.pos[0] + obj.velocity[0], obj.pos[1] + obj.velocity[1])
+        if is_hit_any == True:
+            physics.velocity = (0.0, 0.0)
+
+        physics.apply()
 
         # 2Dなので慣性なしで実装スタート
         if True:
-            obj.velocity = (0.0, 0.0)
-
-        for shape in shapes:
-            shape.update(obj.pos)
+            physics.velocity = (0.0, 0.0)
     # def _apply_obj_physics
 
 # class PhysicsDirector

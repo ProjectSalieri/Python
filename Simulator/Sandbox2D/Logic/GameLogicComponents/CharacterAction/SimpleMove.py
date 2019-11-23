@@ -19,7 +19,7 @@ class SimpleMove:
         speed = self.param["Speed"]
         dir = self.param["Dir"]
         vel = (speed*dir[0], speed*dir[1])
-        self.actor.add_velocity(vel)
+        self.actor.get_object_component("Physics").add_velocity(vel)
     #
 
     def post_update(self):

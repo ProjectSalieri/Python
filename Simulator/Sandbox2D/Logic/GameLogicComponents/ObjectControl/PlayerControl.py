@@ -34,7 +34,8 @@ class PlayerControl:
             elif input == PlayerController.PlayerController.KEY_DOWN:
                 player_vel[1] = 8.0
 
-        self._control_actor.add_velocity(player_vel)
+        physics = self._control_actor.get_object_component("Physics")
+        physics.add_velocity(player_vel)
     # def update
 
     def post_update(self):

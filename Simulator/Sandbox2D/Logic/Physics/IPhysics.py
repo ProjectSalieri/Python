@@ -10,6 +10,11 @@ class IPhysics:
 
     def __init__(self):
         self.shapes = []
+
+        # 代表位置、速度
+        self.pos = (0.0, 0.0)
+        self.next_pos = (0.0, 0.0)
+        self.velocity = (0.0, 0.0)
     # def __init__
 
     def init_from_setting(self, setting):
@@ -26,13 +31,31 @@ class IPhysics:
         # for shape_settings
     # def init_from_setting
 
+    def reset_pos(self, pos):
+        self.velocity = (0.0, 0.0)
+        self.pos = pos
+        # TODO : 前フレームの結果使うようならフラグ立てる
+
+    def add_velocity(self, vel):
+        self.velocity = (self.velocity[0] + vel[0], self.velocity[1] + vel[1])
+    # add_velocity
+
     def update(self):
+        # 物理挙動による速度更新(ex. 摩擦)
         pass
     # def update
 
     def post_update(self):
-        pass
+        # Physics + AIによる速度決定後にPhysicsDirector
+        self.next_pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
     # def post_update
+
+    # 全ての計算の後に結果反映
+    def apply(self):
+        self.pos = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
+        for shape in self.shapes:
+            shape.update(self.pos)
+    # def apply
 
 # class Physics
 
