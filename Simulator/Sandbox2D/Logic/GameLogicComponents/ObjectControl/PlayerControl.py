@@ -25,14 +25,14 @@ class PlayerControl:
         player_vel = [0.0, 0.0]
         for input in self._controller.inputs:
             if input == PlayerController.PlayerController.KEY_LEFT:
-                player_vel[0] = -8.0
+                player_vel[0] = -1.0
             elif input == PlayerController.PlayerController.KEY_RIGHT:
-                player_vel[0] = 8.0
+                player_vel[0] = 1.0
 
             elif input == PlayerController.PlayerController.KEY_UP:
-                player_vel[1] = -8.0
+                player_vel[1] = -1.0
             elif input == PlayerController.PlayerController.KEY_DOWN:
-                player_vel[1] = 8.0
+                player_vel[1] = 1.0
 
         physics = self._control_actor.get_object_component("Physics")
         physics.add_velocity(player_vel)

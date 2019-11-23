@@ -109,12 +109,12 @@ class PhysicsDirector:
         if is_hit_any == True:
             # TODO : 質量差
             vel1 = physics1.velocity
-            m1 = 1.0
+            m1 = physics1.mass
             vel2 = physics2.velocity
-            m2 = 1.0
+            m2 = physics2.mass
             sum_m = m1 + m2
             new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m, ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m )
-            new_vel2 = ( (2.0*m2*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m2*vel1[1] + (m2-m1)*vel2[1])/sum_m )
+            new_vel2 = ( (2.0*m1*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m1*vel1[1] + (m2-m1)*vel2[1])/sum_m )
             physics1.velocity = new_vel1
             physics2.velocity = new_vel2
     # def _update_obj_physics

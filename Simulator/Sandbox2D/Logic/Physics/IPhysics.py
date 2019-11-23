@@ -11,6 +11,8 @@ class IPhysics:
     def __init__(self):
         self.shapes = []
 
+        self.mass = 0.0
+
         # 代表位置、速度
         self.pos = (0.0, 0.0)
         self.next_pos = (0.0, 0.0)
@@ -18,6 +20,7 @@ class IPhysics:
     # def __init__
 
     def init_from_setting(self, setting):
+        self.mass = setting["Mass"]
         shape_settings = setting["Shapes"]
         for shape_setting in shape_settings:
             shape_type = shape_setting["Shape"]
@@ -42,7 +45,7 @@ class IPhysics:
 
     def update(self):
         # 物理挙動による速度更新(ex. 摩擦)
-        fric_tmp = 0.5
+        fric_tmp = 0.8
         self.velocity = (self.velocity[0]*fric_tmp, self.velocity[1]*fric_tmp)
     # def update
 
