@@ -81,7 +81,8 @@ class ActorUtil:
         for component_name in settings:
             if component_name == "Draw":
                 draw_setting = ActorUtil.load_component_setting("GameDataComponents", settings[component_name])
-                component = IDraw(draw_setting["Image"])
+                component = IDraw()
+                component.init_from_setting(draw_setting)
                 game_data_components[component_name] = component
             else:
                 pass

@@ -65,8 +65,24 @@ class SandboxSimpleScene:
     # def update
 
     def draw(self, screen):
+        priorities = []
+        draw_list = {}
+
         for object in self.objects:
-            object.draw(screen)
+            priority = object.drawer.priority
+            if draw_list.get(priority) == None:
+                draw_list[priority] = []
+                priorities.append(priority)
+            draw_list[priority].append(object)
+
+        priorities.sort()
+
+        for priority in priorities:
+            draw_object = draw_list[priority]
+            for object in draw_object:
+                object.draw(screen)
+            # for draw_object
+        # for priorities
     # def draw
 
     def _update_player_controller(self):
