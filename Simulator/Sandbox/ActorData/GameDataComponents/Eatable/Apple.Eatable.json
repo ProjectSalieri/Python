@@ -1,0 +1,14 @@
+{
+  "EatableParams" :
+  [
+    {
+      "Condition" : "Default",
+	  "IsEnableEat" : true,
+	  "IsDefault" : true
+    },
+    {
+      "Condition" : "Rot",
+      "IsEnableEat" : false
+    }
+  ]
+}

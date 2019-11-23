@@ -1,0 +1,12 @@
+{
+	"Sensors" : 
+	[
+	  {
+	    "Name" : "Body",
+	    "Size" :
+	    {
+	      "Radius" : 28
+	    }
+	  }
+	]
+}

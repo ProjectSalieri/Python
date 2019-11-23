@@ -1,0 +1,13 @@
+{
+	"Name" : "Apple",
+	"ObjectComponents":
+	{
+		"SettingPath" : "ObjectComponents/Object/Apple.Object.json"
+	},
+	"GameDataComponents" :
+	{
+		"Draw" : "Draw/Apple.Draw.json",
+		"Eatable" : "Eatable/Apple.Eatable.json",
+		"Sensor" : "Sensor/Apple.Sensor.json"
+	}
+}

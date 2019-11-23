@@ -1,0 +1,15 @@
+{
+	"Mass" : 100,
+	"Shapes" : 
+	[
+	  {
+	    "Name" : "Body",
+	    "Shape" : "Cube",
+	    "Size" :
+	    {
+	      "Width" : 16,
+	      "Height" : 16
+	    }
+	  }
+	]
+}
