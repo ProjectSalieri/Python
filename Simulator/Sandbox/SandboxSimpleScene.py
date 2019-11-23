@@ -69,7 +69,7 @@ class SandboxSimpleScene:
         draw_list = {}
 
         for object in self.objects:
-            priority = object.drawer.priority
+            priority = object.drawer.get_priority()
             if draw_list.get(priority) == None:
                 draw_list[priority] = []
                 priorities.append(priority)

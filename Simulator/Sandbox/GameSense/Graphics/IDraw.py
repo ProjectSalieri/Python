@@ -5,23 +5,26 @@
 
 import pygame
 
+from . import SimpleDrawer
+from . import TileDrawer
+
 class IDraw:
 
     def __init__(self):
-        self.image = None
-        self.half_size = (0, 0)
-        self.priority = 0
+        self.custom_drawer = None
     # def __init__
 
     def init_from_setting(self, draw_setting):
-        image_name = draw_setting["Image"]
-        import os
-        image_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "ImageData")
-        self.image = pygame.image.load(os.path.join(image_dir, image_name)).convert_alpha()
-        self.half_size = (self.image.get_width()/2, self.image.get_height()/2)
-
-        self.priority = draw_setting["Priority"] if draw_setting.get("Priority") else 0
+        drawer_name = draw_setting.get("Drawer")
+        if drawer_name == None:
+            self.custom_drawer = SimpleDrawer.SimpleDrawer()
+        elif drawer_name == "TileDrawer":
+            self.custom_drawer = TileDrawer.TileDrawer()
+        self.custom_drawer.init_from_setting(draw_setting)
     # def init_from_setting
+
+    def get_priority(self):
+        return self.custom_drawer.priority
 
     def update(self):
         pass
@@ -32,6 +35,6 @@ class IDraw:
     # def update
 
     def draw(self, pos, screen):
-        screen.blit(self.image, (pos[0], pos[2]))
+        self.custom_drawer.draw(pos, screen)
     # def draw
 # class IDraw

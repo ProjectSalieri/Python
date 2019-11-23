@@ -1,4 +1,5 @@
 {
 	"Image" : "Ice.png",
-	"Priority" : -1
+	"Priority" : -1,
+	"Drawer" : "TileDrawer"
 }
