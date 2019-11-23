@@ -6,7 +6,7 @@
 	},
 	"GameLogicComponents" :
 	{
-		"CharacterAI" : "CharacterAI/SamplePlayerChase.CharacterAI.json"
+		"CharacterAI" : "CharacterAI/SampleMove.CharacterAI.json"
 	},
 	"GameDataComponents" :
 	{
