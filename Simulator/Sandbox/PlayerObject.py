@@ -4,7 +4,6 @@
 # @note
 
 import Object
-import IDraw
 
 from Logic.GameLogicComponents.ObjectControl.PlayerControl import PlayerControl
 

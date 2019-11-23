@@ -16,7 +16,7 @@ from Logic.Physics import IPhysics
 from Logic.GameLogicComponents.CharacterAI import AIFactory
 
 # GameDataComponentsは分離予定
-from IDraw import IDraw
+from GameSense.Graphics.IDraw import IDraw
 
 class ActorUtil:
 
