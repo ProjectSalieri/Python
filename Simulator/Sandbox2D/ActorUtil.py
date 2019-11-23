@@ -12,6 +12,9 @@ from Logic.Eat import IEatable
 from Logic.Sensor import ISensor
 from Logic.Physics import IPhysics
 
+#
+from Logic.GameLogicComponents.CharacterAI import AIFactory
+
 # GameDataComponentsは分離予定
 from IDraw import IDraw
 
@@ -51,8 +54,24 @@ class ActorUtil:
     # def create_object_components
 
     @staticmethod
-    def create_game_logic_components(actor_setting, component_name):
-        pass
+    def create_game_logic_components(actor_setting, actor):
+        logic_components = {}
+        setting = actor_setting.get("GameLogicComponents")
+        if setting == None:
+            return logic_components
+
+        settings = setting
+        for setting in settings:
+            component_name = setting
+            component_setting = ActorUtil.load_component_setting("GameLogicComponents", settings[component_name])
+            if component_name == "CharacterAI":
+                factory = AIFactory.AIFactory()
+                logic_components[component_name] = factory.create_ai_component_from_setting(component_setting, actor)
+            elif component_name == "ObjectControl":
+                pass
+        # for
+        return logic_components
+            
     # def create_game_logic_component
 
     @staticmethod

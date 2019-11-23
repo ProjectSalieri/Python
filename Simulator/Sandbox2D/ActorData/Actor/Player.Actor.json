@@ -6,7 +6,7 @@
 	},
 	"GameLogicComponents" :
 	{
-		"ActorControl" : "ObjectControl/Player.ObjectControl.json"
+		"ObjectControl" : "ObjectControl/Player.ObjectControl.json"
 	},
 	"GameDataComponents" :
 	{

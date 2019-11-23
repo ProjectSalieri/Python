@@ -6,7 +6,7 @@
 import Object2D
 import IDraw
 
-from Logic.GameLogicComponents.ActorControl.PlayerControl import PlayerControl
+from Logic.GameLogicComponents.ObjectControl.PlayerControl import PlayerControl
 
 class PlayerObject(Object2D.Object2D):
 
@@ -17,7 +17,7 @@ class PlayerObject(Object2D.Object2D):
     def set_controller(self, controller):
         actor_control_component = PlayerControl()
         actor_control_component.set_control_actor(self, controller)
-        self.game_logic_components["ActorControl"] = actor_control_component
+        self.game_logic_components["ObjectControl"] = actor_control_component
     # def set_controller
 
     def update(self):        

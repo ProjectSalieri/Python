@@ -4,6 +4,10 @@
 	{
 		"SettingPath" : "ObjectComponents/Object/Sample.Object.json"
 	},
+	"GameLogicComponents" :
+	{
+		"CharacterAI" : "CharacterAI/SamplePlayerChase.CharacterAI.json"
+	},
 	"GameDataComponents" :
 	{
 		"Draw" : "Draw/Sample.Draw.json",

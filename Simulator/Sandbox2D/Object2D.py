@@ -18,7 +18,7 @@ class Object2D:
 
         self.object_components = ActorUtil.create_object_components(actor_setting)
         self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
-        self.game_logic_components = {}
+        self.game_logic_components = ActorUtil.create_game_logic_components(actor_setting, self)
 
         self.drawer = self.game_data_components["Draw"]
 
