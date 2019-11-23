@@ -24,7 +24,7 @@ class ShapeSphere(ShapeBase.ShapeBase):
     # def get_shape_name
 
     def calc_cube_size(self):
-        return (self.radius, self.radius)
+        return (self.radius, self.radius, self.radius)
     # def calc_cube_size
 
 # class ShapeSphere

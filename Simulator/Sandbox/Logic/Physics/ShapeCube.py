@@ -9,14 +9,14 @@ class ShapeCube(ShapeBase.ShapeBase):
 
     def __init__(self):
         super().__init__()
-        self.half_size = (0.0, 0.0)
+        self.half_size = (0.0, 0.0, 0.0)
     # def __init__
 
     def init_from_setting(self, setting):
         super().init_from_setting(setting)
 
         size_setting = setting["Size"]
-        self.half_size = (float(size_setting["Width"]), float(size_setting["Height"]))
+        self.half_size = (float(size_setting["Width"]), 0.0, float(size_setting["Height"]))
 
     # def __init__
 

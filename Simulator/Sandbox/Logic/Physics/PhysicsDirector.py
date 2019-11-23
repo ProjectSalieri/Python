@@ -14,33 +14,34 @@ class PhysicsDirector:
     def update(self, objects):
         # 領域分割
         range_x = (-10000.0, 10000.0)
-        range_y = (-10000.0, 10000.0)
-        grid_size = (500.0, 500.0)
+        range_z = (-10000.0, 10000.0)
+        grid_size = (500.0, 0.0, 500.0)
         grid_num = (
             (int)((range_x[1]-range_x[0])/grid_size[0]),
-            (int)((range_y[1]-range_y[0])/grid_size[1])
+            0,
+            (int)((range_z[1]-range_z[0])/grid_size[2])
         )
 
         check_objects = [[] for x in range(grid_num[0])]
         for x in range(grid_num[0]):
-            check_objects[x] = [[] for y in range(grid_num[1])]
+            check_objects[x] = [[] for z in range(grid_num[2])]
             for y in range(grid_num[1]):
-                check_objects[x][y] = []
+                check_objects[x][z] = []
 
         # 領域分割
         for obj in objects:
             physics = obj.get_object_component("Physics")
             if physics == None:
                 continue
-            idx = self._calc_index(physics.next_pos, range_x, range_y, grid_size)
+            idx = self._calc_index(physics.next_pos, range_x, range_z, grid_size)
             check_objects[idx[0]][idx[1]].append(obj)
 
         len_x = len(check_objects)
-        len_y = len(check_objects[0])
+        len_z = len(check_objects[0])
 
         for x in range(len_x):
-            for y in range(len_y):
-                tmp_check_objs = check_objects[x][y]
+            for z in range(len_z):
+                tmp_check_objs = check_objects[x][z]
                 len_obj = len(tmp_check_objs)
                 # 総当たりチェック
                 for i in range(len_obj):
@@ -59,20 +60,20 @@ class PhysicsDirector:
         
     # def update
 
-    def _calc_index(self, pos, range_x, range_y, grid_size):
+    def _calc_index(self, pos, range_x, range_z, grid_size):
         tmp_x = pos[0] - range_x[0]
         if tmp_x >= 0.0:
             idx_x = (int)(tmp_x / grid_size[0])
         else:
             idx_x = 0
 
-        tmp_y = pos[1] - range_y[1]
-        if tmp_y >= 0.0:
-            idx_y = (int)(tmp_y / grid_size[1])
+        tmp_z = pos[2] - range_z[0]
+        if tmp_z >= 0.0:
+            idx_z = (int)(tmp_z / grid_size[2])
         else:
-            idx_y = 0
+            idx_z = 0
 
-        return (idx_x, idx_y)
+        return (idx_x, idx_z)
     # def _calc_index
 
     def _update_obj_physics(self, obj1, obj2):
@@ -89,6 +90,7 @@ class PhysicsDirector:
                 cube_diff = (
                     math.fabs((physics1.next_pos[0] + shape1_offset[0]) - (physics2.next_pos[0] + shape2_offset[0])),
                     math.fabs((physics1.next_pos[1] + shape1_offset[1]) - (physics2.next_pos[1] + shape2_offset[1])),
+                    math.fabs((physics1.next_pos[2] + shape1_offset[2]) - (physics2.next_pos[2] + shape2_offset[2])),
                 )
 
                 cube_size1 = shape1.calc_cube_size()
@@ -97,6 +99,8 @@ class PhysicsDirector:
                 if cube_diff[0] > cube_size1[0] + cube_size2[0]:
                     continue
                 if cube_diff[1] > cube_size1[1] + cube_size2[1]:
+                    continue
+                if cube_diff[2] > cube_size1[2] + cube_size2[2]:
                     continue
 
                 shape1.is_hit = True
@@ -113,8 +117,12 @@ class PhysicsDirector:
             vel2 = physics2.velocity
             m2 = physics2.mass
             sum_m = m1 + m2
-            new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m, ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m, 0.0 )
-            new_vel2 = ( (2.0*m1*vel1[0] + (m2-m1)*vel2[0])/sum_m, (2.0*m1*vel1[1] + (m2-m1)*vel2[1])/sum_m, 0.0 )
+            new_vel1 = ( ((m1-m2)*vel1[0] + 2.0*m2*vel2[0])/sum_m,
+                         ((m1-m2)*vel1[1] + 2.0*m2*vel2[1]) / sum_m,
+                         ((m1-m2)*vel1[2] + 2.0*m2*vel2[2]) / sum_m )
+            new_vel2 = ( (2.0*m1*vel1[0] + (m2-m1)*vel2[0])/sum_m,
+                         (2.0*m1*vel1[1] + (m2-m1)*vel2[1])/sum_m,
+                         (2.0*m1*vel1[2] + (m2-m1)*vel2[2])/sum_m )
             physics1.velocity = new_vel1
             physics2.velocity = new_vel2
     # def _update_obj_physics
