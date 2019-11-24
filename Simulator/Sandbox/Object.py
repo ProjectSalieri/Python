@@ -50,15 +50,6 @@ class Object:
             component.post_update()
     # def post_update
 
-    def draw(self, screen):
-        #pygame.draw.rect(screen, (255,128,0), pygame.Rect(self.x() - self.half_w(),self.y() - self.half_h(),self.x() + self.half_w(),self.y() + self.half_h()))
-        if self.drawer != None:
-            self.drawer.draw(self._pos(), screen)
-    # def draw
-
-    def _pos(self):
-        return self.get_object_component("Physics").pos
-
 # class Object
 
 if __name__ == "__main__":
