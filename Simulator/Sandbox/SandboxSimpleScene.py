@@ -22,6 +22,7 @@ class SandboxSimpleScene:
         self.player_controller = PlayerController.PlayerController()
 
         # データ読み込み
+        self.player_objects = []
         self._init_scene_from_data()
 
         #self.sensor_director = SensorDirector.SensorDirector()
@@ -34,6 +35,7 @@ class SandboxSimpleScene:
         simple_object.pos = (128, 0, 32)
         simple_object.set_controller(self.player_controller)
         self.objects.append(simple_object)
+        self.player_objects.append(simple_object)
 
         simple_object2 = Object.Object("Sample")
         simple_object2.reset_pos((32, 0, 32))
@@ -58,11 +60,12 @@ class SandboxSimpleScene:
 
         #self.sensor_director.update(self.objects)
 
-        center_pos = (0.0, 0.0, 0.0)
+        for player in self.player_objects:
+            center_pos = player.get_object_component("Physics").pos
         
-        self.object_udpate_director.update(self.objects, center_pos)
+            self.object_udpate_director.update(self.objects, center_pos)
 
-        self.physics_director.update(self.objects, center_pos)
+            self.physics_director.update(self.objects, center_pos)
     # def update
 
     def draw(self, screen):
