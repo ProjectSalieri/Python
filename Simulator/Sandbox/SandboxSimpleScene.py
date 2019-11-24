@@ -12,6 +12,7 @@ import PlayerObject
 from Logic.Input import PlayerController
 from Logic.Sensor import SensorDirector
 from Logic.Physics import PhysicsDirector
+from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 
 class SandboxSimpleScene:
 
@@ -24,6 +25,7 @@ class SandboxSimpleScene:
         self._init_scene_from_data()
 
         #self.sensor_director = SensorDirector.SensorDirector()
+        self.object_udpate_director = ObjectUpdateDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
     # def __init__
 
@@ -56,10 +58,7 @@ class SandboxSimpleScene:
 
         #self.sensor_director.update(self.objects)
         
-        for object in self.objects:
-            object.update()
-            object.post_update()
-        # for self.objects
+        self.object_udpate_director.update(self.objects)
 
         self.physics_director.update(self.objects)
     # def update
