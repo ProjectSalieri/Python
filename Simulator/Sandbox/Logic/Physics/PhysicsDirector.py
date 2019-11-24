@@ -5,76 +5,28 @@
 
 import math
 
-class PhysicsDirector:
+from ..System.ObjectRegionDirectorBase import ObjectRegionDirectorBase
+
+class PhysicsDirector(ObjectRegionDirectorBase):
 
     def __init__(self):
-        pass
+        super().__init__()
     # def __init__
 
-    def update(self, objects):
-        # 領域分割
-        range_x = (-10000.0, 10000.0)
-        range_z = (-10000.0, 10000.0)
-        grid_size = (500.0, 0.0, 500.0)
-        grid_num = (
-            (int)((range_x[1]-range_x[0])/grid_size[0]),
-            0,
-            (int)((range_z[1]-range_z[0])/grid_size[2])
-        )
+    def _update_region(self, objs_in_region):
+        len_obj = len(objs_in_region)
+        # 総当たりチェック
+        for i in range(len_obj):
+            for j in range(i+1, len_obj, 1):
+                self._update_obj_physics(objs_in_region[i], objs_in_region[j])
+            # for j
+        # for i
 
-        check_objects = [[] for x in range(grid_num[0])]
-        for x in range(grid_num[0]):
-            check_objects[x] = [[] for z in range(grid_num[2])]
-            for y in range(grid_num[1]):
-                check_objects[x][z] = []
-
-        # 領域分割
-        for obj in objects:
-            physics = obj.get_object_component("Physics")
-            if physics == None:
-                continue
-            idx = self._calc_index(physics.next_pos, range_x, range_z, grid_size)
-            check_objects[idx[0]][idx[1]].append(obj)
-
-        len_x = len(check_objects)
-        len_z = len(check_objects[0])
-
-        for x in range(len_x):
-            for z in range(len_z):
-                tmp_check_objs = check_objects[x][z]
-                len_obj = len(tmp_check_objs)
-                # 総当たりチェック
-                for i in range(len_obj):
-                    for j in range(i+1, len_obj, 1):
-                        self._update_obj_physics(tmp_check_objs[i], tmp_check_objs[j])
-                    # for j
-                # for i
-
-                # 総当たり情報を反映(とりあえず、ぶつかったら移動中止)
-                for obj in tmp_check_objs:
-                    self._apply_obj_physics(obj)
-                # for obj
-            # for y
-        # for x
-                        
-        
+        # 総当たり情報を反映(とりあえず、ぶつかったら移動中止)
+        for obj in objs_in_region:
+            self._apply_obj_physics(obj)
+        # for obj
     # def update
-
-    def _calc_index(self, pos, range_x, range_z, grid_size):
-        tmp_x = pos[0] - range_x[0]
-        if tmp_x >= 0.0:
-            idx_x = (int)(tmp_x / grid_size[0])
-        else:
-            idx_x = 0
-
-        tmp_z = pos[2] - range_z[0]
-        if tmp_z >= 0.0:
-            idx_z = (int)(tmp_z / grid_size[2])
-        else:
-            idx_z = 0
-
-        return (idx_x, idx_z)
-    # def _calc_index
 
     def _update_obj_physics(self, obj1, obj2):
         physics1 = obj1.get_object_component("Physics")
