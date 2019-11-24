@@ -40,6 +40,8 @@ class Sandbox2D:
         # 背景色リセット
         screen.fill((255,255,255,))
 
+        self.scene.pre_draw(screen)
+
         self.scene.draw(screen)
     # def draw
 

@@ -72,10 +72,10 @@ class SandboxSimpleScene:
             self.object_udpate_director.update(self.objects, center_pos)
 
             self.physics_director.update(self.objects, center_pos)
-
-        # GraphicsSystem
-        self._update_graphics()
     # def update
+
+    def pre_draw(self, screen):
+        self._pre_draw(screen)
 
     def draw(self, screen):
         # TODO : ObjectRegionDirectorBase
@@ -119,9 +119,9 @@ class SandboxSimpleScene:
                 pass
     # def _update_player_controller
 
-    def _update_graphics(self):
-        self.game_camera.update()
-    # def _update_graphics
+    def _pre_draw(self, screen):
+        self.game_camera.pre_draw(screen)
+    # def _pre_draw
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
