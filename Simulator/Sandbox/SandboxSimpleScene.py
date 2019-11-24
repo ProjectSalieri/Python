@@ -57,13 +57,16 @@ class SandboxSimpleScene:
         self._update_player_controller()
 
         #self.sensor_director.update(self.objects)
-        
-        self.object_udpate_director.update(self.objects)
 
-        self.physics_director.update(self.objects)
+        center_pos = (0.0, 0.0, 0.0)
+        
+        self.object_udpate_director.update(self.objects, center_pos)
+
+        self.physics_director.update(self.objects, center_pos)
     # def update
 
     def draw(self, screen):
+        # TODO : ObjectRegionDirectorBase
         priorities = []
         draw_list = {}
 
