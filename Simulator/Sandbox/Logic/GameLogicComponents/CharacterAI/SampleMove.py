@@ -20,6 +20,8 @@ class SampleMove:
         self.counter = self.counter + 1
         if self.counter % 60 == 0:
             self.state = (self.state+1) %4
+            import random
+            self.counter = random.randint(0, 10) %  10
 
         if self.state == 0:
             self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) })
