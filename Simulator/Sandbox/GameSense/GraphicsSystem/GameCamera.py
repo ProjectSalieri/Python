@@ -1,40 +1,23 @@
 # -*- coding: utf-8 -*-
 # @author Masakaze Sato
-# @file IDraw.py
+# @file GameCamera.py
 # @note
 
-import pygame
-
-from . import SimpleDrawer
-from . import TileDrawer
-
-class IDraw:
+class GameCamera:
 
     def __init__(self):
-        self.custom_drawer = None
+        self.look_at_pos = (0.0, 0.0, 0.0)
+        self.player_objects = []
     # def __init__
 
-    def init_from_setting(self, draw_setting):
-        drawer_name = draw_setting.get("Drawer")
-        if drawer_name == None:
-            self.custom_drawer = SimpleDrawer.SimpleDrawer()
-        elif drawer_name == "TileDrawer":
-            self.custom_drawer = TileDrawer.TileDrawer()
-        self.custom_drawer.init_from_setting(draw_setting)
-    # def init_from_setting
-
-    def get_priority(self):
-        return self.custom_drawer.priority
+    def set_player_objects(self, player_objects):
+        self.player_objects = player_objects
+    # def set_player_objects
 
     def update(self):
-        pass
-    # def update
+        camera_idx = 0
+        player = self.player_objects[camera_idx]
 
-    def post_update(self):
-        pass
+        self.look_at_pos = player.get_object_component("Physics").pos
     # def update
-
-    def draw(self, pos, screen):
-        self.custom_drawer.draw(pos, screen)
-    # def draw
-# class IDraw
+# class GameCamera

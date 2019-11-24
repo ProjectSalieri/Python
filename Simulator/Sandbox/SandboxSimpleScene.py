@@ -14,6 +14,8 @@ from Logic.Sensor import SensorDirector
 from Logic.Physics import PhysicsDirector
 from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 
+from GameSense.GraphicsSystem.GameCamera import GameCamera
+
 class SandboxSimpleScene:
 
     def __init__(self):
@@ -28,6 +30,10 @@ class SandboxSimpleScene:
         #self.sensor_director = SensorDirector.SensorDirector()
         self.object_udpate_director = ObjectUpdateDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
+
+        # GraphicsSystem
+        self.game_camera = GameCamera()
+        self.game_camera.set_player_objects(self.player_objects)
     # def __init__
 
     def _init_scene_from_data(self):
@@ -66,6 +72,9 @@ class SandboxSimpleScene:
             self.object_udpate_director.update(self.objects, center_pos)
 
             self.physics_director.update(self.objects, center_pos)
+
+        # GraphicsSystem
+        self._update_graphics()
     # def update
 
     def draw(self, screen):
@@ -85,7 +94,10 @@ class SandboxSimpleScene:
         for priority in priorities:
             draw_object = draw_list[priority]
             for object in draw_object:
-                object.draw(screen)
+                drawer = object.drawer
+                obj_pos = object.get_object_component("Physics").pos
+                draw_pos = (obj_pos[0]-self.game_camera.look_at_pos[0], obj_pos[1]-self.game_camera.look_at_pos[1], obj_pos[2]-self.game_camera.look_at_pos[2])
+                drawer.draw(draw_pos, screen)
             # for draw_object
         # for priorities
     # def draw
@@ -107,6 +119,9 @@ class SandboxSimpleScene:
                 pass
     # def _update_player_controller
 
+    def _update_graphics(self):
+        self.game_camera.update()
+    # def _update_graphics
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
