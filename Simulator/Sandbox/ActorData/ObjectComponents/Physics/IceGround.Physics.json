@@ -1,3 +1,4 @@
 {
-	"IsGround" : "True"
+	"IsGround" : "True",
+	"Material" : "Ice"
 }
