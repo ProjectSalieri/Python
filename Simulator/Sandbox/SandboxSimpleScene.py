@@ -14,6 +14,10 @@ from Logic.Sensor import SensorDirector
 from Logic.Physics import PhysicsDirector
 from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 
+# Serverロジック
+from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
+
+#
 from GameSense.GraphicsSystem.GameCamera import GameCamera
 
 class SandboxSimpleScene:
@@ -45,6 +49,8 @@ class SandboxSimpleScene:
 
         simple_object2 = Object.Object("Sample")
         simple_object2.reset_pos((32, 0, 32))
+        server_control2 = ServerControl(simple_object2)
+        simple_object2.insert_game_logic_component("ObjectControl", server_control2)
         self.objects.append(simple_object2)
 
         simple_object3 = Object.Object("Apple")

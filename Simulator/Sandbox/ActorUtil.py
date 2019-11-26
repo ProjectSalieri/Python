@@ -13,7 +13,7 @@ from Logic.Sensor import ISensor
 from Logic.Physics import IPhysics
 
 #
-from Logic.GameLogicComponents.CharacterAI import AIFactory
+from Logic.GameLogicComponents.ObjectControl import AIFactory
 
 # GameDataComponentsは分離予定
 from GameSense.Graphics.IDraw import IDraw
@@ -64,11 +64,12 @@ class ActorUtil:
         for setting in settings:
             component_name = setting
             component_setting = ActorUtil.load_component_setting("GameLogicComponents", settings[component_name])
-            if component_name == "CharacterAI":
+            if component_name == "ObjectControl":
                 factory = AIFactory.AIFactory()
-                logic_components[component_name] = factory.create_ai_component_from_setting(component_setting, actor)
-            elif component_name == "ObjectControl":
-                pass
+                object_ctonrol = factory.create_ai_component_from_setting(component_setting, actor)
+                # PlayerControlとServerContorlはハードコーディング
+                if object_ctonrol != None:
+                    logic_components[component_name] = object_ctonrol
         # for
         return logic_components
             

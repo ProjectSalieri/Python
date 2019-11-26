@@ -5,7 +5,7 @@
 
 from ..CharacterAction import SimpleMove
 
-class SampleMove:
+class SampleMoveAI:
 
     def __init__(self, host_actor):
         self.actor = host_actor
@@ -39,4 +39,4 @@ class SampleMove:
     def post_update(self):
         pass
 
-# class SampleMove
+# class SampleMoveAI

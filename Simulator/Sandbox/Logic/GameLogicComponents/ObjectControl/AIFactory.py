@@ -3,8 +3,7 @@
 # @file AIFactory
 # @note
 
-from . import SampleMove
-from . import SamplePlayerChase
+from . import SampleMoveAI
 
 class AIFactory:
 
@@ -14,10 +13,10 @@ class AIFactory:
 
     def create_ai_component_from_setting(self, setting, actor):
         class_name = setting["Class"]
-        if class_name == "SamplePlayerChase":
-            return SamplePlayerChase.SamplePlayerChase(actor)
-        elif class_name == "SampleMove":
-            return SampleMove.SampleMove(actor)
+        if class_name == "PlayerControl":
+            return None
+        elif class_name == "SampleMoveAI":
+            return SampleMoveAI.SampleMoveAI(actor)
         else:
             assert False, "Class=%sはAIFactoryで未実装です" % class_name
     # def create_ai_component_from_setting

@@ -6,7 +6,7 @@
 	},
 	"GameLogicComponents" :
 	{
-		"CharacterAI" : "CharacterAI/SampleMove.CharacterAI.json"
+		"ObjectControl" : "ObjectControl/SampleMoveAI.ObjectControl.json"
 	},
 	"GameDataComponents" :
 	{

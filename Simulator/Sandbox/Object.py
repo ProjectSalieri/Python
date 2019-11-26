@@ -26,6 +26,10 @@ class Object:
         return self.object_components.get(component_name)
     # get_object_component
 
+    def insert_game_logic_component(self, component_name, component):
+        self.game_logic_components[component_name] = component
+    # def insert_game_logic_component
+
     def update(self):
         # Object共通コンポーネント
         for name, component in self.object_components.items():
