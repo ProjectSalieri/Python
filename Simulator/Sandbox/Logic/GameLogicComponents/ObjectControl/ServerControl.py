@@ -22,6 +22,11 @@ class ServerControl(PlayerControl):
     # def update
 
     def _receive_network_inputs(self):
+        # TODO : ネットワーク越しにキー入力を受信
+        return self.salieri_update()
+
+    # AIがネットワーク越しにキー入力をする処理の仮想実装
+    def salieri_update(self):
         self._cnt = self._cnt +1
         if self._cnt % 60 != 0:
             return []
