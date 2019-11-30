@@ -6,12 +6,13 @@
 import pygame
 from pygame.locals import *
 
-from SandboxSimpleSceneBase import SandboxSimpleSceneBase
-
 import Object
 import PlayerObject
 
 from Logic.Input import PlayerController
+from Logic.Sensor import SensorDirector
+from Logic.Physics import PhysicsDirector
+from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 
 # Serverロジック
 from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
@@ -19,16 +20,20 @@ from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
 #
 from GameSense.GraphicsSystem.GameCamera import GameCamera
 
-class SandboxSimpleScene(SandboxSimpleSceneBase):
+class SandboxSimpleScene:
 
     def __init__(self):
+        self.objects = []
 
         self.player_controller = PlayerController.PlayerController()
 
         # データ読み込み
         self.player_objects = []
+        self._init_scene_from_data()
 
-        super().__init__()
+        #self.sensor_director = SensorDirector.SensorDirector()
+        self.object_udpate_director = ObjectUpdateDirector()
+        self.physics_director = PhysicsDirector.PhysicsDirector()
 
         # GraphicsSystem
         self.game_camera = GameCamera()
@@ -69,7 +74,10 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
         for player in self.player_objects:
             center_pos = player.get_object_component("Physics").pos
-            self._update_common(center_pos)
+        
+            self.object_udpate_director.update(self.objects, center_pos)
+
+            self.physics_director.update(self.objects, center_pos)
     # def update
 
     def pre_draw(self, screen):
