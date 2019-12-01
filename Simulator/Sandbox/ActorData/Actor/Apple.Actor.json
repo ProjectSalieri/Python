@@ -4,6 +4,10 @@
 	{
 		"SettingPath" : "ObjectComponents/Object/Apple.Object.json"
 	},
+	"GameLogicComponents" :
+	{
+		"Sensor" : "Sensor/Apple.Sensor.json"
+	},
 	"GameDataComponents" :
 	{
 		"Draw" : "Draw/Apple.Draw.json",

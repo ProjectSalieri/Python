@@ -6,7 +6,8 @@
 	},
 	"GameLogicComponents" :
 	{
-		"ObjectControl" : "ObjectControl/SampleMoveAI.ObjectControl.json"
+		"ObjectControl" : "ObjectControl/SampleMoveAI.ObjectControl.json",
+		"Sensor" : "Sensor/Sample.Sensor.json"
 	},
 	"GameDataComponents" :
 	{

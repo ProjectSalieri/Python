@@ -8,7 +8,7 @@ class Sensor:
     def __init__(self):
         self.name = ""
         self.radius = 0.0
-        self.offset = (0.0, 0.0)
+        self.offset = (0.0, 0.0, 0.0)
 
         # メッセージ送信先を記憶
         self.hit_sensors = []
@@ -20,7 +20,7 @@ class Sensor:
 
         offset_setting = sensor_setting.get("Offset")
         if offset_setting != None:
-            self.offset = (offset_setting.get("X"), offset_setting.get("Y"))
+            self.offset = (offset_setting.get("X"), offset_setting.get("Y"), offset_setting.get("Z"))
     # def init_from_setting
 
     def clear(self):

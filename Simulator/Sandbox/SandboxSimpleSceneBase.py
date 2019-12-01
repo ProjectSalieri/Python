@@ -5,7 +5,7 @@
 
 import Object
 
-from Logic.Sensor import SensorDirector
+from Logic.GameLogicComponents.Sensor import SensorDirector
 from Logic.Physics import PhysicsDirector
 from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 
@@ -17,9 +17,9 @@ class SandboxSimpleSceneBase:
         # データ読み込み
         self._init_scene_from_data()
 
-        #self.sensor_director = SensorDirector.SensorDirector()
         self.object_udpate_director = ObjectUpdateDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
+        self.sensor_director = SensorDirector.SensorDirector()
     # def __init__
 
     def _init_scene_from_data(self):
@@ -38,6 +38,7 @@ class SandboxSimpleSceneBase:
         self.object_udpate_director.update(self.objects, center_pos)
 
         self.physics_director.update(self.objects, center_pos)
+        self.sensor_director.update(self.objects, center_pos)
     # def _update_common
         
 

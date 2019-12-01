@@ -26,6 +26,10 @@ class Object:
         return self.object_components.get(component_name)
     # get_object_component
 
+    def get_game_logic_component(self, component_name):
+        return self.game_logic_components.get(component_name)
+    # get_game_logic_component
+
     def insert_game_logic_component(self, component_name, component):
         self.game_logic_components[component_name] = component
     # def insert_game_logic_component

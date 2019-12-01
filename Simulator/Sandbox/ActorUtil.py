@@ -9,11 +9,11 @@ import os
 from Logic.AI import IAI
 from Logic.Eat import IEat
 from Logic.Eat import IEatable
-from Logic.Sensor import ISensor
 from Logic.Physics import IPhysics
 
 #
 from Logic.GameLogicComponents.ObjectControl import AIFactory
+from Logic.GameLogicComponents.Sensor import ISensor
 
 # GameDataComponentsは分離予定
 from GameSense.Graphics.IDraw import IDraw
@@ -70,6 +70,10 @@ class ActorUtil:
                 # PlayerControlとServerContorlはハードコーディング
                 if object_ctonrol != None:
                     logic_components[component_name] = object_ctonrol
+            elif component_name == "Sensor":
+                component = ISensor.ISensor()
+                component.init_from_setting(component_setting)
+                logic_components[component_name] = component
         # for
         return logic_components
             

@@ -77,8 +77,6 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     def update(self):
         self._update_player_controller()
 
-        #self.sensor_director.update(self.objects)
-
         for player in self.player_objects:
             center_pos = player.get_object_component("Physics").pos
             self._update_common(center_pos)

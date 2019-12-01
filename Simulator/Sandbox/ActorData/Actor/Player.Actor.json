@@ -6,7 +6,8 @@
 	},
 	"GameLogicComponents" :
 	{
-		"ObjectControl" : "ObjectControl/Player.ObjectControl.json"
+		"ObjectControl" : "ObjectControl/Player.ObjectControl.json",
+		"Sensor" : "Sensor/Sample.Sensor.json"
 	},
 	"GameDataComponents" :
 	{
