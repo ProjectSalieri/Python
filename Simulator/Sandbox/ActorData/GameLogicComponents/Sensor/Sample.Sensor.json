@@ -2,10 +2,10 @@
 	"Sensors" : 
 	[
 	  {
-	    "Name" : "Body",
+	    "Name" : "Eye",
 	    "Size" :
 	    {
-	      "Radius" : 28
+	      "Radius" : 128
 	    }
 	  }
 	]
