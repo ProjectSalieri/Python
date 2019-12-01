@@ -21,6 +21,7 @@ from Salieri import Salieri
 
 #
 from GameSense.GraphicsSystem.GameCamera import GameCamera
+from SandboxSceneDrawer import SandboxSceneDrawer
 
 class SandboxSimpleScene(SandboxSimpleSceneBase):
 
@@ -86,28 +87,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         self._pre_draw(screen)
 
     def draw(self, screen):
-        # TODO : ObjectRegionDirectorBase
-        priorities = []
-        draw_list = {}
-
-        for object in self.objects:
-            priority = object.drawer.get_priority()
-            if draw_list.get(priority) == None:
-                draw_list[priority] = []
-                priorities.append(priority)
-            draw_list[priority].append(object)
-
-        priorities.sort()
-
-        for priority in priorities:
-            draw_object = draw_list[priority]
-            for object in draw_object:
-                drawer = object.drawer
-                obj_pos = object.get_object_component("Physics").pos
-                draw_pos = (obj_pos[0]-self.game_camera.look_at_pos[0], obj_pos[1]-self.game_camera.look_at_pos[1], obj_pos[2]-self.game_camera.look_at_pos[2])
-                drawer.draw(draw_pos, screen)
-            # for draw_object
-        # for priorities
+        drawer = SandboxSceneDrawer()
+        drawer.draw(screen, self.objects, self.game_camera.look_at_pos)
     # def draw
 
     def _update_player_controller(self):
