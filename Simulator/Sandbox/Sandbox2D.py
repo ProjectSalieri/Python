@@ -46,7 +46,7 @@ class Sandbox2D:
     # def draw
 
     def quit_game(self):
-        pass
+        self.scene.kill()
     # def quit_game
 
 # class Sandbox2D

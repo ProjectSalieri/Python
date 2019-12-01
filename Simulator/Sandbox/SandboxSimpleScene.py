@@ -16,6 +16,9 @@ from Logic.Input import PlayerController
 # Serverロジック
 from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
 
+# test
+from Salieri import Salieri
+
 #
 from GameSense.GraphicsSystem.GameCamera import GameCamera
 
@@ -28,11 +31,15 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         # データ読み込み
         self.player_objects = []
 
+        # test
+        self.test_client = Salieri.Salieri()
+
         super().__init__()
 
         # GraphicsSystem
         self.game_camera = GameCamera()
         self.game_camera.set_player_objects(self.player_objects)
+        
     # def __init__
 
     def _init_scene_from_data(self):
@@ -45,6 +52,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object2 = Object.Object("Sample")
         simple_object2.reset_pos((32, 0, 32))
         server_control2 = ServerControl(simple_object2)
+        server_control2.set_test_client(self.test_client)
         simple_object2.insert_game_logic_component("ObjectControl", server_control2)
         self.objects.append(simple_object2)
 
@@ -61,6 +69,10 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         ground1.reset_pos((256, 0, 256))
         self.objects.append(ground1)
     # def _init_scene_from_data
+
+    def kill(self):
+        self.test_client.shutdown()
+    # def kill
 
     def update(self):
         self._update_player_controller()

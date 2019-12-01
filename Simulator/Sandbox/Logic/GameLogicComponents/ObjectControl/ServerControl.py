@@ -13,8 +13,12 @@ class ServerControl(PlayerControl):
         super()._set_control_actor(actor)
 
         # test
-        self._cnt = 0
+        self._test_client = None
     # def __init__
+
+    def set_test_client(self, test_client):
+        self._test_client = test_client
+    # def set_test_client
 
     def update(self):        
         inputs = self._receive_network_inputs()
@@ -23,13 +27,7 @@ class ServerControl(PlayerControl):
 
     def _receive_network_inputs(self):
         # TODO : ネットワーク越しにキー入力を受信
-        return self.salieri_update()
-
-    # AIがネットワーク越しにキー入力をする処理の仮想実装
-    def salieri_update(self):
-        self._cnt = self._cnt +1
-        if self._cnt % 60 != 0:
-            return []
-        return [PlayerController.PlayerController.KEY_DOWN]
-    
+        if self._test_client != None:
+            return self._test_client.send_network_inputs()
+        return []
 # class ServerControl

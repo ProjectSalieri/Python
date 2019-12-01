@@ -26,6 +26,10 @@ class SandboxSimpleSceneBase:
         pass
     # def _init_scene_from_data
 
+    def kill(self):
+        pass
+    # def kill
+
     def update(self):
         pass
     # def update
