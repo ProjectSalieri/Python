@@ -34,6 +34,29 @@ class Object:
         self.game_logic_components[component_name] = component
     # def insert_game_logic_component
 
+    def send_msg(msg):
+        send_components = [
+            get_game_logic_component("Eat")
+        ]
+        for component in receive_components:
+            if component == None:
+                continue
+            component.send_msg(msg, self)
+    # def send_msg
+
+    def receive_msg(msg, send_actor):
+        receive_components = [
+            get_game_logic_component("Sense")
+        ]
+        for component in receive_components:
+            if component == None:
+                continue
+            if component.receive_msg(msg, send_actor) == True:
+                return True
+
+        return False
+    # def receive_msg
+
     def update(self):
         # Object共通コンポーネント
         for name, component in self.object_components.items():
