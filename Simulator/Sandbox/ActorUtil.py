@@ -10,6 +10,7 @@ from Logic.AI import IAI
 from Logic.Eat import IEat
 from Logic.Eat import IEatable
 from Logic.Physics import IPhysics
+from Logic.Sense import SenseKeeper
 
 #
 from Logic.GameLogicComponents.ObjectControl import AIFactory
@@ -41,7 +42,8 @@ class ActorUtil:
             component = None
             if component_name == "Physics":
                 component = IPhysics.IPhysics()
-            # if component_name
+            elif component_name == "Sense":
+                component = SenseKeeper.SenseKeeper()
 
             if component == None:
                 continue

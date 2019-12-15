@@ -71,8 +71,8 @@ class SalieriDebugger:
 
     def shutdown(self):
         print("SalieriDebugger shutdown")
-        self._process_queue.put(True)
-        self._process.join()
+#        self._process_queue.put(True)
+#        self._process.join()
     # def shutdown
 
 # class Salieri

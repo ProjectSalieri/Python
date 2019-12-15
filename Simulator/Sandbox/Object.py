@@ -22,6 +22,9 @@ class Object:
     def reset_pos(self, pos):
         self.get_object_component("Physics").reset_pos(pos)
 
+    def get_pos(self):
+        return self.get_object_component("Physics").get_pos()
+
     def get_object_component(self, component_name):
         return self.object_components.get(component_name)
     # get_object_component

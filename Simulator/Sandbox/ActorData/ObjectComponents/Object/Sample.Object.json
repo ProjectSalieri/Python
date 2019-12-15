@@ -5,6 +5,10 @@
 		"Physics" :
 		{
 			"SettingPath" : "Physics/Sample.Physics.json"
+		},
+		"Sense" :
+		{
+			"SettingPath" : "Sense/Sample.Sense.json"
 		}
 	}
 }

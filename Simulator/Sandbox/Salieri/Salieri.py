@@ -7,6 +7,8 @@ import threading
 
 from .SalieriVirtualScene import SalieriVirtualScene
 
+from Logic.Input import PlayerController
+
 # Debug
 from .SalieriDebugger import SalieriDebugger
 
@@ -17,11 +19,18 @@ class Salieri:
         self._update_thread = threading.Thread(target=self.update)
         self._virtual_scene = SalieriVirtualScene()
 
+        self._keys = []
+        self._actor = None
+
         self._debugger = SalieriDebugger(self._virtual_scene)
 
         self._stop_event.clear()
         self._update_thread.start()
     # def __init__
+
+    def set_control_actor(self, actor):
+        self._actor = actor
+    # set_control_actor
 
     def update(self):
         import time
@@ -38,9 +47,8 @@ class Salieri:
     # def update
 
     def send_network_inputs(self):
-        from Logic.Input import PlayerController
-
-        return [PlayerController.PlayerController.KEY_DOWN]
+        # Salieriの更新によるclearとタイミングあってない
+        return self._keys
     # def send_network_inputs
 
     def shutdown(self):
@@ -51,7 +59,25 @@ class Salieri:
     # def shutdown
 
     def _update_frame(self):
+        self._keys.clear()
+        
         self._virtual_scene.update()
+
+        eye_sense_objects = []
+        if self._actor != None:
+            eye_sense_objects = self._actor.get_object_component("Sense").try_get_eye_sensor().sense_objects
+        if len(eye_sense_objects) > 0:
+            eye_sense_object = eye_sense_objects[0]
+            diff = eye_sense_object.get_pos() - self._actor.get_pos()
+            if diff[0] > 0.0:
+                self._keys.append(PlayerController.PlayerController.KEY_RIGHT)
+            elif diff[0] < 0.0:
+                self._keys.append(PlayerController.PlayerController.KEY_LEFT)
+
+            if diff[2] < 0.0:
+                self._keys.append(PlayerController.PlayerController.KEY_UP)
+            elif diff[2] > 0.0:
+                self._keys.append(PlayerController.PlayerController.KEY_DOWN)                
 
         # デバッグ用
     # def _update_frame

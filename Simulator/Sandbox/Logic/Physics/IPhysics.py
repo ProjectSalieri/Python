@@ -6,6 +6,8 @@
 from . import ShapeCube
 from . import ShapeSphere
 
+import numpy as np
+
 class IPhysics:
 
     def __init__(self):
@@ -38,6 +40,10 @@ class IPhysics:
             self.shapes.append(shape)
         # for shape_settings
     # def init_from_setting
+
+    def get_pos(self):
+        # 互換
+        return np.array([self.pos[0], self.pos[1], self.pos[2]])
 
     def reset_pos(self, pos):
         self.velocity = (0.0, 0.0, 0.0)
