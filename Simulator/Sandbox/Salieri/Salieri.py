@@ -7,12 +7,17 @@ import threading
 
 from .SalieriVirtualScene import SalieriVirtualScene
 
+# Debug
+from .SalieriDebugger import SalieriDebugger
+
 class Salieri:
 
     def __init__(self):
         self._stop_event = threading.Event()
         self._update_thread = threading.Thread(target=self.update)
         self._virtual_scene = SalieriVirtualScene()
+
+        self._debugger = SalieriDebugger(self._virtual_scene)
 
         self._stop_event.clear()
         self._update_thread.start()
@@ -41,10 +46,14 @@ class Salieri:
     def shutdown(self):
         self._stop_event.set()
         self._update_thread.join(0.1)
+
+        self._debugger.shutdown()
     # def shutdown
 
     def _update_frame(self):
         self._virtual_scene.update()
+
+        # デバッグ用
     # def _update_frame
 
 # class Salieri

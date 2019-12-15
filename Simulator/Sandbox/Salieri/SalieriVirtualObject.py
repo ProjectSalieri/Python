@@ -8,6 +8,7 @@ class SalieriVirtualObject:
     def __init__(self, name):
         import Object
         self.object = Object.Object(name)
+        self.drawer = self.object.drawer
     # def __init__
 
     def get_object_component(self, component_name):
