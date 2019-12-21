@@ -24,6 +24,6 @@ class SimpleDrawer:
     # def init_from_setting
 
     def draw(self, pos, screen):
-        screen.blit(self.image, (pos[0], pos[2]))
+        screen.blit(self.image, (pos[0] - self.half_size[0], pos[2] - self.half_size[1]))
     # def draw
 # class IDraw
