@@ -11,7 +11,7 @@ class ObjectRegionDirectorBase:
         # 領域分割パラメータ
         self.range_x = (-10000.0, 10000.0)
         self.range_z = (-10000.0, 10000.0)
-        self.grid_size = (500.0, 0.0, 500.0)
+        self.grid_size = (500.0, 0.0, 1000.0)
         self.grid_num = (
             (int)((self.range_x[1]-self.range_x[0])/self.grid_size[0]),
             0,
@@ -59,13 +59,13 @@ class ObjectRegionDirectorBase:
     def _calc_index(self, pos, range_x, range_z, grid_size, center_pos):
         tmp_x = pos[0] - (center_pos[0]+range_x[0])
         if tmp_x >= 0.0:
-            idx_x = (int)(tmp_x / grid_size[0])
+            idx_x = (int)(tmp_x / (range_x[1]-range_x[0]))
         else:
             idx_x = 0
 
         tmp_z = pos[2] - (center_pos[2]+range_z[0])
         if tmp_z >= 0.0:
-            idx_z = (int)(tmp_z / grid_size[2])
+            idx_z = (int)(tmp_z / (range_z[1]-range_z[0]))
         else:
             idx_z = 0
 

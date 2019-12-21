@@ -55,8 +55,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         server_control2 = ServerControl(simple_object2)
         server_control2.set_test_client(self.test_client)
         simple_object2.insert_game_logic_component("ObjectControl", server_control2)
-        self.objects.append(simple_object2)
         self.test_client.set_control_actor(simple_object2)
+        self.objects.append(simple_object2)
 
         simple_object3 = Object.Object("Apple")
         simple_object3.reset_pos((80, 0, 80))
