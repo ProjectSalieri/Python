@@ -17,7 +17,6 @@ class ShapeCube(ShapeBase.ShapeBase):
 
         size_setting = setting["Size"]
         self.half_size = (float(size_setting["WidthX"]), float(size_setting["Height"]), float(size_setting["WidthZ"]))
-
     # def __init__
 
     def get_shape_type(self):
