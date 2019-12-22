@@ -9,6 +9,10 @@
 		"Sense" :
 		{
 			"SettingPath" : "Sense/Sample.Sense.json"
+		},
+		"Life" :
+		{
+			"SettingPath" : "Life/Sample.Life.json"
 		}
 	}
 }

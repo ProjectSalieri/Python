@@ -12,7 +12,7 @@ class ILife:
     # def __init__
 
     def init_from_setting(self, setting):
-        pass
+        self._dulability = setting["Dulability"]
     # def init_from_setting
 
     def is_dead(self):
