@@ -151,7 +151,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         player = self.player_objects[0]
         player_hp = player.get_object_component("Life").get_dulability()
         player_hp = (int)(player_hp/100)*100 # 100以下の変化は見せない
-        screen.blit(font.render("%d" % (player_hp), True, (0, 255, 0)) , [10, 10])
+        is_pinch = player_hp < 2000
+        screen.blit(font.render("%d" % (player_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 10])
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
