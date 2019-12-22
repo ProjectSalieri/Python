@@ -19,6 +19,10 @@ class ILife:
         return self._is_dead
     # is_dead
 
+    def get_dulability(self):
+        return self._dulability
+    # get_dulability
+
     def add_life(self, value):
         self._dulability = self._dulability + value
     # def add_life

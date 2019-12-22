@@ -2,6 +2,6 @@
 	"Type" : "Food",
 	"Effect" :
 	{
-		"Dulability" : 20
+		"Dulability" : 200
 	}
 }

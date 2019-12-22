@@ -106,6 +106,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     def draw(self, screen):
         drawer = SandboxSceneDrawer()
         drawer.draw(screen, self.objects, self.game_camera.look_at_pos)
+
+        self._draw_layout(screen)
     # def draw
 
     def _update_player_controller(self):
@@ -141,6 +143,15 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     def _pre_draw(self, screen):
         self.game_camera.pre_draw(screen)
     # def _pre_draw
+
+    def _draw_layout(self, screen):
+        font = pygame.font.Font(None, 40)
+
+        # プレイヤー情報
+        player = self.player_objects[0]
+        player_hp = player.get_object_component("Life").get_dulability()
+        player_hp = (int)(player_hp/100)*100 # 100以下の変化は見せない
+        screen.blit(font.render("%d" % (player_hp), True, (0, 255, 0)) , [10, 10])
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
