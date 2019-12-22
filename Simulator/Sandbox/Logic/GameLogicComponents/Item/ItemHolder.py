@@ -28,11 +28,38 @@ class ItemHolder:
         self._items[item_name] += 1
     # def add_item
 
+    def use_item(self, item_name, target):
+        item_num = self._items.get(item_name)
+        if item_num == None or item_num <= 0:
+            return False
+        self._items[item_name] -= 1
+
+        item_param = self._get_item_param(item_name)
+        item_effect = item_param.get("Effect")
+        if item_effect.get("Dulability") != None:
+            life_component = target.get_object_component("Life")
+            if life_component != None:
+                life_component.add_life(item_effect["Dulability"])
+            # Dulability
+
+        return True
+    # def use_item
+
     def update(self):
         pass
 
     def post_update(self):
         pass
+
+    def _get_item_param(self, item_name):
+        import os, json
+        item_jsons_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "Data", "Item"))
+        item_json = os.path.join(item_jsons_dir, ("%s.Item.json" % item_name))
+        item_param = None
+        with open(item_json) as f:
+            item_param = json.load(f)
+        return item_param
+    # def _get_item_param
 
 # class ItemHolder
 

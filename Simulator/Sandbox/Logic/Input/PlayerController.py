@@ -10,6 +10,7 @@ class PlayerController:
     KEY_DOWN = 3
     KEY_LEFT = 4
     KEY_A = 5
+    KEY_U = 25
 
     def __init__(self):
         self.inputs = []

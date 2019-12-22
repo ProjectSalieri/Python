@@ -131,6 +131,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
             self.player_controller.input(PlayerController.PlayerController.KEY_DOWN)
         elif pressed_key[K_a]:
             self.player_controller.input(PlayerController.PlayerController.KEY_A)
+        elif pressed_key[K_u]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_U)
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 pass

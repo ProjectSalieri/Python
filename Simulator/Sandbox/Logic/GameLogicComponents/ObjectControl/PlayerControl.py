@@ -59,6 +59,11 @@ class PlayerControl:
                 item_holder = self._control_actor.get_game_logic_component("ItemHolder")
                 if item_holder != None:
                     item_holder.set_is_item_get_action()
+            elif input == PlayerController.PlayerController.KEY_U:
+                item_holder = self._control_actor.get_game_logic_component("ItemHolder")
+                if item_holder != None:
+                    # test
+                    item_holder.use_item("Apple", self._control_actor)
 
         if action_name == "Move":
             param = { "Speed" : speed, "Dir" : player_dir }

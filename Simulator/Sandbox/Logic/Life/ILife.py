@@ -21,6 +21,7 @@ class ILife:
 
     def add_life(self, value):
         self._dulability = self._dulability + value
+    # def add_life
 
     def update(self):
         if self._is_dead == True:
