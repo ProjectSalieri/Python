@@ -10,6 +10,8 @@ from Logic.Physics import PhysicsDirector
 from Logic.System.ObjectUpdateDirector import ObjectUpdateDirector
 from Logic.System.ObjectSenseDirector import ObjectSenseDirector
 
+from Logic.System.MetaAI import MetaAI
+
 class SandboxSimpleSceneBase:
 
     def __init__(self):
@@ -22,6 +24,8 @@ class SandboxSimpleSceneBase:
         self.object_udpate_director = ObjectUpdateDirector()
         self.physics_director = PhysicsDirector.PhysicsDirector()
         self.sensor_director = SensorDirector.SensorDirector()
+
+        self.meta_ai = MetaAI()
     # def __init__
 
     def _init_scene_from_data(self):
@@ -37,6 +41,8 @@ class SandboxSimpleSceneBase:
     # def update
 
     def _update_common(self, center_pos):
+        self.meta_ai.update(self.objects, center_pos)
+        
         self.object_sense_director.update(self.objects, center_pos)
         
         self.object_udpate_director.update(self.objects, center_pos)
