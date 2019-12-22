@@ -8,6 +8,9 @@ from ActorUtil import ActorUtil
 class Object:
 
     def __init__(self, name):
+        import random, datetime
+        self.object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
+        
         # 初期化ファイル
         actor_setting = ActorUtil.load_actor_setting(name)
 
