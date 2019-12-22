@@ -18,6 +18,8 @@ class Object:
         self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
         self.game_logic_components = ActorUtil.create_game_logic_components(actor_setting, self)
 
+        self._is_dead = False
+
         self.drawer = self.game_data_components["Draw"]
 
     # def __init__
@@ -28,7 +30,13 @@ class Object:
     def get_pos(self):
         return self.get_object_component("Physics").get_pos()
 
+    def kill(self):
+        self._is_dead = True
+
     def is_dead(self):
+        if self._is_dead == True:
+            return True
+        
         life_component = self.get_object_component("Life")
         if life_component == None:
             return False

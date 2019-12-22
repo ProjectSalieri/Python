@@ -6,6 +6,7 @@
 	},
 	"GameLogicComponents" :
 	{
+		"Item" : "Item/Apple.Item.json",
 		"Sensor" : "Sensor/Apple.Sensor.json"
 	},
 	"GameDataComponents" :

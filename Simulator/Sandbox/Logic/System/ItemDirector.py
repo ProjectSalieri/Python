@@ -44,8 +44,9 @@ class ItemDirector(ObjectRegionDirectorBase):
         if item_holder.is_item_get_action() == False:
             return False
 
-        print("get item")
-        item = obj2.get_game_logic_component("Item")
+        item_component = obj2.get_game_logic_component("Item")
+        if item_component == None:
+            return False
 
         diff = obj1.get_pos() - obj2.get_pos()
         dist = np.linalg.norm(diff)
@@ -54,7 +55,10 @@ class ItemDirector(ObjectRegionDirectorBase):
         if dist > 50:
             return False
 
-        item_holder.add_item(item)
+        item_name = item_component.get_item_name()
+        obj2.kill()
+
+        item_holder.add_item(item_name)
 
     # def _try_get_item
 

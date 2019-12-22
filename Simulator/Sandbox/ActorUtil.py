@@ -14,6 +14,7 @@ from Logic.Physics import IPhysics
 from Logic.Sense import SenseKeeper
 
 #
+from Logic.GameLogicComponents.Item import IItem
 from Logic.GameLogicComponents.ObjectControl import AIFactory
 from Logic.GameLogicComponents.Sensor import ISensor
 
@@ -77,6 +78,10 @@ class ActorUtil:
                     logic_components[component_name] = object_ctonrol
             elif component_name == "Sensor":
                 component = ISensor.ISensor()
+                component.init_from_setting(component_setting)
+                logic_components[component_name] = component
+            elif component_name == "Item":
+                component = IItem.IItem()
                 component.init_from_setting(component_setting)
                 logic_components[component_name] = component
         # for
