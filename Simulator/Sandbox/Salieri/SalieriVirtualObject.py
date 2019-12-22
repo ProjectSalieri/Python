@@ -11,8 +11,17 @@ class SalieriVirtualObject:
         self.drawer = self.object.drawer
     # def __init__
 
+    def is_dead(self):
+        return self.object.is_dead()
+
+    def get_pos(self):
+        return self.object.get_pos()
+
     def get_object_component(self, component_name):
         return self.object.get_object_component(component_name)
+
+    def get_game_logic_component(self, component_name):
+        return self.object.get_game_logic_component(component_name)
 
     def update(self):
         self.object.update()

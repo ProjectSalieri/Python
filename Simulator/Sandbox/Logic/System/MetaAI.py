@@ -14,11 +14,15 @@ class MetaAI(ObjectRegionDirectorBase):
     # def __init__
 
     def update(self, objects, center_pos):
-        super().update(objects, center_pos)
+        new_object_list = [obj for obj in objects if obj.is_dead() == False]
+        
+        super().update(new_object_list, center_pos)
 
         add_objects = self._generate(objects)
         for obj in add_objects:
-            objects.append(obj)
+            new_object_list.append(obj)
+
+        return new_object_list
 
     def _update_region(self, objs_in_region):
         pass

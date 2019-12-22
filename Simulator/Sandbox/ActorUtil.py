@@ -9,6 +9,7 @@ import os
 from Logic.AI import IAI
 from Logic.Eat import IEat
 from Logic.Eat import IEatable
+from Logic.Life import ILife
 from Logic.Physics import IPhysics
 from Logic.Sense import SenseKeeper
 
@@ -40,7 +41,9 @@ class ActorUtil:
         settings = ActorUtil.load_component_setting("", setting["SettingPath"])
         for component_name in settings["Components"]:
             component = None
-            if component_name == "Physics":
+            if component_name == "Life":
+                component = ILife.ILife()
+            elif component_name == "Physics":
                 component = IPhysics.IPhysics()
             elif component_name == "Sense":
                 component = SenseKeeper.SenseKeeper()

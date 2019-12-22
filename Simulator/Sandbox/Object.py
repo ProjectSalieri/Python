@@ -28,6 +28,12 @@ class Object:
     def get_pos(self):
         return self.get_object_component("Physics").get_pos()
 
+    def is_dead(self):
+        life_component = self.get_object_component("Life")
+        if life_component == None:
+            return False
+        return life_component.is_dead()
+
     def get_object_component(self, component_name):
         return self.object_components.get(component_name)
     # get_object_component

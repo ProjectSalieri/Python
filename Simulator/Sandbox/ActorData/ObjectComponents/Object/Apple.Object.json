@@ -5,6 +5,10 @@
 		"Physics" :
 		{
 			"SettingPath" : "Physics/Apple.Physics.json"
+		},
+		"Life" :
+		{
+			"SettingPath" : "Life/Apple.Life.json"
 		}
 	}
 }

@@ -12,6 +12,7 @@ import Object
 import PlayerObject
 
 from Logic.Input import PlayerController
+from Logic.System.MetaAI import MetaAI
 
 # Serverロジック
 from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
@@ -40,6 +41,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         # GraphicsSystem
         self.game_camera = GameCamera()
         self.game_camera.set_player_objects(self.player_objects)
+
+        self.meta_ai = MetaAI()
         
     # def __init__
 
@@ -76,11 +79,14 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         self.test_client.shutdown()
     # def kill
 
-    def update(self):
+    def update(self):        
         self._update_player_controller()
 
         for player in self.player_objects:
             center_pos = player.get_object_component("Physics").pos
+
+            self.objects = self.meta_ai.update(self.objects, center_pos)
+            
             self._update_common(center_pos)
     # def update
 
