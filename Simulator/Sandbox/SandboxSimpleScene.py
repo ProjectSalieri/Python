@@ -109,9 +109,18 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     # def draw
 
     def _update_player_controller(self):
+        pressed_key = pygame.key.get_pressed()
+        if pressed_key[K_m]:
+            print("Menu Open")
+            for player in self.player_objects:
+                item_holder = player.get_game_logic_component("ItemHolder")
+                for item_name, item_num in item_holder._items.items():
+                    print(item_name + ":" + str(item_num))
+            return False
+        
+        
         # キー解決
         self.player_controller.clear()
-        pressed_key = pygame.key.get_pressed()
         if pressed_key[K_LEFT]:
             self.player_controller.input(PlayerController.PlayerController.KEY_LEFT)
         elif pressed_key[K_RIGHT]:

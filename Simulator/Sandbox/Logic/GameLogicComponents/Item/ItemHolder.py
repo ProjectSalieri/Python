@@ -6,7 +6,7 @@
 class ItemHolder:
 
     def __init__(self):
-        self._items = []
+        self._items = {}
         self._is_item_get_action = False
     # def __init__
 
@@ -22,8 +22,10 @@ class ItemHolder:
         self._is_item_get_action = False
     # def reset_flags
 
-    def add_item(self, item):
-        self._items.append(item)
+    def add_item(self, item_name):
+        if self._items.get(item_name) == None:
+            self._items[item_name] = 0
+        self._items[item_name] += 1
     # def add_item
 
     def update(self):
