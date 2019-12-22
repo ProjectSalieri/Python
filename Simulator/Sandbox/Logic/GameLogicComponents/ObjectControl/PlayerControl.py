@@ -55,6 +55,10 @@ class PlayerControl:
                 player_dir[2] = 1.0
                 speed = 1.0
                 action_name = "Move"
+            elif input == PlayerController.PlayerController.KEY_A:
+                item_holder = self._control_actor.get_game_logic_component("ItemHolder")
+                if item_holder != None:
+                    item_holder.set_is_item_get_action()
 
         if action_name == "Move":
             param = { "Speed" : speed, "Dir" : player_dir }

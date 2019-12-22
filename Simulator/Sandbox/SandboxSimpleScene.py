@@ -12,6 +12,8 @@ import Object
 import PlayerObject
 
 from Logic.Input import PlayerController
+from Logic.System import ItemDirector
+from Logic.GameLogicComponents.Item import ItemHolder
 from Logic.System.MetaAI import MetaAI
 
 # Serverロジック
@@ -36,6 +38,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         # test
         self.test_client = Salieri.Salieri()
 
+        self.item_director = ItemDirector.ItemDirector()
+
         super().__init__()
 
         # GraphicsSystem
@@ -50,6 +54,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 0, 32)
         simple_object.set_controller(self.player_controller)
+        simple_object.insert_game_logic_component("ItemHolder", ItemHolder.ItemHolder())
         self.objects.append(simple_object)
         self.player_objects.append(simple_object)
 
@@ -73,6 +78,9 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         ground1 = Object.Object("IceGround")
         ground1.reset_pos((256, 0, 256))
         self.objects.append(ground1)
+
+        self.item_director.add_item_holdable_object(simple_object)
+        self.item_director.add_item_holdable_object(simple_object2)
     # def _init_scene_from_data
 
     def kill(self):
@@ -88,6 +96,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
             self.objects = self.meta_ai.update(self.objects, center_pos)
             
             self._update_common(center_pos)
+
+            self.item_director.update(self.objects, center_pos)
     # def update
 
     def pre_draw(self, screen):
@@ -110,6 +120,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
             self.player_controller.input(PlayerController.PlayerController.KEY_UP)
         elif pressed_key[K_DOWN]:
             self.player_controller.input(PlayerController.PlayerController.KEY_DOWN)
+        elif pressed_key[K_a]:
+            self.player_controller.input(PlayerController.PlayerController.KEY_A)
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 pass

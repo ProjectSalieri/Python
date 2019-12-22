@@ -1,0 +1,7 @@
+{
+	"Type" : "Food",
+	"Effect" :
+	{
+		"Dulability" : 20
+	}
+}
