@@ -33,9 +33,10 @@ class MetaAI(ObjectRegionDirectorBase):
 
         if len(objects) > 10:
             return add_objects
-            
+
+        import random
         object = Object.Object("Apple")
-        object.reset_pos((100, 0, 100))
+        object.reset_pos((100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
         add_objects.append(object)
 
         return add_objects
