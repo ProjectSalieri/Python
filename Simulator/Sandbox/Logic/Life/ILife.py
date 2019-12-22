@@ -8,7 +8,7 @@ class ILife:
     def __init__(self):
         self._is_dead = False
 
-        self.cnt = 0
+        self._dulability = 1000
     # def __init__
 
     def init_from_setting(self, setting):
@@ -19,13 +19,17 @@ class ILife:
         return self._is_dead
     # is_dead
 
+    def add_life(self, value):
+        self._dulability = self._dulability + value
+
     def update(self):
         if self._is_dead == True:
             return True
 
-        # test
-        self.cnt = self.cnt + 1
-        if self.cnt > 1000:
+        # test TODO : マテリアルと環境の組み合わせで減少
+        self._dulability = self._dulability - 1
+
+        if self._dulability < 0:
             self._is_dead = True
     # def update
 

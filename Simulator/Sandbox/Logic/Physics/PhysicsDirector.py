@@ -83,6 +83,16 @@ class PhysicsDirector(ObjectRegionDirectorBase):
                                   (2.0*m1*vel1[2] + (m2-m1)*vel2[2])/sum_m ])
             physics1.velocity = new_vel1
             physics2.velocity = new_vel2
+
+        # マテリアル(Hardness)を考慮した衝突によるLife減少
+        if is_hit_any == True:
+            life_component1 = obj1.get_object_component("Life")
+            if life_component1 != None:
+                life_component1.add_life(-1)
+
+            life_component2 = obj1.get_object_component("Life")
+            if life_component2 != None:
+                life_component2.add_life(-1)
     # def _update_obj_physics
 
     def _apply_obj_physics(self, obj):

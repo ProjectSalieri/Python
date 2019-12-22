@@ -1,4 +1,4 @@
 {
-	"Hardness" : 1,
-	"Density" : 1
+	"Physics" : "Physics/NormalFruit.Physics.json",
+	"Chemical" : "Chemical/NormalFruit.Chemical.json"
 }
