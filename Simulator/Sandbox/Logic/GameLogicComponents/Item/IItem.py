@@ -17,6 +17,11 @@ class IItem:
         return self._item_name
     # def get_item_name
 
+    # 状態によって取得不可とか実装
+    def is_enable_get(self):
+        return True
+    # is_enable_get
+
     def update(self):
         pass
 

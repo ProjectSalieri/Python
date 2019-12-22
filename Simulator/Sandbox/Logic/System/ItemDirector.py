@@ -47,6 +47,8 @@ class ItemDirector(ObjectRegionDirectorBase):
         item_component = obj2.get_game_logic_component("Item")
         if item_component == None:
             return False
+        if item_component.is_enable_get() == False:
+            return False
 
         diff = obj1.get_pos() - obj2.get_pos()
         dist = np.linalg.norm(diff)
