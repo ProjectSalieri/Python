@@ -6,13 +6,10 @@
 	},
 	"GameLogicComponents" :
 	{
-		"ObjectControl" : "ObjectControl/SampleMoveAI.ObjectControl.json",
-		"Sensor" : "Sensor/Sample.Sensor.json"
+		"ObjectControl" : "ObjectControl/SampleMoveAI.ObjectControl.json"
 	},
 	"GameDataComponents" :
 	{
-		"Draw" : "Draw/Sample.Draw.json",
-		"Eat" : "Eat/Sample.Eat.json",
-		"Sensor" : "Sensor/Sample.Sensor.json"
+		"Draw" : "Draw/Sample.Draw.json"
 	}
 }

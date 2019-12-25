@@ -7,8 +7,6 @@ import json
 import os
 
 from Logic.AI import IAI
-from Logic.Eat import IEat
-from Logic.Eat import IEatable
 from Logic.Life import ILife
 from Logic.Physics import IPhysics
 from Logic.Sense import SenseKeeper
@@ -121,3 +119,4 @@ class ActorUtil:
     # def _actor_data_dir
 
 # class ActorUtil
+

@@ -6,13 +6,10 @@
 	},
 	"GameLogicComponents" :
 	{
-		"Item" : "Item/Apple.Item.json",
-		"Sensor" : "Sensor/Apple.Sensor.json"
+		"Item" : "Item/Apple.Item.json"
 	},
 	"GameDataComponents" :
 	{
-		"Draw" : "Draw/Apple.Draw.json",
-		"Eatable" : "Eatable/Apple.Eatable.json",
-		"Sensor" : "Sensor/Apple.Sensor.json"
+		"Draw" : "Draw/Apple.Draw.json"
 	}
 }
