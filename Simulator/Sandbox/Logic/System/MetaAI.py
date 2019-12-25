@@ -31,7 +31,7 @@ class MetaAI(ObjectRegionDirectorBase):
     def _generate(self, objects):
         add_objects = []
 
-        if len(objects) > 10:
+        if len(objects) > 7:
             return add_objects
 
         import random
