@@ -4,6 +4,7 @@
 # @note
 
 from ...Input import PlayerController
+from ..CharacterAction.GetItemAction import GetItemAction
 from ..CharacterAction.SimpleMove import SimpleMove
 
 class PlayerControl:
@@ -32,6 +33,7 @@ class PlayerControl:
         self._control_actor = actor
 
         self._actions["Move"] = SimpleMove(actor)
+        self._actions["GetItem"] = GetItemAction(actor)
     # def _set_control_actor
 
     def _update_core(self, inputs):
@@ -56,9 +58,7 @@ class PlayerControl:
                 speed = 1.0
                 action_name = "Move"
             elif input == PlayerController.PlayerController.KEY_A:
-                item_holder = self._control_actor.get_game_logic_component("ItemHolder")
-                if item_holder != None:
-                    item_holder.set_is_item_get_action()
+                action_name = "GetItem"
             elif input == PlayerController.PlayerController.KEY_U:
                 item_holder = self._control_actor.get_game_logic_component("ItemHolder")
                 if item_holder != None:
@@ -68,6 +68,9 @@ class PlayerControl:
         if action_name == "Move":
             param = { "Speed" : speed, "Dir" : player_dir }
             self._actions[action_name].set_action_param(param)
+            self._actions[action_name].update()
+        elif action_name == "GetItem":
+            self._actions[action_name].set_action_param({"IsTriggerGetItem" : True})
             self._actions[action_name].update()
     
 # class PlayerControl

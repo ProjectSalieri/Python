@@ -13,7 +13,6 @@ import PlayerObject
 
 from Logic.Input import PlayerController
 from Logic.System import ItemDirector
-from Logic.GameLogicComponents.Item import ItemHolder
 from Logic.System.MetaAI import MetaAI
 
 # Serverロジック
@@ -54,7 +53,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 0, 32)
         simple_object.set_controller(self.player_controller)
-        simple_object.insert_game_logic_component("ItemHolder", ItemHolder.ItemHolder())
+        #simple_object.insert_game_logic_component("ItemHolder", ItemHolder.ItemHolder())
         self.objects.append(simple_object)
         self.player_objects.append(simple_object)
 
