@@ -11,6 +11,8 @@ class MetaAI(ObjectRegionDirectorBase):
 
     def __init__(self):
         super().__init__()
+
+        self._count = 0
     # def __init__
 
     def update(self, objects, center_pos):
@@ -31,6 +33,35 @@ class MetaAI(ObjectRegionDirectorBase):
     def _generate(self, objects):
         add_objects = []
 
+        self._count = self._count + 1
+        if self._count < 300:
+            return add_objects
+        else:
+            self._count = 0
+
+        add_objects += self._generate_food(objects)
+        add_objects += self._generate_enemy(objects)
+
+        return add_objects
+    # def _generate
+
+    def _generate_enemy(self, objects):
+        add_objects = []
+
+        if len(objects) > 7:
+            return add_objects
+
+        import random
+        object = Object.Object("SampleEnemy")
+        object.reset_pos((100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
+        add_objects.append(object)
+
+        return add_objects
+    # def _generate_enemy
+
+    def _generate_food(self, objects):
+        add_objects = []
+
         if len(objects) > 7:
             return add_objects
 
@@ -40,6 +71,7 @@ class MetaAI(ObjectRegionDirectorBase):
         add_objects.append(object)
 
         return add_objects
+    # def _generate_food
 
 if __name__ == "__main__":
     pass
