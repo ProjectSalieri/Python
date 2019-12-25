@@ -3,6 +3,7 @@
 # @file AIFactory
 # @note
 
+from . import SampleEnemyAI
 from . import SampleMoveAI
 
 class AIFactory:
@@ -15,6 +16,8 @@ class AIFactory:
         class_name = setting["Class"]
         if class_name == "PlayerControl":
             return None
+        elif class_name == "SampleEnemyAI":
+            return SampleEnemyAI.SampleEnemyAI(actor)
         elif class_name == "SampleMoveAI":
             return SampleMoveAI.SampleMoveAI(actor)
         else:
