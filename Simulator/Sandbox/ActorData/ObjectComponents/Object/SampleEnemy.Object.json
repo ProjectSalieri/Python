@@ -12,7 +12,7 @@
 		},
 		"Life" :
 		{
-			"SettingPath" : "Life/Sample.Life.json"
+			"SettingPath" : "Life/SampleEnemy.Life.json"
 		}
 	}
 }

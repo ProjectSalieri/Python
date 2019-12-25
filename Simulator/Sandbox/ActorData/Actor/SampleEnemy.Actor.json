@@ -1,0 +1,15 @@
+{
+	"Name" : "Sample",
+	"ObjectComponents":
+	{
+		"SettingPath" : "ObjectComponents/Object/SampleEnemy.Object.json"
+	},
+	"GameLogicComponents" :
+	{
+		"ObjectControl" : "ObjectControl/SampleEnemyAI.ObjectControl.json"
+	},
+	"GameDataComponents" :
+	{
+		"Draw" : "Draw/SampleEnemy.Draw.json"
+	}
+}

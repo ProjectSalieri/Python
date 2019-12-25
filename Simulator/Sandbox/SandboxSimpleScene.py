@@ -74,6 +74,10 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object4.reset_pos((128, 0, 128))
         self.objects.append(simple_object4)
 
+        simple_object5 = Object.Object("SampleEnemy")
+        simple_object5.reset_pos((200, 0, 200))
+        self.objects.append(simple_object5)
+
         
         ground1 = Object.Object("IceGround")
         ground1.reset_pos((256, 0, 256))
