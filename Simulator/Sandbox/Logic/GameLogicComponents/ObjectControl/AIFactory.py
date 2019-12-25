@@ -14,10 +14,14 @@ class AIFactory:
 
     def create_ai_component_from_setting(self, setting, actor):
         class_name = setting["Class"]
+        parameter = {}
+        if setting.get("Parameter") != None:
+            parameter = setting.get("Parameter")
+        
         if class_name == "PlayerControl":
             return None
         elif class_name == "SampleEnemyAI":
-            return SampleEnemyAI.SampleEnemyAI(actor)
+            return SampleEnemyAI.SampleEnemyAI(actor, parameter)
         elif class_name == "SampleMoveAI":
             return SampleMoveAI.SampleMoveAI(actor)
         else:

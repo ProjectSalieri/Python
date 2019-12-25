@@ -7,15 +7,18 @@ from ..CharacterAction import SimpleMove
 
 import numpy as np
 
+# Parameter定義
+# MoveSpeed : 
+
 class SampleEnemyAI:
 
     SAMPLE_ENEMY_STATE_WANDER = 0
     SAMPLE_ENEMY_STATE_MOVE_TO_ITEM = 1
 
-    def __init__(self, host_actor):
+    def __init__(self, host_actor, parameter):
         self._actor = host_actor
 
-        self._param = {"MoveSpeed" : 0.8}
+        self._param = parameter
 
         self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER
         self.actions = {"Move" : SimpleMove.SimpleMove(host_actor)}

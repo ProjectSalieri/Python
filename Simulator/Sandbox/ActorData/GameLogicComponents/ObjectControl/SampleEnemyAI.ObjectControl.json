@@ -1,3 +1,7 @@
 {
-	"Class" : "SampleEnemyAI"
+	"Class" : "SampleEnemyAI",
+	"Parameter" : 
+	{
+		"MoveSpeed" : 0.8
+	}
 }
