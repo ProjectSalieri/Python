@@ -152,7 +152,13 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         player_hp = player.get_object_component("Life").get_dulability()
         player_hp = (int)(player_hp/100)*100 # 100以下の変化は見せない
         is_pinch = player_hp < 2000
-        screen.blit(font.render("%d" % (player_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 10])
+        screen.blit(font.render("P : %d" % (player_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 10])
+
+        # salieri
+        salieri_actor = self.test_client._actor
+        salieri_hp = salieri_actor.get_object_component("Life").get_dulability()
+        salieri_hp = (int)(salieri_hp/100)*100 # 100以下の変化は見せない        
+        screen.blit(font.render("S : %d" % (salieri_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 35])
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
