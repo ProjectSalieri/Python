@@ -14,7 +14,9 @@ class SampleEnemyAI:
 
     def __init__(self, host_actor):
         self._actor = host_actor
-        self.counter = 0
+
+        self._param = {"MoveSpeed" : 0.8}
+
         self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER
         self.actions = {"Move" : SimpleMove.SimpleMove(host_actor)}
         self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) })
@@ -52,7 +54,7 @@ class SampleEnemyAI:
 
         if target_dir[0] != 0.0 or target_dir[2] != 0.0:
             self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_MOVE_TO_ITEM
-            self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (target_dir[0], target_dir[1], target_dir[2]) })
+            self.actions["Move"].set_action_param({"Speed" : self._param["MoveSpeed"], "Dir" : (target_dir[0], target_dir[1], target_dir[2]) })
         else:
             # Stop
             self.actions["Move"].set_action_param({"Speed" : 0.0, "Dir" : (0.0, 0.0, 0.0) })
