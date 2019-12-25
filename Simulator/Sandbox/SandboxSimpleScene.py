@@ -53,7 +53,6 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 0, 32)
         simple_object.set_controller(self.player_controller)
-        #simple_object.insert_game_logic_component("ItemHolder", ItemHolder.ItemHolder())
         self.objects.append(simple_object)
         self.player_objects.append(simple_object)
 

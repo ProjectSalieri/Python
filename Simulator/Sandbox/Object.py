@@ -16,7 +16,13 @@ class Object:
 
         self.object_components = ActorUtil.create_object_components(actor_setting)
         self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
+        
+        self._inserted_game_logic_components = {} # GameLogicComponents同士で依存があるので最後にマージ
+        self.game_logic_components = {}
         self.game_logic_components = ActorUtil.create_game_logic_components(actor_setting, self)
+        # GameLogicComponentsが別のGameLogicComponentsを生成している場合のマージ
+        for component_name, component in self._inserted_game_logic_components.items():
+            self.game_logic_components[component_name] = component
 
         self._is_dead = False
 
@@ -51,7 +57,7 @@ class Object:
     # get_game_logic_component
 
     def insert_game_logic_component(self, component_name, component):
-        self.game_logic_components[component_name] = component
+        self._inserted_game_logic_components[component_name] = component
     # def insert_game_logic_component
 
     def send_msg(msg):

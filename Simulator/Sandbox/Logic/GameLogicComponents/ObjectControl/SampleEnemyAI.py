@@ -3,6 +3,7 @@
 # @file SampleMove.py
 # @note
 
+from ..CharacterAction import GetItemAction
 from ..CharacterAction import SimpleMove
 
 import numpy as np
@@ -14,6 +15,7 @@ class SampleEnemyAI:
 
     SAMPLE_ENEMY_STATE_WANDER = 0
     SAMPLE_ENEMY_STATE_MOVE_TO_ITEM = 1
+    SAMPLE_ENEMY_STATE_GET_ITEM = 2
 
     def __init__(self, host_actor, parameter):
         self._actor = host_actor
@@ -21,7 +23,11 @@ class SampleEnemyAI:
         self._param = parameter
 
         self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER
-        self.actions = {"Move" : SimpleMove.SimpleMove(host_actor)}
+        self._item_get_counter = 0
+
+        self.actions = {"Move" : SimpleMove.SimpleMove(host_actor),
+                        "GetItem" : GetItemAction.GetItemAction(host_actor)
+        }
         self.actions["Move"].set_action_param({"Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) })
         pass
     # def __init__
@@ -43,6 +49,8 @@ class SampleEnemyAI:
             target_object = item_objects[0]
             diff = target_object.get_pos() - self._actor.get_pos()
             if np.linalg.norm(diff) > 50.0:
+                self._item_get_counter = 0
+                
                 if diff[0] > 0.0:
                     target_dir[0] = 1.0
                 elif diff[0] < 0.0:
@@ -52,7 +60,11 @@ class SampleEnemyAI:
                     target_dir[2] = -1.0
                 elif diff[2] > 0.0:
                     target_dir[2] = 1.0
+            else:
+                self._item_get_counter += 1
             # if np.linalg.norm
+        else:
+            self._item_get_counter = 0
         # if len(item_objects)
 
         if target_dir[0] != 0.0 or target_dir[2] != 0.0:
@@ -61,14 +73,24 @@ class SampleEnemyAI:
         else:
             # Stop
             self.actions["Move"].set_action_param({"Speed" : 0.0, "Dir" : (0.0, 0.0, 0.0) })
-            
-            self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER
+
+            if self._item_get_counter < 120:
+                self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER
+            else:
+                self._item_get_counter = 0
+                self._state = SampleEnemyAI.SAMPLE_ENEMY_STATE_GET_ITEM
+                self.actions["GetItem"].set_action_param({"IsTriggerGetItem" : True})
+                
         # if dir
 
         if self._state == SampleEnemyAI.SAMPLE_ENEMY_STATE_MOVE_TO_ITEM:
             self.actions["Move"].update()
-        elif self._state == SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER:
+        else:
             self.actions["Move"].update() # for stop
+            if self._state == SampleEnemyAI.SAMPLE_ENEMY_STATE_GET_ITEM:
+                self.actions["GetItem"].update()
+            elif self._state == SampleEnemyAI.SAMPLE_ENEMY_STATE_WANDER:
+                self.actions["Move"].update() # for stop
         # if self._state
     # def update
 
