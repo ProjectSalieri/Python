@@ -16,7 +16,7 @@ class PlayerObject(Object.Object):
     def set_controller(self, controller):
         actor_control_component = PlayerControl()
         actor_control_component.set_control_actor(self, controller)
-        self.game_logic_components["ObjectControl"] = actor_control_component
+        self.insert_game_logic_component("ObjectControl", actor_control_component)
     # def set_controller
 
     def update(self):        
