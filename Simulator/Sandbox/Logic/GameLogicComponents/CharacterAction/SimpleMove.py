@@ -11,6 +11,14 @@ class SimpleMove:
         self.param = { "Speed" : 1.0, "Dir" : (1.0, 0.0, 0.0) }
     # def __init__
 
+    def is_end(self):
+        return self.param["Speed"] == None or self.param["Speed"] < 0.0000001
+    # def is_end
+
+    def get_execute_parts(self):
+        return ["Lower"]
+    # def get_execute_parts
+
     def set_action_param(self, param):
         self.param = param
     # set_action_param

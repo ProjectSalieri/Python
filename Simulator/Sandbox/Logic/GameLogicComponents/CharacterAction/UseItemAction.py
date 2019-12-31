@@ -17,6 +17,14 @@ class UseItemAction:
         # ItemHolder
     # def __init__
 
+    def is_end(self):
+        return self._param["ItemName"] == None
+    # def is_end
+
+    def get_execute_parts(self):
+        return ["Upper"]
+    # def get_execute_parts
+
     def set_action_param(self, param):
         self._param = param
     # set_action_param
