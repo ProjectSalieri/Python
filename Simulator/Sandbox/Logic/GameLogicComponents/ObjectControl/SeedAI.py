@@ -3,6 +3,8 @@
 # @file SeedAI.py
 # @note
 
+import random
+
 from Logic.System.MetaAI import MetaAI
 
 class SeedAI:
@@ -16,10 +18,15 @@ class SeedAI:
     def update(self):
         self._seed_count += 1
         if self._seed_count > self._parameter["SeedTime"]:
-            pos = self._actor.get_pos()
-            pos[1] = 0.0
-            MetaAI.generate_object(self._parameter["Tree"], pos)
             self._actor.kill()
+
+            # 木にならない可能性あり
+            r = random.randint(0, 100)
+            if r < 10:
+                pos = self._actor.get_pos()
+                pos[1] = 0.0
+                MetaAI.generate_object(self._parameter["Tree"], pos)
+            
 
     def post_update(self):
         pass
