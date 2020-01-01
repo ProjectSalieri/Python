@@ -2,6 +2,15 @@
 	"Type" : "Other",
 	"Effect" :
 	{
-		"GenerateActor" : "AppleSeed"
+		"GenerateActor" : 
+		{
+			"Actor" : "AppleSeed",
+			"Offset" :
+			{
+				"X" : 0.0,
+				"Y" : -64.0,
+				"Z" : 0.0
+			}
+		}
 	}
 }

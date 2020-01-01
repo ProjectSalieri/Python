@@ -5,6 +5,8 @@
 
 from Logic.System.MetaAI import MetaAI
 
+import numpy as np
+
 class ItemHolder:
 
     def __init__(self):
@@ -49,7 +51,11 @@ class ItemHolder:
                 target_item_holder.add_item(item_effect["GenerateItem"])
         # GenerateItem
         if item_effect.get("GenerateActor") != None:
-            MetaAI.generate_object(item_effect.get("GenerateActor"), target.get_pos())
+            actor_name = item_effect.get("GenerateActor").get("Actor")
+            offset_setting = item_effect.get("GenerateActor").get("Offset")
+            print(offset_setting)
+            offset = np.array([offset_setting.get("X"), offset_setting.get("Y"), offset_setting.get("Z")])
+            MetaAI.generate_object(actor_name, target.get_pos() + offset)
 
         return True
     # def use_item
