@@ -146,6 +146,20 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
             self._menu_select = 0
         elif self._menu_select > item_num_max-1:
             self._menu_select = item_num_max-1
+
+        if self._controller.is_trigger_pressed(VirtualController.KEY_U):
+            self.player_controller.input(PlayerController.PlayerController.KEY_U)
+            # TODO : アイテム使用専用メニュー 対象選択など
+            for player in self.player_objects:
+                item_holder = player.get_game_logic_component("ItemHolder")
+                cnt = 0
+                use_item_name = None
+                for item_name, item_num in item_holder._items.items():
+                    if self._menu_select == cnt:
+                        use_item_name = item_name
+                    cnt += 1
+                if use_item_name != None:
+                    item_holder.use_item(use_item_name, player)
     # def _exe_menu
 
     def _update_player_controller(self):
@@ -174,8 +188,6 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
             self.player_controller.input(PlayerController.PlayerController.KEY_DOWN)
         elif self._controller.is_trigger_pressed(VirtualController.KEY_A):
             self.player_controller.input(PlayerController.PlayerController.KEY_A)
-        elif self._controller.is_trigger_pressed(VirtualController.KEY_U):
-            self.player_controller.input(PlayerController.PlayerController.KEY_U)
     # def _update_player_controller
 
     def _pre_draw(self, screen):

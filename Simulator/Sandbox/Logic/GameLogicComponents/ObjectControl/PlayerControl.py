@@ -5,7 +5,6 @@
 
 from ...Input import PlayerController
 from ..CharacterAction.GetItemAction import GetItemAction
-from ..CharacterAction.UseItemAction import UseItemAction
 from ..CharacterAction.SimpleMove import SimpleMove
 
 class PlayerControl:
@@ -35,14 +34,13 @@ class PlayerControl:
 
         self._actions["Move"] = SimpleMove(actor)
         self._actions["GetItem"] = GetItemAction(actor)
-        self._actions["UseItem"] = UseItemAction(actor)
     # def _set_control_actor
 
     def _update_core(self, inputs):
         player_dir = [0.0, 0.0, 0.0]
         speed = 0.0
         action_name = None
-        param = {"Move" : {}, "GetItem" : {}, "UseItem" : {}}
+        param = {"Move" : {}, "GetItem" : {}}
         for input in inputs:
             if input == PlayerController.PlayerController.KEY_LEFT:
                 player_dir[0] = -1.0
@@ -63,10 +61,6 @@ class PlayerControl:
             elif input == PlayerController.PlayerController.KEY_A:
                 action_name = "GetItem"
                 param["GetItem"] = {"IsTriggerGetItem" : True}
-            elif input == PlayerController.PlayerController.KEY_U:
-                action_name = "UseItem"
-                # test
-                param["UseItem"] = {"ItemName" : "Apple", "Target" : self._control_actor }
 
         if action_name == "Move":
             tmp_param = { "Speed" : speed, "Dir" : player_dir }
@@ -74,9 +68,6 @@ class PlayerControl:
             self._actions[action_name].update()
         elif action_name == "GetItem":
             self._actions[action_name].set_action_param(param["GetItem"])
-            self._actions[action_name].update()
-        elif action_name == "UseItem":
-            self._actions[action_name].set_action_param(param["UseItem"])
             self._actions[action_name].update()
     
 # class PlayerControl
