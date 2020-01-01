@@ -53,6 +53,9 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         self.meta_ai = MetaAI()
 
         self._state = SandboxSimpleScene.EXE_PLAY
+
+        # Menu
+        self._menu_select = 0
         
     # def __init__
 
@@ -128,7 +131,21 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     # def _exe_play
 
     def _exe_menu(self):
-        pass
+        item_num_max = 0
+        for player in self.player_objects:
+            item_holder = player.get_game_logic_component("ItemHolder")
+            for item_name, item_num in item_holder._items.items():
+                item_num_max += 1
+
+        if self._controller.is_trigger_pressed(VirtualController.KEY_UP):
+            self._menu_select -= 1
+        elif self._controller.is_trigger_pressed(VirtualController.KEY_DOWN):
+            self._menu_select += 1
+
+        if self._menu_select < 0:
+            self._menu_select = 0
+        elif self._menu_select > item_num_max-1:
+            self._menu_select = item_num_max-1
     # def _exe_menu
 
     def _update_player_controller(self):
@@ -137,14 +154,11 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         if self._controller.is_trigger_pressed(VirtualController.KEY_M):
             if self._state != SandboxSimpleScene.EXE_MENU:
                 self._state = SandboxSimpleScene.EXE_MENU
+                self._menu_select = 0
                 print("Menu Open")
             else:
                 self._state = SandboxSimpleScene.EXE_PLAY
                 print("Menu Close")
-            for player in self.player_objects:
-                item_holder = player.get_game_logic_component("ItemHolder")
-                for item_name, item_num in item_holder._items.items():
-                    print(item_name + ":" + str(item_num))
             return False
         # Mキー
         
@@ -183,6 +197,24 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         salieri_hp = salieri_actor.get_object_component("Life").get_dulability()
         salieri_hp = (int)(salieri_hp/100)*100 # 100以下の変化は見せない        
         screen.blit(font.render("S : %d" % (salieri_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 35])
+
+        # アイテムメニュー
+        if self._state == SandboxSimpleScene.EXE_MENU:
+            font2 = pygame.font.Font(None, 25)
+            pygame.draw.rect(screen, (255,255,255), Rect(100,100,500,500))
+            screen.blit(font2.render("Item Menu", True, (0, 0, 0)) , [100, 100])
+            line_cnt = 0
+            for player in self.player_objects:
+                item_holder = player.get_game_logic_component("ItemHolder")
+                for item_name, item_num in item_holder._items.items():
+                    is_select = False
+                    if line_cnt == self._menu_select:
+                        is_select = True
+                    line_cnt += 1
+                    if is_select:
+                        screen.blit(font2.render("->%s : %d" % (item_name, item_num), True, (0, 0, 0)) , [100, 100 + line_cnt*20])
+                    else:
+                        screen.blit(font2.render("  %s : %d" % (item_name, item_num), True, (128, 128, 128)) , [100, 100 + line_cnt*20])
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
