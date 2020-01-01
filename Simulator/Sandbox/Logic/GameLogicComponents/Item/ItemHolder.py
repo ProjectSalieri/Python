@@ -53,7 +53,6 @@ class ItemHolder:
         if item_effect.get("GenerateActor") != None:
             actor_name = item_effect.get("GenerateActor").get("Actor")
             offset_setting = item_effect.get("GenerateActor").get("Offset")
-            print(offset_setting)
             offset = np.array([offset_setting.get("X"), offset_setting.get("Y"), offset_setting.get("Z")])
             MetaAI.generate_object(actor_name, target.get_pos() + offset)
 

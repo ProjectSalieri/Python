@@ -5,6 +5,8 @@
 
 from . import SampleEnemyAI
 from . import SampleMoveAI
+from . import SeedAI
+from . import TreeAI
 
 class AIFactory:
 
@@ -24,6 +26,10 @@ class AIFactory:
             return SampleEnemyAI.SampleEnemyAI(actor, parameter)
         elif class_name == "SampleMoveAI":
             return SampleMoveAI.SampleMoveAI(actor)
+        elif class_name == "SeedAI":
+            return SeedAI.SeedAI(actor, parameter)
+        elif class_name == "TreeAI":
+            return TreeAI.TreeAI(actor, parameter)
         else:
             assert False, "Class=%sはAIFactoryで未実装です" % class_name
     # def create_ai_component_from_setting

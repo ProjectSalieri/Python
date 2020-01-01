@@ -1,0 +1,8 @@
+{
+	"Class" : "SeedAI",
+	"Parameter" : 
+	{
+		"Tree" : "AppleTree",
+		"SeedTime" : 500
+	}
+}

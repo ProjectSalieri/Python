@@ -6,7 +6,7 @@
 	},
 	"GameLogicComponents" :
 	{
-
+		"ObjectControl" : "ObjectControl/AppleSeed.ObjectControl.json"
 	},
 	"GameDataComponents" :
 	{

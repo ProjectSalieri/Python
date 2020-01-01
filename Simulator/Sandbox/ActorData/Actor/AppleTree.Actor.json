@@ -1,0 +1,15 @@
+{
+	"Name" : "Apple",
+	"ObjectComponents":
+	{
+		"SettingPath" : "ObjectComponents/Object/Apple.Object.json"
+	},
+	"GameLogicComponents" :
+	{
+		"ObjectControl" : "ObjectControl/AppleTree.ObjectControl.json"
+	},
+	"GameDataComponents" :
+	{
+		"Draw" : "Draw/Apple.Draw.json"
+	}
+}

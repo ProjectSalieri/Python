@@ -20,6 +20,9 @@ class MetaAI(ObjectRegionDirectorBase):
         self._lock = Lock()
         self._register_list = []
 
+        #
+        self._tree_list = []
+
         MetaAI._instance = self
     # def __init__
 
@@ -89,8 +92,15 @@ class MetaAI(ObjectRegionDirectorBase):
     def _register_generate_object(self, obj):
         if self._lock.acquire():
             self._register_list.append(obj)
+            self._lock.release()
         # lock
     # def _register_generate_object
+
+    def _regist_as_tree_object(self, obj):
+        if self._lock.acquire():
+            self._tree_list.append(obj)
+            self._lock.release()
+    # def regist_as_tree_object
 
     @classmethod
     def generate_object(cls, object_name, pos):
@@ -98,6 +108,11 @@ class MetaAI(ObjectRegionDirectorBase):
         obj.reset_pos(pos)
         MetaAI._instance._register_generate_object(obj)
     # def generate_object
+
+    @classmethod
+    def regist_as_tree_object(cls, obj):
+        MetaAI._instance._regist_as_tree_object(obj)
+    # def regist_as_tree_object
 '''
     def get_instance(cls):
         return MetaAI._instance

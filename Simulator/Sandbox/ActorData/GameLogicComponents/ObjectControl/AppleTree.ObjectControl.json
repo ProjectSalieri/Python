@@ -1,0 +1,8 @@
+{
+	"Class" : "TreeAI",
+	"Parameter" : 
+	{
+		"TreeNut" : "Apple",
+		"NutInterval" : 500
+	}
+}
