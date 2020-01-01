@@ -2,6 +2,7 @@
 	"Name" : "AppleSeed",
 	"ObjectComponents":
 	{
+		"SettingPath" : "ObjectComponents/Object/AppleSeed.Object.json"
 	},
 	"GameLogicComponents" :
 	{

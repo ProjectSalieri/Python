@@ -3,16 +3,24 @@
 # @brief メタAI
 #
 
+from threading import Lock
+
 from .ObjectRegionDirectorBase import ObjectRegionDirectorBase
 
 import Object
 
 class MetaAI(ObjectRegionDirectorBase):
 
+    _instance = None
+
     def __init__(self):
         super().__init__()
 
         self._count = 0
+        self._lock = Lock()
+        self._register_list = []
+
+        MetaAI._instance = self
     # def __init__
 
     def update(self, objects, center_pos):
@@ -32,6 +40,11 @@ class MetaAI(ObjectRegionDirectorBase):
 
     def _generate(self, objects):
         add_objects = []
+
+        if len(self._register_list) > 0:
+            for obj in self._register_list:
+                add_objects.append(obj)
+            self._register_list.clear()
 
         self._count = self._count + 1
         if self._count < 300:
@@ -72,6 +85,24 @@ class MetaAI(ObjectRegionDirectorBase):
 
         return add_objects
     # def _generate_food
+
+    def _register_generate_object(self, obj):
+        if self._lock.acquire():
+            self._register_list.append(obj)
+        # lock
+    # def _register_generate_object
+
+    @classmethod
+    def generate_object(cls, object_name, pos):
+        obj = Object.Object(object_name)
+        obj.reset_pos(pos)
+        MetaAI._instance._register_generate_object(obj)
+    # def generate_object
+'''
+    def get_instance(cls):
+        return MetaAI._instance
+    # def get_instance
+'''
 
 if __name__ == "__main__":
     pass

@@ -1,0 +1,14 @@
+{
+	"Mass" : 0.1,
+	"Shapes" : 
+	[
+	  {
+	    "Name" : "Body",
+	    "Shape" : "Shpere",
+	    "Size" :
+	    {
+	      "Radius" : 16
+	    }
+	  }
+	]
+}

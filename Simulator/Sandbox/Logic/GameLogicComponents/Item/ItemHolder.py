@@ -3,6 +3,8 @@
 # @file ItemHolder.py
 # @note
 
+from Logic.System.MetaAI import MetaAI
+
 class ItemHolder:
 
     def __init__(self):
@@ -46,6 +48,8 @@ class ItemHolder:
             if target_item_holder != None:
                 target_item_holder.add_item(item_effect["GenerateItem"])
         # GenerateItem
+        if item_effect.get("GenerateActor") != None:
+            MetaAI.generate_object(item_effect.get("GenerateActor"), target.get_pos())
 
         return True
     # def use_item
