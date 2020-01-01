@@ -33,6 +33,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
     def __init__(self):
 
+        self.meta_ai = MetaAI()
         self._controller = VirtualController()
         self.player_controller = PlayerController.PlayerController()
 
@@ -49,8 +50,6 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         # GraphicsSystem
         self.game_camera = GameCamera()
         self.game_camera.set_player_objects(self.player_objects)
-
-        self.meta_ai = MetaAI()
 
         self._state = SandboxSimpleScene.EXE_PLAY
 
@@ -78,7 +77,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         simple_object3.reset_pos((80, 0, 80))
         self.objects.append(simple_object3)
 
-        simple_object4 = Object.Object("Sample")
+        simple_object4 = Object.Object("AppleTree")
         simple_object4.reset_pos((128, 0, 128))
         self.objects.append(simple_object4)
 
