@@ -32,7 +32,8 @@ class TreeAI:
 
     # MetaAIも含めて、次に実がなる間隔を設定
     def set_nut_interval(self, interval):
-        self._nut_interval = interval + random.randint(-interval / 10, interval / 10)
+        rand_max = (int)(interval/10)
+        self._nut_interval = interval + random.randint(-rand_max, rand_max)
     # def set_nut_interval
 
     def _set_nut_interval_internal(self):

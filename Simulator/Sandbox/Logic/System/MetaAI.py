@@ -3,6 +3,7 @@
 # @brief メタAI
 #
 
+import random
 from threading import Lock
 
 from .ObjectRegionDirectorBase import ObjectRegionDirectorBase
@@ -81,10 +82,9 @@ class MetaAI(ObjectRegionDirectorBase):
         if len(objects) > 7:
             return add_objects
 
-        import random
-        object = Object.Object("Apple")
-        object.reset_pos((100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
-        add_objects.append(object)
+        for tree in self._tree_list:
+            tree_ai = tree.get_game_logic_component("ObjectControl")
+            tree_ai.set_nut_interval(int(random.randint(0, 100))) # 性質を無視して実をなるように仮実装
 
         return add_objects
     # def _generate_food
