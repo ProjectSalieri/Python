@@ -40,7 +40,12 @@ class ItemHolder:
             life_component = target.get_object_component("Life")
             if life_component != None:
                 life_component.add_life(item_effect["Dulability"])
-            # Dulability
+        # Dulability
+        if item_effect.get("GenerateItem") != None:
+            target_item_holder = target.get_game_logic_component("ItemHolder")
+            if target_item_holder != None:
+                target_item_holder.add_item(item_effect["GenerateItem"])
+        # GenerateItem
 
         return True
     # def use_item

@@ -1,0 +1,14 @@
+{
+	"Name" : "AppleSeed",
+	"ObjectComponents":
+	{
+	},
+	"GameLogicComponents" :
+	{
+
+	},
+	"GameDataComponents" :
+	{
+		"Draw" : "Draw/AppleSeed.Draw.json"
+	}
+}

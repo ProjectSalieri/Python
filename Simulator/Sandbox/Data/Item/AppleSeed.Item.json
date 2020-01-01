@@ -1,0 +1,7 @@
+{
+	"Type" : "Other",
+	"Effect" :
+	{
+		"GenerateActor" : "AppleSeed"
+	}
+}
