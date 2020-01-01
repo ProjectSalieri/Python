@@ -88,7 +88,7 @@ class MetaAI(ObjectRegionDirectorBase):
                 is_player_hungry = True
 
         if is_player_hungry:
-            pass
+            pass # プレイヤーがピンチならオブジェクト数を無視
         elif len(objects) > 7:
             return add_objects
 
