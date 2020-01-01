@@ -1,0 +1,16 @@
+{
+	"Mass" : 1000000,
+	"Shapes" : 
+	[
+	  {
+	    "Name" : "Body",
+	    "Shape" : "Cube",
+	    "Size" :
+	    {
+	      "WidthX" : 32,
+	      "Height" : 200,
+	      "WidthZ" : 32
+	    }
+	  }
+	]
+}

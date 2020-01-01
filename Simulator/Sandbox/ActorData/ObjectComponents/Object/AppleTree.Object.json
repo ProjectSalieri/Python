@@ -1,0 +1,10 @@
+{
+	"Name" : "AppleTree",
+	"Components":
+	{
+		"Physics" :
+		{
+			"SettingPath" : "Physics/AppleTree.Physics.json"
+		}
+	}
+}

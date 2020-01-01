@@ -2,7 +2,7 @@
 	"Name" : "Apple",
 	"ObjectComponents":
 	{
-		"SettingPath" : "ObjectComponents/Object/Apple.Object.json"
+		"SettingPath" : "ObjectComponents/Object/AppleTree.Object.json"
 	},
 	"GameLogicComponents" :
 	{
@@ -10,6 +10,6 @@
 	},
 	"GameDataComponents" :
 	{
-		"Draw" : "Draw/Apple.Draw.json"
+		"Draw" : "Draw/AppleTree.Draw.json"
 	}
 }
