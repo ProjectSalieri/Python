@@ -16,7 +16,9 @@ class SeedAI:
     def update(self):
         self._seed_count += 1
         if self._seed_count > self._parameter["SeedTime"]:
-            MetaAI.generate_object(self._parameter["Tree"], self._actor.get_pos())
+            pos = self._actor.get_pos()
+            pos[1] = 0.0
+            MetaAI.generate_object(self._parameter["Tree"], pos)
             self._actor.kill()
 
     def post_update(self):
