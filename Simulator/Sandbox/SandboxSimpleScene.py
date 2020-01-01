@@ -24,11 +24,16 @@ from Salieri import Salieri
 #
 from GameSense.GraphicsSystem.GameCamera import GameCamera
 from SandboxSceneDrawer import SandboxSceneDrawer
+from Logic.Input.VirtualController import VirtualController
 
 class SandboxSimpleScene(SandboxSimpleSceneBase):
 
+    EXE_PLAY = 0
+    EXE_MENU = 1
+
     def __init__(self):
 
+        self._controller = VirtualController()
         self.player_controller = PlayerController.PlayerController()
 
         # データ読み込み
@@ -46,6 +51,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         self.game_camera.set_player_objects(self.player_objects)
 
         self.meta_ai = MetaAI()
+
+        self._state = SandboxSimpleScene.EXE_PLAY
         
     # def __init__
 
@@ -92,14 +99,11 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     def update(self):        
         self._update_player_controller()
 
-        for player in self.player_objects:
-            center_pos = player.get_object_component("Physics").pos
+        if self._state == SandboxSimpleScene.EXE_PLAY:
+            self._exe_play()
+        elif self._state == SandboxSimpleScene.EXE_MENU:
+            self._exe_menu()
 
-            self.objects = self.meta_ai.update(self.objects, center_pos)
-            
-            self._update_common(center_pos)
-
-            self.item_director.update(self.objects, center_pos)
     # def update
 
     def pre_draw(self, screen):
@@ -112,34 +116,52 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         self._draw_layout(screen)
     # def draw
 
+    def _exe_play(self):
+        for player in self.player_objects:
+            center_pos = player.get_object_component("Physics").pos
+
+            self.objects = self.meta_ai.update(self.objects, center_pos)
+            
+            self._update_common(center_pos)
+
+            self.item_director.update(self.objects, center_pos)
+    # def _exe_play
+
+    def _exe_menu(self):
+        pass
+    # def _exe_menu
+
     def _update_player_controller(self):
-        pressed_key = pygame.key.get_pressed()
-        if pressed_key[K_m]:
-            print("Menu Open")
+        self._controller.update()
+
+        if self._controller.is_trigger_pressed(VirtualController.KEY_M):
+            if self._state != SandboxSimpleScene.EXE_MENU:
+                self._state = SandboxSimpleScene.EXE_MENU
+                print("Menu Open")
+            else:
+                self._state = SandboxSimpleScene.EXE_PLAY
+                print("Menu Close")
             for player in self.player_objects:
                 item_holder = player.get_game_logic_component("ItemHolder")
                 for item_name, item_num in item_holder._items.items():
                     print(item_name + ":" + str(item_num))
             return False
-        
+        # Mキー
         
         # キー解決
         self.player_controller.clear()
-        if pressed_key[K_LEFT]:
+        if self._controller.is_pressed(VirtualController.KEY_LEFT):
             self.player_controller.input(PlayerController.PlayerController.KEY_LEFT)
-        elif pressed_key[K_RIGHT]:
+        elif self._controller.is_pressed(VirtualController.KEY_RIGHT):
             self.player_controller.input(PlayerController.PlayerController.KEY_RIGHT)
-        elif pressed_key[K_UP]:
+        elif self._controller.is_pressed(VirtualController.KEY_UP):
             self.player_controller.input(PlayerController.PlayerController.KEY_UP)
-        elif pressed_key[K_DOWN]:
+        elif self._controller.is_pressed(VirtualController.KEY_DOWN):
             self.player_controller.input(PlayerController.PlayerController.KEY_DOWN)
-        elif pressed_key[K_a]:
+        elif self._controller.is_trigger_pressed(VirtualController.KEY_A):
             self.player_controller.input(PlayerController.PlayerController.KEY_A)
-        elif pressed_key[K_u]:
+        elif self._controller.is_trigger_pressed(VirtualController.KEY_U):
             self.player_controller.input(PlayerController.PlayerController.KEY_U)
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                pass
     # def _update_player_controller
 
     def _pre_draw(self, screen):
