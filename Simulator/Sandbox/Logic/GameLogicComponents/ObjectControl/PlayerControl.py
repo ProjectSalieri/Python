@@ -7,6 +7,8 @@ from ...Input import PlayerController
 from ..CharacterAction.GetItemAction import GetItemAction
 from ..CharacterAction.SimpleMove import SimpleMove
 
+from Logic.System.MetaAI import MetaAI
+
 class PlayerControl:
 
     def __init__(self):
@@ -18,6 +20,8 @@ class PlayerControl:
     def set_control_actor(self, actor, player_controller):
         self._controller = player_controller
         self._set_control_actor(actor)
+
+        MetaAI.regist_player_object(self._control_actor)
     # def set_control_actor
 
     def update(self):        

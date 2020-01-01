@@ -23,6 +23,8 @@ class MetaAI(ObjectRegionDirectorBase):
 
         #
         self._tree_list = []
+        #
+        self._player_list = []
 
         MetaAI._instance = self
     # def __init__
@@ -64,7 +66,7 @@ class MetaAI(ObjectRegionDirectorBase):
 
     def _generate_enemy(self, objects):
         add_objects = []
-
+        
         if len(objects) > 7:
             return add_objects
 
@@ -78,8 +80,16 @@ class MetaAI(ObjectRegionDirectorBase):
 
     def _generate_food(self, objects):
         add_objects = []
+        
+        is_player_hungry = False
+        for player in self._player_list:
+            life_componet = player.get_object_component("Life")
+            if life_componet.get_dulability() < 17000:
+                is_player_hungry = True
 
-        if len(objects) > 7:
+        if is_player_hungry:
+            pass
+        elif len(objects) > 7:
             return add_objects
 
         for tree in self._tree_list:
@@ -88,6 +98,11 @@ class MetaAI(ObjectRegionDirectorBase):
 
         return add_objects
     # def _generate_food
+
+    def _regist_player_object(self, player):
+        if self._lock.acquire():
+            self._player_list.append(player)
+            self._lock.release()
 
     def _register_generate_object(self, obj):
         if self._lock.acquire():
@@ -101,6 +116,11 @@ class MetaAI(ObjectRegionDirectorBase):
             self._tree_list.append(obj)
             self._lock.release()
     # def regist_as_tree_object
+
+    @classmethod
+    def regist_player_object(cls, player):
+        MetaAI._instance._regist_player_object(player)
+    # def regist_player_object
 
     @classmethod
     def generate_object(cls, object_name, pos):
