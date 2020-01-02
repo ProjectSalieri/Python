@@ -113,7 +113,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
     def draw(self, screen):
         drawer = SandboxSceneDrawer()
-        drawer.draw(screen, self.objects, self.game_camera.look_at_pos)
+        drawer.draw(screen, self.objects, self.game_camera._look_at_pos_screen)
 
         self._draw_layout(screen)
     # def draw

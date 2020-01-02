@@ -3,10 +3,13 @@
 # @file GameCamera.py
 # @note
 
+import numpy as np
+
 class GameCamera:
 
     def __init__(self):
-        self.look_at_pos = (0.0, 0.0, 0.0)
+        self._look_at_pos_screen = np.array([0.0, 0.0, 0.0])
+        self._look_at_pos = np.array([0.0, 0.0, 0.0])
         self.player_objects = []
         self.screen = None
     # def __init__
@@ -27,7 +30,8 @@ class GameCamera:
         camera_idx = 0
         player = self.player_objects[camera_idx]
 
-        player_pos = player.get_object_component("Physics").pos
-        self.look_at_pos = (player_pos[0] - screen.get_width()/2, 0, player_pos[2] - screen.get_height()/2)
+        player_pos = player.get_pos()
+        self._look_at_pos = 0.15*player_pos + 0.85*self._look_at_pos # 補完追従
+        self._look_at_pos_screen = (self._look_at_pos[0] - screen.get_width()/2, 0, self._look_at_pos[2] - screen.get_height()/2)
     # def pre_draw
 # class GameCamera
