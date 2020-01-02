@@ -20,6 +20,9 @@ class SandboxSceneDrawer:
         draw_list = {}
 
         for object in objects:
+            if object.drawer == None:
+                continue
+            
             priority = object.drawer.get_priority()
             if draw_list.get(priority) == None:
                 draw_list[priority] = []
@@ -31,6 +34,9 @@ class SandboxSceneDrawer:
         for priority in priorities:
             draw_object = draw_list[priority]
             for object in draw_object:
+                if object.drawer == None:
+                    continue
+                
                 drawer = object.drawer
                 obj_pos = object.get_object_component("Physics").pos
                 draw_pos = (obj_pos[0]-look_at_pos[0], obj_pos[1]-look_at_pos[1], obj_pos[2]-look_at_pos[2])
