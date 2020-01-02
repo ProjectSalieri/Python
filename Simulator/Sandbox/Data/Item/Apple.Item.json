@@ -2,7 +2,7 @@
 	"Type" : "Food",
 	"Effect" :
 	{
-		"Dulability" : 200,
+		"Dulability" : 500,
 		"GenerateItem" : "AppleSeed"
 	}
 }
