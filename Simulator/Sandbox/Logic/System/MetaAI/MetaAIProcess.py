@@ -13,10 +13,12 @@ import Object
 class MetaAIProcessOrder:
 
     ORDER_GENERATE_TREE_FOOD = "GenerateTreeFood"
+    ORDER_GENERATE_ENEMY = "GenerateEnemy"
 
-    def __init__(self, order, object_id):
+    def __init__(self, order, object_id, option):
         self._order = order
         self._object_id = object_id
+        self._option = option
     # def __init__
 
     def get_order(self):
@@ -24,6 +26,9 @@ class MetaAIProcessOrder:
 
     def get_object_id(self):
         return self._object_id
+
+    def get_option(self):
+        return self._option
 
 # class MetaAIProcessOrder
 
@@ -81,10 +86,46 @@ class MetaAIProcess(multiprocessing.Process):
         #self._debug_print()
 
         self._generate_tree_food()
+        self._generate_enemy()
 
         self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
         
     # def _update_frame
+
+    def _generate_enemy(self):
+        enemy_num = 0
+        for object_id, status in self._object_status.items():
+            # TODO : 仮実装
+            if status.get("Name") == "SampleEnemy":
+                enemy_num += 1
+        # for _object_status
+
+        # 敵の数が多い場合は手加減
+        if enemy_num > 5:
+            return False
+
+        player_pos = None
+        player_life = None
+        for object_id, status in self._player_status.items():
+            player_pos = np.array(status["Pos"])
+            player_life = status.get("Life")
+
+        # プレイヤーのライフが少ないので手加減
+        if player_life == None or player_life < 5000:
+            return False
+        
+        import random
+        appear_pos = player_pos + np.array([random.randint(-200, 200), 0, random.randint(-200, 200)])
+
+        option = {
+            "Pos" : appear_pos,
+            "Name" : "SampleEnemy" # TODO
+        }
+        order = MetaAIProcessOrder(MetaAIProcessOrder.ORDER_GENERATE_ENEMY, None, option)
+        self._put_order(order)
+
+        return True    
+    # def _generate_enemy
 
     def _generate_tree_food(self):
         is_player_pinch = False
@@ -108,8 +149,8 @@ class MetaAIProcess(multiprocessing.Process):
                 # if dist
             # for _tree_list
             if nearest_tree_id != None:
-                print("[MetaAIProcess]%s" % (MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD))
-                self._result_queue.put(MetaAIProcessOrder(MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD, nearest_tree_id))
+                order = MetaAIProcessOrder(MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD, nearest_tree_id, {})
+                self._put_order(order)
     # def _generate_tree
 
     def _parse_log(self, log):
@@ -159,6 +200,11 @@ class MetaAIProcess(multiprocessing.Process):
         object_id = log.get_content_hash()["ObjectId"]
         self._tree_list[object_id] = True
     # def _parse_log_generate_tree
+
+    def _put_order(self, order):
+        print("[MetaAIProcess]%s" % (order.get_order()))
+        self._result_queue.put(order)
+    # def _put_order
 
     def _signal_handler(self, signum, frame):
         print("[MetaAIProcess]_signal_handler:%d" % (signum))

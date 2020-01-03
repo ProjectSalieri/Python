@@ -62,16 +62,22 @@ class MetaAI(ObjectRegionDirectorBase):
 
         if self._result_queue.empty() == False:
             process_result = self._result_queue.get()
-            if process_result == MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY:
+            if process_result == None:
+                pass
+            elif process_result == MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY:
                 self._logger.flush(self._queue)
-            elif process_result != None and process_result.get_order() == MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD:
+            elif process_result.get_order() == MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD:
                 self._generate_food(process_result.get_object_id())
+            elif process_result.get_order() == MetaAIProcessOrder.ORDER_GENERATE_ENEMY:
+                self._generate_enemy(process_result.get_option().get("Name"), process_result.get_option().get("Pos"))
         
         super().update(new_object_list, center_pos)
 
-        add_objects = self._generate(objects)
-        for obj in add_objects:
-            new_object_list.append(obj)
+        # 生成されたアクターを更新リストに登録
+        if len(self._register_list) > 0:
+            for obj in self._register_list:
+                new_object_list.append(obj)
+            self._register_list.clear()
 
         # 現在状態のログ送信
         for obj in new_object_list:
@@ -92,33 +98,10 @@ class MetaAI(ObjectRegionDirectorBase):
         pass
     # def update
 
-    def _generate(self, objects):
-        add_objects = []
-
-        self._count = self._count + 1
-        if self._count < 300:
-            pass
-        else:
-            self._count = 0
-            self._generate_enemy(objects)
-
-        # 生成したオブジェクトを更新リストに登録
-        if len(self._register_list) > 0:
-            for obj in self._register_list:
-                add_objects.append(obj)
-            self._register_list.clear()
-
-        return add_objects
-    # def _generate
-
-    def _generate_enemy(self, objects):
-        if len(objects) > 7:
-            return False
-
-        import random
-        obj = self.generate_object("SampleEnemy", (100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
-
-        return True
+    def _generate_enemy(self, name, appear_pos):
+        print("[MetaAI]%s" % (name))
+        obj = self.generate_object(name, appear_pos)
+        return obj
     # def _generate_enemy
 
     def _generate_food(self, tree_object_id):
