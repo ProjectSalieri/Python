@@ -6,6 +6,8 @@
 #from Logic.GameLogicComponents.Item import ItemHolder
 from ..Item import ItemHolder
 
+from Logic.System.Logger.PlayLogger import PlayLogger
+
 class UseItemAction:
 
     def __init__(self, host_actor):
@@ -33,6 +35,7 @@ class UseItemAction:
         if self._param["ItemName"] != None:
             item_holder = self._actor.get_game_logic_component("ItemHolder")
             item_holder.use_item(self._param["ItemName"], self._param["Target"])
+            PlayLogger.put_as_use_item(self._param["ItemName"], self._actor)
 
         self._param["ItemName"] = None
         self._param["Target"] = None

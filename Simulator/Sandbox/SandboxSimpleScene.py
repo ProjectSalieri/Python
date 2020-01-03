@@ -14,6 +14,7 @@ import PlayerObject
 from Logic.Input import PlayerController
 from Logic.System import ItemDirector
 from Logic.System.MetaAI.MetaAI import MetaAI
+from Logic.System.Logger.PlayLogger import PlayLogger
 
 # Serverロジック
 from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl
@@ -160,6 +161,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
                     cnt += 1
                 if use_item_name != None:
                     item_holder.use_item(use_item_name, player)
+                    PlayLogger.put_as_use_item(use_item_name, player)
     # def _exe_menu
 
     def _update_player_controller(self):
