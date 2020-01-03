@@ -62,6 +62,20 @@ class PlayLogger:
     # def put_as_get_item
 
     @classmethod
+    def put_as_object_life(cls, obj):
+        life_component = obj.get_object_component("Life")
+        if life_component == None:
+            return False
+        
+        content_hash = {
+            "Name" : obj.get_name(),
+            "Life" : life_component.get_dulability()
+        }
+        play_log = PlayLog("ObjectLife", content_hash)
+        PlayLogger._put(play_log)
+    # def put_as_object_life   
+
+    @classmethod
     def get_instance(cls):
         logger = PlayLogger._instance
         if logger == None:

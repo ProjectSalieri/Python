@@ -62,6 +62,10 @@ class MetaAI(ObjectRegionDirectorBase):
         for obj in add_objects:
             new_object_list.append(obj)
 
+        # 現在状態のログ送信
+        for obj in new_object_list:
+            PlayLogger.put_as_object_life(obj)
+
         # 死因ログ解析
         dead_objects = [obj for obj in objects if obj.is_dead() == True]
         for dead_obj in dead_objects:
