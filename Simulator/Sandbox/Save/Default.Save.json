@@ -1,0 +1,60 @@
+{
+    "PlayerPlacement": [
+        {
+            "ObjectId": null,
+            "Pos": [
+                209.7516212426308,
+                0.0,
+                70.32042701955811
+            ],
+            "Name": "Player"
+        }
+    ],
+    "ObjectsPlacement": [
+        {
+            "ObjectId": null,
+            "Pos": [
+                258.8838829225357,
+                0.0,
+                32.0
+            ],
+            "Name": "Sample"
+        },
+        {
+            "ObjectId": null,
+            "Pos": [
+                79.59918857892886,
+                0.0,
+                79.5854578646063
+            ],
+            "Name": "Apple"
+        },
+        {
+            "ObjectId": null,
+            "Pos": [
+                127.59922181106387,
+                0.0,
+                127.58226681896788
+            ],
+            "Name": "AppleTree"
+        },
+        {
+            "ObjectId": null,
+            "Pos": [
+                177.04362792176212,
+                0.0,
+                111.01263685123358
+            ],
+            "Name": "SampleEnemy"
+        },
+        {
+            "ObjectId": null,
+            "Pos": [
+                256.0,
+                0.0,
+                256.0
+            ],
+            "Name": "IceGround"
+        }
+    ]
+}

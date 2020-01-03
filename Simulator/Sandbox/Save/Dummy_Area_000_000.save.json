@@ -1,0 +1,22 @@
+"PlayerPlacement" :
+{
+	[
+		{
+			"ObjectId" : "PlayerObjectId1",
+			"Pos" : [0, 0, 0],
+		}
+	]
+},
+"ObjectPlacement" :
+{
+	[
+		{
+			"ObjectId" : "DummyObjectId1",
+			"Pos" : [0, 0, 0]
+		},
+		{
+			"ObjectId" : "DummyObjectId2",
+			"Pos" : [0, 0, 0]
+		},
+	]
+}

@@ -9,8 +9,8 @@ from Logic.GameLogicComponents.ObjectControl.PlayerControl import PlayerControl
 
 class PlayerObject(Object.Object):
 
-    def __init__(self):
-        super(PlayerObject, self).__init__("Player")
+    def __init__(self, load_option = {}):
+        super(PlayerObject, self).__init__("Player", load_option)
     # def __init__
 
     def get_name(self):

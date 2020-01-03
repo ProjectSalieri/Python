@@ -60,6 +60,29 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     # def __init__
 
     def _init_scene_from_data(self):
+        import os
+        if os.path.exists(self._save_json_path()):
+            import json
+            print("[Scene]load save : %s" % (self._save_json_path()))
+            
+            save_settings = None
+            with open(self._save_json_path()) as f:
+                save_settings = json.load(f)
+
+            for player_save_setting in save_settings["PlayerPlacement"]:
+                player_obj = PlayerObject.PlayerObject(player_save_setting)
+                self.objects.append(player_obj)
+                self.player_objects.append(player_obj)
+                player_obj.set_controller(self.player_controller)
+            # for PlayerPlacement
+
+            for obj_save_setting in save_settings["ObjectsPlacement"]:
+                obj = Object.Object(obj_save_setting.get("Name"), obj_save_setting)
+                self.objects.append(obj)
+            # for ObjectsPlacement
+            return True
+        # if save
+        
         simple_object = PlayerObject.PlayerObject()
         simple_object.pos = (128, 0, 32)
         simple_object.set_controller(self.player_controller)
@@ -90,9 +113,6 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         ground1 = Object.Object("IceGround")
         ground1.reset_pos((256, 0, 256))
         self.objects.append(ground1)
-
-        self.item_director.add_item_holdable_object(simple_object)
-        self.item_director.add_item_holdable_object(simple_object2)
     # def _init_scene_from_data
 
     def kill(self):
@@ -210,9 +230,11 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
         # salieri
         salieri_actor = self.test_client._actor
-        salieri_hp = salieri_actor.get_object_component("Life").get_dulability()
-        salieri_hp = (int)(salieri_hp/100)*100 # 100以下の変化は見せない        
-        screen.blit(font.render("S : %d" % (salieri_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 35])
+        if salieri_actor != None:
+            salieri_hp = salieri_actor.get_object_component("Life").get_dulability()
+            salieri_hp = (int)(salieri_hp/100)*100 # 100以下の変化は見せない        
+            screen.blit(font.render("S : %d" % (salieri_hp), True, (255, 0, 0) if is_pinch else (0, 255, 0)) , [10, 35])
+        # if salieri_actor
 
         # アイテムメニュー
         if self._state == SandboxSimpleScene.EXE_MENU:
@@ -232,10 +254,15 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
                     else:
                         screen.blit(font2.render("  %s : %d" % (item_name, item_num), True, (128, 128, 128)) , [100, 100 + line_cnt*20])
 
+    def _save_json_path(self):
+        import os
+        return os.path.abspath(os.path.join("Save", "Default.Save.json"))
+    # def _save_json_path
+    
     def _save(self):
         print("Save Start")
-        import os, json
-        save_json_path = os.path.abspath(os.path.join("Save", "Sample.Save.json"))
+        import json
+        save_json_path = self._save_json_path()
 
         save_object = {}
         save_object["PlayerPlacement"] = []

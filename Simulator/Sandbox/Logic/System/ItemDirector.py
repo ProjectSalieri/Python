@@ -17,13 +17,10 @@ class ItemDirector(ObjectRegionDirectorBase):
         self._item_holdable_objects = []
     # def __init__
 
-    def add_item_holdable_object(self, obj):
-        self._item_holdable_objects.append(obj)
-    # add_item_holdable_object
-
     def _update_region(self, objs_in_region):
         for obj1 in objs_in_region:
-            if obj1 in self._item_holdable_objects == False:
+            item_holder = obj1.get_game_logic_component("ItemHolder")
+            if item_holder == None:
                 continue
 
             for obj2 in objs_in_region:
@@ -31,7 +28,7 @@ class ItemDirector(ObjectRegionDirectorBase):
                     continue
                 self._try_get_item(obj1, obj2)
 
-            item_holder = obj1.get_game_logic_component("ItemHolder")
+            
             if item_holder != None:
                 item_holder.reset_flags()
             

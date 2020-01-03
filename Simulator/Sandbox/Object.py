@@ -18,6 +18,8 @@ class Object:
 
         if load_option.get("Life") != None:
             pass
+        if load_option.get("Pos") != None:
+            self.reset_pos(load_option.get("Pos"))
         # if load_option
     # def __init__
 
