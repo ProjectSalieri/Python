@@ -12,8 +12,8 @@ import Object
 
 class MetaAIProcessOrder:
 
-    ORDER_GENERATE_TREE_FOOD = "GenerateTreeFood"
-    ORDER_GENERATE_ENEMY = "GenerateEnemy"
+    ORDER_GENERATE_TREE_FOOD = 0 #"GenerateTreeFood"
+    ORDER_GENERATE_ENEMY = 1 #"GenerateEnemy"
 
     def __init__(self, order, object_id, option):
         self._order = order
