@@ -38,6 +38,8 @@ class MetaAIProcess(multiprocessing.Process):
             sleep_time_ms = msec_per_frame - (frame_end-frame_start)*1000.0
             if sleep_time_ms > 0:
                 time.sleep(sleep_time_ms/1000.0)
+
+            print("[MetaAIProcess]" + str(self._is_end))
     # def run
 
     def _update_frame(self):
@@ -60,7 +62,7 @@ class MetaAIProcess(multiprocessing.Process):
             #print("ReciveTime:%s" % (datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')))
         # while queue
 
-        self._debug_print()
+        #self._debug_print()
 
         self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
         
@@ -114,6 +116,7 @@ class MetaAIProcess(multiprocessing.Process):
     # def _parse_log_generate_tree
 
     def _signal_handler(self, signum, frame):
+        print("[MetaAIProcess]_signal_handler:%d" % (signum))
         self._is_end = True
     # def _signal_handler
 

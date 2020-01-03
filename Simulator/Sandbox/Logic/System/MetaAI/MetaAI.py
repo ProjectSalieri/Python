@@ -45,8 +45,15 @@ class MetaAI(ObjectRegionDirectorBase):
     # def __init__
 
     def shutdown(self):
+        print("[MetaAI]shutdown start")
+        
         import os, signal
+        print("[MetaAI]MainProcess : %d" % (os.getpid()))
+        print("[MetaAI]SubProcess : %d" % (self._process.pid))
         os.kill(self._process.pid, signal.SIGTERM)
+        print("[MetaAI]Wait for SubProcess end")
+        self._process.join()
+        print("[MetaAI]shutdown end")
     # def shutdown
 
     def update(self, objects, center_pos):
