@@ -61,12 +61,18 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
     def _init_scene_from_data(self):
         import os
-        if os.path.exists(self._save_json_path()):
+        save_json_path = self._save_json_path()
+        if os.path.exists(save_json_path) == False:
+            if os.path.exists(self._default_save_json_path()):
+                save_json_path = self._default_save_json_path()
+            else:
+                save_json_path = None
+        if save_json_path != None:
             import json
-            print("[Scene]load save : %s" % (self._save_json_path()))
+            print("[Scene]load save : %s" % (save_json_path))
             
             save_settings = None
-            with open(self._save_json_path()) as f:
+            with open(save_json_path) as f:
                 save_settings = json.load(f)
 
             for player_save_setting in save_settings["PlayerPlacement"]:
@@ -254,9 +260,14 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
                     else:
                         screen.blit(font2.render("  %s : %d" % (item_name, item_num), True, (128, 128, 128)) , [100, 100 + line_cnt*20])
 
-    def _save_json_path(self):
+    def _default_save_json_path(self):
         import os
         return os.path.abspath(os.path.join("Save", "Default.Save.json"))
+    # def _default_save_json_path
+                        
+    def _save_json_path(self):
+        import os
+        return os.path.abspath(os.path.join("Save", "aaaaa.Save.json"))
     # def _save_json_path
     
     def _save(self):
