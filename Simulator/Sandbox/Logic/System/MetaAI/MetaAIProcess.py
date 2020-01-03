@@ -17,6 +17,9 @@ class MetaAIProcess(multiprocessing.Process):
         self._queue = queue
         self._result_queue = result_queue
 
+        self._object_status = {}
+        self._player_status = {}
+
         self._is_end = False
         signal.signal(signal.SIGTERM, self._signal_handler)
     # def __init__
@@ -40,8 +43,45 @@ class MetaAIProcess(multiprocessing.Process):
 
         while self._queue.empty() == False:
             log = self._queue.get()
-            print("%s : %s" % (log.get_header(), log.get_content_hash()))
+            self._parse_log(log)
+            # print("%s : %s" % (log.get_header(), log.get_content_hash()))
+        # while queue
+
+        for object_id, status in self._player_status.items():
+            print("PlayerStatus : %s" % object_id)
+            print(status)
+        
     # def _update_frame
+
+    def _parse_log(self, log):
+        header = log.get_header()
+
+        if header == "ObjectStatus":
+            self._parse_log_object_status(log)
+        elif header == "DeadObject":
+            self._parse_log_dead_object(log)
+
+    def _parse_log_object_status(self, log):
+        is_player = log.get_content_hash()["Name"] == "Player"
+        life = log.get_content_hash()["Life"]
+        pos = log.get_content_hash()["Pos"]
+        object_id = log.get_content_hash()["ObjectId"]
+
+        status = {
+            "Life" : life,
+            "Pos" : pos,
+        }
+        self._object_status[object_id] = status
+        if is_player == True:
+            self._player_status[object_id] = status
+    # def _parse_log_object_status
+
+    def _parse_log_dead_object(self, log):
+        object_id = log.get_content_hash()["ObjectId"]
+        # ObjectIdのStatus情報削除
+        if self._object_status.get(object_id) != None:
+            del(self._object_status[object_id])
+    # def _parse_dead_object
 
     def _signal_handler(self, signum, frame):
         self._is_end = True
