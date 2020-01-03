@@ -10,3 +10,5 @@ git merge ブランチ名
 ブランチ削除
 git branch -d ブランチ名
 
+ネットにpush(masterブランチ上で)
+git push
