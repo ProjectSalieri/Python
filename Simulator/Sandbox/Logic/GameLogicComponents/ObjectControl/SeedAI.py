@@ -5,7 +5,7 @@
 
 import random
 
-from Logic.System.MetaAI import MetaAI
+from Logic.System.MetaAI.MetaAI import MetaAI
 
 class SeedAI:
 

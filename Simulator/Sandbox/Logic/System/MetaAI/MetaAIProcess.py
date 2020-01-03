@@ -22,7 +22,7 @@ class MetaAIProcess(multiprocessing.Process):
     # def __init__
 
     def run(self):
-        msec_per_frame = 2000.0 # 処理しなかったときに2秒後に確認
+        msec_per_frame = 10000.0 # 処理しなかったときに10秒後に確認
         while self._is_end == False:
             frame_start = time.time()
 

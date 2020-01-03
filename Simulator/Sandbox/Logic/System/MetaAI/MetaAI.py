@@ -9,6 +9,7 @@ import multiprocessing
 
 from ..ObjectRegionDirectorBase import ObjectRegionDirectorBase
 from ..Logger.PlayLogger import PlayLogger
+from ..Logger.PlayLogger import PlayLog
 
 from .MetaAILogger import MetaAILogger
 from .MetaAIProcess import MetaAIProcess
@@ -64,7 +65,7 @@ class MetaAI(ObjectRegionDirectorBase):
 
         # 現在状態のログ送信
         for obj in new_object_list:
-            PlayLogger.put_as_object_life(obj)
+            PlayLogger.put_as_object_status(obj)
 
         # 死因ログ解析
         dead_objects = [obj for obj in objects if obj.is_dead() == True]
@@ -147,6 +148,7 @@ class MetaAI(ObjectRegionDirectorBase):
     def _regist_as_tree_object(self, obj):
         if self._lock.acquire():
             self._tree_list.append(obj)
+            self._logger.put(PlayLog("GenerateTree", {"Name" : obj.get_name(), "ObjectId" : obj.get_object_id()}))
             self._lock.release()
     # def regist_as_tree_object
 

@@ -3,7 +3,7 @@
 # @file ItemHolder.py
 # @note
 
-from Logic.System.MetaAI import MetaAI
+from Logic.System.MetaAI.MetaAI import MetaAI
 
 import numpy as np
 

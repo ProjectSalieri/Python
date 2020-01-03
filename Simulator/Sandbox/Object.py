@@ -35,6 +35,10 @@ class Object:
         return self._name
     # def get_name
 
+    def get_object_id(self):
+        return self._object_id
+    # def get_object_id
+
     def reset_pos(self, pos):
         self.get_object_component("Physics").reset_pos(pos)
 

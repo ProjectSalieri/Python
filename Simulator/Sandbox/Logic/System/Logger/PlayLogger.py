@@ -35,7 +35,8 @@ class PlayLogger:
     @classmethod
     def put_as_generate_object(cls, actor):
         content_hash = {
-            "Name" : actor.get_name()
+            "Name" : actor.get_name(),
+            "ObjectId" : actor.get_object_id()
         }
         play_log = PlayLog("GenerateObject", content_hash)
         PlayLogger._put(play_log)
@@ -45,6 +46,7 @@ class PlayLogger:
     def put_as_dead_object(cls, actor, factor):
         content_hash = {
             "Name" : actor.get_name(),
+            "ObjectId" : actor.get_object_id(),
             "Factor" : factor
         }
         play_log = PlayLog("DeadObject", content_hash)
@@ -72,16 +74,18 @@ class PlayLogger:
     # def put_as_use_item
 
     @classmethod
-    def put_as_object_life(cls, obj):
+    def put_as_object_status(cls, obj):
         life_component = obj.get_object_component("Life")
         if life_component == None:
             return False
         
         content_hash = {
             "Name" : obj.get_name(),
+            "ObjectId" : obj.get_object_id(),
+            "Pos" : obj.get_pos(),
             "Life" : life_component.get_dulability()
         }
-        play_log = PlayLog("ObjectLife", content_hash)
+        play_log = PlayLog("ObjectStatus", content_hash)
         PlayLogger._put(play_log)
     # def put_as_object_life   
 
