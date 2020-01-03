@@ -21,6 +21,7 @@ class MetaAIProcess(multiprocessing.Process):
 
         self._object_status = {}
         self._player_status = {}
+        self._tree_list = {}
 
         self._is_end = False
         signal.signal(signal.SIGTERM, self._signal_handler)
@@ -59,13 +60,7 @@ class MetaAIProcess(multiprocessing.Process):
             #print("ReciveTime:%s" % (datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')))
         # while queue
 
-        for object_id, status in self._object_status.items():
-            pass
-            #print("ObjectStatus : %s %s" % (object_id, status))
-        for object_id, status in self._player_status.items():
-            print("PlayerStatus : %s" % object_id)
-            print(status)
-
+        self._debug_print()
 
         self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
         
@@ -78,6 +73,16 @@ class MetaAIProcess(multiprocessing.Process):
             self._parse_log_object_status(log)
         elif header == "DeadObject":
             self._parse_log_dead_object(log)
+        elif header == "GenerateTree":
+            self._parse_log_generate_tree(log)
+        elif header == "GenerateObject":
+            pass
+        elif header == "GetItem":
+            pass
+        elif header == "UseItem":
+            pass
+        else:
+            print("[MetaAIProcess]Not Implemented Log Header:%s" % (header))
 
     def _parse_log_object_status(self, log):
         is_player = log.get_content_hash()["Name"] == "Player"
@@ -99,11 +104,27 @@ class MetaAIProcess(multiprocessing.Process):
         # ObjectIdのStatus情報削除
         if self._object_status.get(object_id) != None:
             del(self._object_status[object_id])
+        if self._tree_list.get(object_id) != None:
+            del(self._tree_list[object_id])
     # def _parse_dead_object
+
+    def _parse_log_generate_tree(self, log):
+        object_id = log.get_content_hash()["ObjectId"]
+        self._tree_list[object_id] = True
+    # def _parse_log_generate_tree
 
     def _signal_handler(self, signum, frame):
         self._is_end = True
     # def _signal_handler
+
+    def _debug_print(self):
+        for object_id, status in self._object_status.items():
+            print("ObjectStatus : %s %s" % (object_id, status))
+        for object_id, value in self._tree_list.items():
+            print("TreeList : %s" % (object_id))
+        for object_id, status in self._player_status.items():
+            print("PlayerStatus : %s" % object_id)
+            print(status)
 
 # class MetaAIProcess
 
