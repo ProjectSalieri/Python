@@ -148,7 +148,7 @@ class MetaAI(ObjectRegionDirectorBase):
     def _regist_as_tree_object(self, obj):
         if self._lock.acquire():
             self._tree_list.append(obj)
-            self._logger.put(PlayLog("GenerateTree", {"Name" : obj.get_name(), "ObjectId" : obj.get_object_id()}))
+            self._logger.put(PlayLog("GenerateTree", PlayLog.get_object_common_content(obj)))
             self._lock.release()
     # def regist_as_tree_object
 

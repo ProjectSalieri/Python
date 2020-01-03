@@ -22,6 +22,15 @@ class PlayLog:
         return self._content_hash
     # def get_content_hash
 
+    @classmethod
+    def get_object_common_content(cls, obj):
+        content = {
+            "Name" : obj.get_name(),
+            "ObjectId" : obj.get_object_id()
+        }
+        return content
+    # def get_object_common_content
+
 class PlayLogger:
 
     _instance = None
@@ -38,27 +47,21 @@ class PlayLogger:
 
     @classmethod
     def put_as_generate_object(cls, actor):
-        content_hash = {
-            "Name" : actor.get_name(),
-            "ObjectId" : actor.get_object_id()
-        }
+        content_hash = PlayLog.get_object_common_content(actor)
         play_log = PlayLog("GenerateObject", content_hash)
         PlayLogger._put(play_log)
     # def log_as_generate_object
 
     @classmethod
     def put_as_dead_object(cls, actor, factor):
-        content_hash = {
-            "Name" : actor.get_name(),
-            "ObjectId" : actor.get_object_id(),
-            "Factor" : factor
-        }
+        content_hash = PlayLog.get_object_common_content(actor)
+        content_hash["Factor"] = factor
         play_log = PlayLog("DeadObject", content_hash)
         PlayLogger._put(play_log)
     # put_as_dead_object
 
     @classmethod
-    def put_as_get_item(cls, item_name, get_user):
+    def put_as_get_item(cls, item_name, get_user):        
         content_hash = {
             "Name" : item_name,
             "GetUser" : get_user.get_name()
@@ -82,13 +85,9 @@ class PlayLogger:
         life_component = obj.get_object_component("Life")
         if life_component == None:
             return False
-        
-        content_hash = {
-            "Name" : obj.get_name(),
-            "ObjectId" : obj.get_object_id(),
-            "Pos" : obj.get_pos(),
-            "Life" : life_component.get_dulability()
-        }
+        content_hash = PlayLog.get_object_common_content(obj)
+        content_hash["Pos"] = obj.get_pos()
+        content_hash["Life"] = life_component.get_dulability()
         play_log = PlayLog("ObjectStatus", content_hash)
         PlayLogger._put(play_log)
     # def put_as_object_life   
