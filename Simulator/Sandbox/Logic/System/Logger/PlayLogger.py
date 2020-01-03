@@ -51,9 +51,10 @@ class PlayLogger:
     # put_as_dead_object
 
     @classmethod
-    def put_as_get_item(cls, item_name):
+    def put_as_get_item(cls, item_name, get_user):
         content_hash = {
-            "Name" : item_name
+            "Name" : item_name,
+            "GetUser" : get_user.get_name()
         }
         play_log = PlayLog("GetItem", content_hash)
         PlayLogger._put(play_log)

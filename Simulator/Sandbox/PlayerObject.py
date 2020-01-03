@@ -13,6 +13,10 @@ class PlayerObject(Object.Object):
         super(PlayerObject, self).__init__("Player")
     # def __init__
 
+    def get_name(self):
+        return "Player"
+    # def get_name
+
     def set_controller(self, controller):
         actor_control_component = PlayerControl()
         actor_control_component.set_control_actor(self, controller)

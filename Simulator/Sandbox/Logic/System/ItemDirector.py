@@ -63,7 +63,7 @@ class ItemDirector(ObjectRegionDirectorBase):
         obj2.kill()
 
         item_holder.add_item(item_name)
-        PlayLogger.put_as_get_item(item_name)
+        PlayLogger.put_as_get_item(item_name, obj1)
     # def _try_get_item
 
         
