@@ -8,11 +8,11 @@ from ActorUtil import ActorUtil
 class Object:
 
     def __init__(self, name, load_option = {}):
-        self._object_id = None
-        if load_option.get("ObjectId") != None:
+        self._object_id = load_option.get("ObjectId")
+        if self._object_id == None:
             import random, datetime
             self._object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
-        # if load_option
+        # if _object_id
 
         self._init_common(name)
 
