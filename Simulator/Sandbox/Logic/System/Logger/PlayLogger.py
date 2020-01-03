@@ -83,11 +83,9 @@ class PlayLogger:
     @classmethod
     def put_as_object_status(cls, obj):
         life_component = obj.get_object_component("Life")
-        if life_component == None:
-            return False
         content_hash = PlayLog.get_object_common_content(obj)
         content_hash["Pos"] = obj.get_pos()
-        content_hash["Life"] = life_component.get_dulability()
+        content_hash["Life"] = -1 if life_component == None else life_component.get_dulability()
         play_log = PlayLog("ObjectStatus", content_hash)
         PlayLogger._put(play_log)
     # def put_as_object_life   

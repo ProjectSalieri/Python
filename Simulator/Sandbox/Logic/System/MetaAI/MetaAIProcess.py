@@ -6,6 +6,7 @@
 import multiprocessing
 import time
 import signal
+import numpy as np
 
 import Object
 
@@ -38,8 +39,6 @@ class MetaAIProcess(multiprocessing.Process):
             sleep_time_ms = msec_per_frame - (frame_end-frame_start)*1000.0
             if sleep_time_ms > 0:
                 time.sleep(sleep_time_ms/1000.0)
-
-            print("[MetaAIProcess]" + str(self._is_end))
     # def run
 
     def _update_frame(self):
@@ -63,6 +62,33 @@ class MetaAIProcess(multiprocessing.Process):
         # while queue
 
         #self._debug_print()
+
+        is_player_pinch = False
+        pinch_player_pos = None
+        for object_id, status in self._player_status.items():
+            if status["Life"] < 17000:
+                is_player_pinch = True
+                pinch_player_pos = np.array(status["Pos"])
+        # for _player_status
+        if is_player_pinch == True:
+            nearest_tree_dist = 10000000.0
+            nearest_tree_id = None
+            for object_id, value in self._tree_list.items():
+                if self._object_status.get(object_id) == None:
+                    continue
+                tree_pos = np.array(self._object_status[object_id]["Pos"])
+                dist = np.linalg.norm((tree_pos - pinch_player_pos))
+                if dist < nearest_tree_dist:
+                    nearest_tree_dist = dist
+                    nearest_tree_id = object_id
+                # if dist
+            # for _tree_list
+            if nearest_tree_id != None:
+                content = {"Order" : "GenerateTreeFood", "ObjectId" : nearest_tree_id}
+                print("[MetaAIProcess]%s" % (content))
+                self._result_queue.put(content)
+        # if is_player_pinch
+                
 
         self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
         
@@ -95,6 +121,7 @@ class MetaAIProcess(multiprocessing.Process):
         status = {
             "Life" : life,
             "Pos" : pos,
+            "Name" : log.get_content_hash()["Name"]
         }
         self._object_status[object_id] = status
         if is_player == True:

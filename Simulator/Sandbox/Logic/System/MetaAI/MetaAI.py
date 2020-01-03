@@ -63,6 +63,8 @@ class MetaAI(ObjectRegionDirectorBase):
             process_result = self._result_queue.get()
             if process_result == MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY:
                 self._logger.flush(self._queue)
+            elif process_result != None and process_result.get("Order") == "GenerateTreeFood":
+                self._generate_food(process_result.get("ObjectId"))
         
         super().update(new_object_list, center_pos)
 
@@ -97,7 +99,6 @@ class MetaAI(ObjectRegionDirectorBase):
             pass
         else:
             self._count = 0
-            self._generate_food(objects)
             self._generate_enemy(objects)
 
         # 生成したオブジェクトを更新リストに登録
@@ -119,19 +120,10 @@ class MetaAI(ObjectRegionDirectorBase):
         return True
     # def _generate_enemy
 
-    def _generate_food(self, objects):
-        is_player_hungry = False
-        for player in self._player_list:
-            life_componet = player.get_object_component("Life")
-            if life_componet.get_dulability() < 17000:
-                is_player_hungry = True
-
-        if is_player_hungry:
-            pass # プレイヤーがピンチならオブジェクト数を無視
-        elif len(objects) > 7:
-            return False
-
+    def _generate_food(self, tree_object_id):
         for tree in self._tree_list:
+            if tree.get_object_id() != tree_object_id:
+                continue
             tree_ai = tree.get_game_logic_component("ObjectControl")
             tree_ai.set_nut_interval(int(random.randint(0, 100))) # 性質を無視して実をなるように仮実装
 
