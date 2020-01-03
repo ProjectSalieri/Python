@@ -6,7 +6,7 @@
 import random
 import numpy as np
 
-from Logic.System.MetaAI import MetaAI
+from Logic.System.MetaAI.MetaAI import MetaAI
 
 class TreeAI:
 

@@ -7,7 +7,7 @@ import random
 from threading import Lock
 import multiprocessing
 
-from .ObjectRegionDirectorBase import ObjectRegionDirectorBase
+from ..ObjectRegionDirectorBase import ObjectRegionDirectorBase
 from .MetaAIProcess import MetaAIProcess
 
 import Object

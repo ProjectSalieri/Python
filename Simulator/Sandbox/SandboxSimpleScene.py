@@ -13,7 +13,7 @@ import PlayerObject
 
 from Logic.Input import PlayerController
 from Logic.System import ItemDirector
-from Logic.System.MetaAI import MetaAI
+from Logic.System.MetaAI.MetaAI import MetaAI
 
 # Serverロジック
 from Logic.GameLogicComponents.ObjectControl.ServerControl import ServerControl

@@ -7,7 +7,7 @@ from ...Input import PlayerController
 from ..CharacterAction.GetItemAction import GetItemAction
 from ..CharacterAction.SimpleMove import SimpleMove
 
-from Logic.System.MetaAI import MetaAI
+from Logic.System.MetaAI.MetaAI import MetaAI
 
 class PlayerControl:
 
