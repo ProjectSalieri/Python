@@ -39,8 +39,15 @@ class PyGameMain:
     # def main_loop
 
     def quit_game(self):
+        print("QuitGame")
+        print("App Quit Start")
         self.app.quit_game()
+        print("App Quit End")
+
+        print("pygame quit start")
         pygame.quit()
+        print("pygame quit end")
+        print("sys exit")
         import sys
         sys.exit()
     # def quit_game
