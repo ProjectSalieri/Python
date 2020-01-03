@@ -49,7 +49,15 @@ class MetaAI(ObjectRegionDirectorBase):
     # def shutdown
 
     def update(self, objects, center_pos):
-        new_object_list = [obj for obj in objects if obj.is_dead() == False]
+        #new_object_list = [obj for obj in objects if obj.is_dead() == False]
+        new_object_list = []
+        for obj in objects:
+            if obj.is_dead() == True:
+                PlayLogger.put_as_dead_object(obj)
+            else:
+                new_object_list.append(obj)
+            #
+        # for obj
 
         if self._queue.empty():
             self._logger.flush(self._queue)
@@ -71,40 +79,34 @@ class MetaAI(ObjectRegionDirectorBase):
     def _generate(self, objects):
         add_objects = []
 
+        self._count = self._count + 1
+        if self._count < 300:
+            pass
+        else:
+            self._count = 0
+            self._generate_food(objects)
+            self._generate_enemy(objects)
+
+        # 生成したオブジェクトを更新リストに登録
         if len(self._register_list) > 0:
             for obj in self._register_list:
                 add_objects.append(obj)
             self._register_list.clear()
 
-        self._count = self._count + 1
-        if self._count < 300:
-            return add_objects
-        else:
-            self._count = 0
-
-        add_objects += self._generate_food(objects)
-        add_objects += self._generate_enemy(objects)
-
         return add_objects
     # def _generate
 
     def _generate_enemy(self, objects):
-        add_objects = []
-        
         if len(objects) > 7:
-            return add_objects
+            return False
 
         import random
-        object = Object.Object("SampleEnemy")
-        object.reset_pos((100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
-        add_objects.append(object)
+        obj = self.generate_object("SampleEnemy", (100 + random.randint(-50, 50), 0, 100 + random.randint(-50, 50)))
 
-        return add_objects
+        return True
     # def _generate_enemy
 
     def _generate_food(self, objects):
-        add_objects = []
-        
         is_player_hungry = False
         for player in self._player_list:
             life_componet = player.get_object_component("Life")
@@ -114,13 +116,13 @@ class MetaAI(ObjectRegionDirectorBase):
         if is_player_hungry:
             pass # プレイヤーがピンチならオブジェクト数を無視
         elif len(objects) > 7:
-            return add_objects
+            return False
 
         for tree in self._tree_list:
             tree_ai = tree.get_game_logic_component("ObjectControl")
             tree_ai.set_nut_interval(int(random.randint(0, 100))) # 性質を無視して実をなるように仮実装
 
-        return add_objects
+        return True
     # def _generate_food
 
     def _regist_player_object(self, player):
@@ -153,6 +155,7 @@ class MetaAI(ObjectRegionDirectorBase):
         obj = Object.Object(object_name)
         obj.reset_pos(pos)
         MetaAI._instance._register_generate_object(obj)
+        return obj
     # def generate_object
 
     @classmethod
