@@ -10,6 +10,23 @@ import numpy as np
 
 import Object
 
+class MetaAIProcessOrder:
+
+    ORDER_GENERATE_TREE_FOOD = "GenerateTreeFood"
+
+    def __init__(self, order, object_id):
+        self._order = order
+        self._object_id = object_id
+    # def __init__
+
+    def get_order(self):
+        return self._order
+
+    def get_object_id(self):
+        return self._object_id
+
+# class MetaAIProcessOrder
+
 class MetaAIProcess(multiprocessing.Process):
 
     PROCESS_MSG_QUEUE_EMPTY = "QueueIsEmpty"
@@ -63,6 +80,13 @@ class MetaAIProcess(multiprocessing.Process):
 
         #self._debug_print()
 
+        self._generate_tree_food()
+
+        self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
+        
+    # def _update_frame
+
+    def _generate_tree_food(self):
         is_player_pinch = False
         pinch_player_pos = None
         for object_id, status in self._player_status.items():
@@ -84,15 +108,9 @@ class MetaAIProcess(multiprocessing.Process):
                 # if dist
             # for _tree_list
             if nearest_tree_id != None:
-                content = {"Order" : "GenerateTreeFood", "ObjectId" : nearest_tree_id}
-                print("[MetaAIProcess]%s" % (content))
-                self._result_queue.put(content)
-        # if is_player_pinch
-                
-
-        self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
-        
-    # def _update_frame
+                print("[MetaAIProcess]%s" % (MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD))
+                self._result_queue.put(MetaAIProcessOrder(MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD, nearest_tree_id))
+    # def _generate_tree
 
     def _parse_log(self, log):
         header = log.get_header()

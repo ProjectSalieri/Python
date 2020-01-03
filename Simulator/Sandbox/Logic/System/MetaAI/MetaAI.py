@@ -13,6 +13,7 @@ from ..Logger.PlayLogger import PlayLog
 
 from .MetaAILogger import MetaAILogger
 from .MetaAIProcess import MetaAIProcess
+from .MetaAIProcess import MetaAIProcessOrder
 
 import Object
 
@@ -63,8 +64,8 @@ class MetaAI(ObjectRegionDirectorBase):
             process_result = self._result_queue.get()
             if process_result == MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY:
                 self._logger.flush(self._queue)
-            elif process_result != None and process_result.get("Order") == "GenerateTreeFood":
-                self._generate_food(process_result.get("ObjectId"))
+            elif process_result != None and process_result.get_order() == MetaAIProcessOrder.ORDER_GENERATE_TREE_FOOD:
+                self._generate_food(process_result.get_object_id())
         
         super().update(new_object_list, center_pos)
 
@@ -126,6 +127,7 @@ class MetaAI(ObjectRegionDirectorBase):
                 continue
             tree_ai = tree.get_game_logic_component("ObjectControl")
             tree_ai.set_nut_interval(int(random.randint(0, 100))) # 性質を無視して実をなるように仮実装
+            print("[MetaAI]generate_food:%s" % (tree_object_id))
 
         return True
     # def _generate_food
