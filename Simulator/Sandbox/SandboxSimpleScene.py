@@ -96,6 +96,7 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
 
     def kill(self):
         self.test_client.shutdown()
+        self.meta_ai.shutdown()
     # def kill
 
     def update(self):        

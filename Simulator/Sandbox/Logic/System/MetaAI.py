@@ -5,8 +5,10 @@
 
 import random
 from threading import Lock
+import multiprocessing
 
 from .ObjectRegionDirectorBase import ObjectRegionDirectorBase
+from .MetaAIProcess import MetaAIProcess
 
 import Object
 
@@ -26,11 +28,27 @@ class MetaAI(ObjectRegionDirectorBase):
         #
         self._player_list = []
 
+        self._queue = multiprocessing.Queue()
+        self._result_queue = multiprocessing.Queue()
+        self._process = MetaAIProcess(self._queue, self._result_queue)
+        self._process.daemon = True
+        self._process.start()
+
         MetaAI._instance = self
     # def __init__
 
+    def shutdown(self):
+        import os, signal
+        os.kill(self._process.pid, signal.SIGTERM)
+    # def shutdown
+
     def update(self, objects, center_pos):
         new_object_list = [obj for obj in objects if obj.is_dead() == False]
+
+        if self._queue.empty():
+            self._queue.put([])
+        if self._result_queue.empty() == False:
+            process_result = self._result_queue.get()
         
         super().update(new_object_list, center_pos)
 

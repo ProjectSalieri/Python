@@ -3,8 +3,6 @@
 # @file Salieri.py
 # @note
 
-import threading
-
 from .SalieriVirtualScene import SalieriVirtualScene
 
 from Logic.Input import PlayerController
@@ -15,17 +13,12 @@ from .SalieriDebugger import SalieriDebugger
 class Salieri:
 
     def __init__(self):
-        self._stop_event = threading.Event()
-        self._update_thread = threading.Thread(target=self.update)
         self._virtual_scene = SalieriVirtualScene()
 
         self._keys = []
         self._actor = None
 
-        self._debugger = SalieriDebugger(self._virtual_scene)
-
-        self._stop_event.clear()
-        self._update_thread.start()
+        #self._debugger = SalieriDebugger(self._virtual_scene)
     # def __init__
 
     def set_control_actor(self, actor):
@@ -52,10 +45,8 @@ class Salieri:
     # def send_network_inputs
 
     def shutdown(self):
-        self._stop_event.set()
-        self._update_thread.join(0.1)
-
-        self._debugger.shutdown()
+        pass
+        #self._debugger.shutdown()
     # def shutdown
 
     def _update_frame(self):

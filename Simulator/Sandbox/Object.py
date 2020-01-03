@@ -27,8 +27,7 @@ class Object:
 
         self._is_dead = False
 
-        self.drawer = self.game_data_components["Draw"]
-
+        self.drawer = self.game_data_components.get("Draw")
     # def __init__
 
     def reset_pos(self, pos):
