@@ -8,8 +8,9 @@ from ActorUtil import ActorUtil
 class Object:
 
     def __init__(self, name):
+        self._name = name
         import random, datetime
-        self.object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
+        self._object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
         
         # 初期化ファイル
         actor_setting = ActorUtil.load_actor_setting(name)
@@ -29,6 +30,10 @@ class Object:
 
         self.drawer = self.game_data_components.get("Draw")
     # def __init__
+
+    def get_name(self):
+        return self._name
+    # def get_name
 
     def reset_pos(self, pos):
         self.get_object_component("Physics").reset_pos(pos)

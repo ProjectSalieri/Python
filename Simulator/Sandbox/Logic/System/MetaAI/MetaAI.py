@@ -8,6 +8,9 @@ from threading import Lock
 import multiprocessing
 
 from ..ObjectRegionDirectorBase import ObjectRegionDirectorBase
+from ..Logger.PlayLogger import PlayLogger
+
+from .MetaAILogger import MetaAILogger
 from .MetaAIProcess import MetaAIProcess
 
 import Object
@@ -28,6 +31,9 @@ class MetaAI(ObjectRegionDirectorBase):
         #
         self._player_list = []
 
+        self._logger = MetaAILogger()
+        PlayLogger.add_logger(self._logger)
+
         self._queue = multiprocessing.Queue()
         self._result_queue = multiprocessing.Queue()
         self._process = MetaAIProcess(self._queue, self._result_queue)
@@ -46,7 +52,7 @@ class MetaAI(ObjectRegionDirectorBase):
         new_object_list = [obj for obj in objects if obj.is_dead() == False]
 
         if self._queue.empty():
-            self._queue.put([])
+            self._logger.flush(self._queue)
         if self._result_queue.empty() == False:
             process_result = self._result_queue.get()
         
@@ -125,6 +131,8 @@ class MetaAI(ObjectRegionDirectorBase):
     def _register_generate_object(self, obj):
         if self._lock.acquire():
             self._register_list.append(obj)
+            PlayLogger.put_as_generate_object(obj)
+            
             self._lock.release()
         # lock
     # def _register_generate_object

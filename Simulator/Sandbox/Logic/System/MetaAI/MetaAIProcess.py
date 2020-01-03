@@ -37,6 +37,10 @@ class MetaAIProcess(multiprocessing.Process):
     def _update_frame(self):
         if self._queue.empty():
             return True
+
+        while self._queue.empty() == False:
+            log = self._queue.get()
+            print("%s : %s" % (log.get_header(), log.get_content_hash()))
     # def _update_frame
 
     def _signal_handler(self, signum, frame):
