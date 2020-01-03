@@ -13,7 +13,7 @@ from ..Logger.PlayLogger import PlayLog
 
 from .MetaAILogger import MetaAILogger
 from .MetaAIProcess import MetaAIProcess
-from .MetaAIProcess import MetaAIProcessOrder
+from .MetaAIProcessOrder import MetaAIProcessOrder
 
 import Object
 

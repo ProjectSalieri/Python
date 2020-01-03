@@ -10,27 +10,8 @@ import numpy as np
 
 import Object
 
-class MetaAIProcessOrder:
-
-    ORDER_GENERATE_TREE_FOOD = 0 #"GenerateTreeFood"
-    ORDER_GENERATE_ENEMY = 1 #"GenerateEnemy"
-
-    def __init__(self, order, object_id, option):
-        self._order = order
-        self._object_id = object_id
-        self._option = option
-    # def __init__
-
-    def get_order(self):
-        return self._order
-
-    def get_object_id(self):
-        return self._object_id
-
-    def get_option(self):
-        return self._option
-
-# class MetaAIProcessOrder
+from .MetaAIProcessOrder import MetaAIProcessOrder
+from .MetaAIEnemyGenerator import MetaAIEnemyGenerator
 
 class MetaAIProcess(multiprocessing.Process):
 
@@ -45,6 +26,8 @@ class MetaAIProcess(multiprocessing.Process):
         self._object_status = {}
         self._player_status = {}
         self._tree_list = {}
+
+        self._enemy_generator = MetaAIEnemyGenerator()
 
         self._is_end = False
         signal.signal(signal.SIGTERM, self._signal_handler)
@@ -93,36 +76,13 @@ class MetaAIProcess(multiprocessing.Process):
     # def _update_frame
 
     def _generate_enemy(self):
-        enemy_num = 0
-        for object_id, status in self._object_status.items():
-            # TODO : 仮実装
-            if status.get("Name") == "SampleEnemy":
-                enemy_num += 1
-        # for _object_status
-
-        # 敵の数が多い場合は手加減
-        if enemy_num > 5:
-            return False
-
-        player_pos = None
-        player_life = None
-        for object_id, status in self._player_status.items():
-            player_pos = np.array(status["Pos"])
-            player_life = status.get("Life")
-
-        # プレイヤーのライフが少ないので手加減
-        if player_life == None or player_life < 5000:
-            return False
-        
-        import random
-        appear_pos = player_pos + np.array([random.randint(-200, 200), 0, random.randint(-200, 200)])
-
-        option = {
-            "Pos" : appear_pos,
-            "Name" : "SampleEnemy" # TODO
+        pack_data = {
+            "ObjectStatus" : self._object_status,
+            "PlayerStatus" : self._player_status
         }
-        order = MetaAIProcessOrder(MetaAIProcessOrder.ORDER_GENERATE_ENEMY, None, option)
-        self._put_order(order)
+        order = self._enemy_generator.execute(pack_data)
+        if order != None:
+            self._put_order(order)
 
         return True    
     # def _generate_enemy
