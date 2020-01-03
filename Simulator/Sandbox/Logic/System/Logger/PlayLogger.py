@@ -42,9 +42,10 @@ class PlayLogger:
     # def log_as_generate_object
 
     @classmethod
-    def put_as_dead_object(cls, actor):
+    def put_as_dead_object(cls, actor, factor):
         content_hash = {
-            "Name" : actor.get_name()
+            "Name" : actor.get_name(),
+            "Factor" : factor
         }
         play_log = PlayLog("DeadObject", content_hash)
         PlayLogger._put(play_log)

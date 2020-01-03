@@ -61,6 +61,7 @@ class ItemDirector(ObjectRegionDirectorBase):
 
         item_name = item_component.get_item_name()
         obj2.kill()
+        PlayLogger.put_as_dead_object(obj2, "ItemGet")
 
         item_holder.add_item(item_name)
         PlayLogger.put_as_get_item(item_name, obj1)

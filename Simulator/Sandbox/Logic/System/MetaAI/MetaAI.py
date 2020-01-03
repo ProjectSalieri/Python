@@ -49,15 +49,7 @@ class MetaAI(ObjectRegionDirectorBase):
     # def shutdown
 
     def update(self, objects, center_pos):
-        #new_object_list = [obj for obj in objects if obj.is_dead() == False]
-        new_object_list = []
-        for obj in objects:
-            if obj.is_dead() == True:
-                PlayLogger.put_as_dead_object(obj)
-            else:
-                new_object_list.append(obj)
-            #
-        # for obj
+        new_object_list = [obj for obj in objects if obj.is_dead() == False]
 
         if self._queue.empty():
             self._logger.flush(self._queue)
@@ -70,6 +62,15 @@ class MetaAI(ObjectRegionDirectorBase):
         for obj in add_objects:
             new_object_list.append(obj)
 
+        # 死因ログ解析
+        dead_objects = [obj for obj in objects if obj.is_dead() == True]
+        for dead_obj in dead_objects:
+            # システム管理外の死亡要因
+            if dead_obj.get_object_component("Life") != None and dead_obj.get_object_component("Life").is_dead() == True:
+                # Life枯渇
+                PlayLogger.put_as_dead_object(dead_obj, "LifeDead")
+                
+            
         return new_object_list
 
     def _update_region(self, objs_in_region):
