@@ -7,28 +7,18 @@ from ActorUtil import ActorUtil
 
 class Object:
 
-    def __init__(self, name):
-        self._name = name
-        import random, datetime
-        self._object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
-        
-        # 初期化ファイル
-        actor_setting = ActorUtil.load_actor_setting(name)
+    def __init__(self, name, load_option = {}):
+        self._object_id = None
+        if load_option.get("ObjectId") != None:
+            import random, datetime
+            self._object_id = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + str(random.randint(0, 100))
+        # if load_option
 
-        self.object_components = ActorUtil.create_object_components(actor_setting)
-        self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
-        
-        self._inserted_game_logic_components = {} # GameLogicComponents同士で依存があるので最後にマージ
-        self.game_logic_components = None
-        self.game_logic_components = ActorUtil.create_game_logic_components(actor_setting, self)
-        # GameLogicComponentsが別のGameLogicComponentsを生成している場合のマージ
-        for component_name, component in self._inserted_game_logic_components.items():
-            self.game_logic_components[component_name] = component
+        self._init_common(name)
 
-
-        self._is_dead = False
-
-        self.drawer = self.game_data_components.get("Draw")
+        if load_option.get("Life") != None:
+            pass
+        # if load_option
     # def __init__
 
     def get_name(self):
@@ -122,6 +112,28 @@ class Object:
         for name, component in self.game_data_components.items():
             component.post_update()
     # def post_update
+
+    def _init_common(self, name):
+        self._name = name
+        
+        # 初期化ファイル
+        actor_setting = ActorUtil.load_actor_setting(name)
+
+        self.object_components = ActorUtil.create_object_components(actor_setting)
+        self.game_data_components = ActorUtil.create_game_data_components(actor_setting)
+        
+        self._inserted_game_logic_components = {} # GameLogicComponents同士で依存があるので最後にマージ
+        self.game_logic_components = None
+        self.game_logic_components = ActorUtil.create_game_logic_components(actor_setting, self)
+        # GameLogicComponentsが別のGameLogicComponentsを生成している場合のマージ
+        for component_name, component in self._inserted_game_logic_components.items():
+            self.game_logic_components[component_name] = component
+
+
+        self._is_dead = False
+
+        self.drawer = self.game_data_components.get("Draw")
+    # def _init_common
 
 # class Object
 
