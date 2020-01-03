@@ -264,10 +264,12 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
         import os
         return os.path.abspath(os.path.join("Save", "Default.Save.json"))
     # def _default_save_json_path
-                        
+
+    # 共通セーブ
+    # TODO : 配置エリアごとにセーブを分ける
     def _save_json_path(self):
         import os
-        return os.path.abspath(os.path.join("Save", "aaaaa.Save.json"))
+        return os.path.abspath(os.path.join("Save", "Slot1", "Common.Save.json"))
     # def _save_json_path
     
     def _save(self):
