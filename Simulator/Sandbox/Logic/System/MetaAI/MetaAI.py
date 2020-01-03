@@ -1,6 +1,6 @@
 #
 # @file MetaAI.py
-# @brief メタAI
+# @brief メタAIp
 #
 
 import random
@@ -52,10 +52,10 @@ class MetaAI(ObjectRegionDirectorBase):
     def update(self, objects, center_pos):
         new_object_list = [obj for obj in objects if obj.is_dead() == False]
 
-        if self._queue.empty():
-            self._logger.flush(self._queue)
         if self._result_queue.empty() == False:
             process_result = self._result_queue.get()
+            if process_result == MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY:
+                self._logger.flush(self._queue)
         
         super().update(new_object_list, center_pos)
 

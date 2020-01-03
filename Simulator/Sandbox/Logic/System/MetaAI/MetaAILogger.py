@@ -4,6 +4,8 @@
 # @note
 
 from threading import Lock
+
+from Logic.System.MetaAI.MetaAIProcess import MetaAIProcess
 from Logic.System.Logger.PlayLogger import PlayLogger
 
 class MetaAILogger:
@@ -35,6 +37,7 @@ class MetaAILogger:
         # flush
         for log in self._buffers[flush_buf_idx]:
             queue.put(log)
+        queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_END) # queueを共有しているのでemptyだと正確なemptyがわからない
 
         self._buffers[flush_buf_idx].clear()
     # def flush

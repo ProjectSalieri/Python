@@ -3,11 +3,15 @@
 # @file PlayLogger.py
 # @note
 
+import datetime
+
 class PlayLog:
 
     def __init__(self, header, content_hash):
         self._header = header
         self._content_hash = content_hash
+
+        self._content_hash["LogTime"] = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
     # def __init__
 
     def get_header(self):

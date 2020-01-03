@@ -8,9 +8,11 @@ import time
 import signal
 
 import Object
-import pygame
 
 class MetaAIProcess(multiprocessing.Process):
+
+    PROCESS_MSG_QUEUE_EMPTY = "QueueIsEmpty"
+    PROCESS_MSG_QUEUE_END = "QueueEnd"
 
     def __init__(self, queue, result_queue):
         multiprocessing.Process.__init__(self)
@@ -38,18 +40,34 @@ class MetaAIProcess(multiprocessing.Process):
     # def run
 
     def _update_frame(self):
-        if self._queue.empty():
+        if self._queue.empty() == True:
+            self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
             return True
 
-        while self._queue.empty() == False:
+        while True:
             log = self._queue.get()
+            if log == None:
+                break
+            # queueを共有しているのでemptyだと正確なemptyがわからない
+            if log == MetaAIProcess.PROCESS_MSG_QUEUE_END:
+                break
+            
             self._parse_log(log)
-            # print("%s : %s" % (log.get_header(), log.get_content_hash()))
+            #print("[Time:%s] %s : %s" % (log.get_content_hash()["LogTime"], log.get_header(), log.get_content_hash()))
+            #print("LogTime:   %s" % (log.get_content_hash()["LogTime"]))
+            #import datetime
+            #print("ReciveTime:%s" % (datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')))
         # while queue
 
+        for object_id, status in self._object_status.items():
+            pass
+            #print("ObjectStatus : %s %s" % (object_id, status))
         for object_id, status in self._player_status.items():
             print("PlayerStatus : %s" % object_id)
             print(status)
+
+
+        self._result_queue.put(MetaAIProcess.PROCESS_MSG_QUEUE_EMPTY)
         
     # def _update_frame
 
