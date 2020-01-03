@@ -8,6 +8,8 @@ import numpy as np
 
 from .ObjectRegionDirectorBase import ObjectRegionDirectorBase
 
+from Logic.System.Logger.PlayLogger import PlayLogger
+
 class ItemDirector(ObjectRegionDirectorBase):
 
     def __init__(self):
@@ -61,7 +63,7 @@ class ItemDirector(ObjectRegionDirectorBase):
         obj2.kill()
 
         item_holder.add_item(item_name)
-
+        PlayLogger.put_as_get_item(item_name)
     # def _try_get_item
 
         

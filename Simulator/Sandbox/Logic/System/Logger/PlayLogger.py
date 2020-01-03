@@ -51,6 +51,15 @@ class PlayLogger:
     # put_as_dead_object
 
     @classmethod
+    def put_as_get_item(cls, item_name):
+        content_hash = {
+            "Name" : item_name
+        }
+        play_log = PlayLog("GetItem", content_hash)
+        PlayLogger._put(play_log)
+    # def put_as_get_item
+
+    @classmethod
     def get_instance(cls):
         logger = PlayLogger._instance
         if logger == None:
