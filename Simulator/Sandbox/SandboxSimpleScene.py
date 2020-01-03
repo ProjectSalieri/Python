@@ -96,6 +96,8 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
     # def _init_scene_from_data
 
     def kill(self):
+        self._save()
+        
         self.test_client.shutdown()
         self.meta_ai.shutdown()
     # def kill
@@ -229,6 +231,39 @@ class SandboxSimpleScene(SandboxSimpleSceneBase):
                         screen.blit(font2.render("->%s : %d" % (item_name, item_num), True, (0, 0, 0)) , [100, 100 + line_cnt*20])
                     else:
                         screen.blit(font2.render("  %s : %d" % (item_name, item_num), True, (128, 128, 128)) , [100, 100 + line_cnt*20])
+
+    def _save(self):
+        print("Save Start")
+        import os, json
+        save_json_path = os.path.abspath(os.path.join("Save", "Sample.Save.json"))
+
+        save_object = {}
+        save_object["PlayerPlacement"] = []
+        for player in self.player_objects:
+            save_obj = {
+                "ObjectId" : player.get_object_id(),
+                "Pos" : [player.get_pos()[0],player.get_pos()[1],player.get_pos()[2]],
+                "Name" : player.get_name() # FIXME : データ名
+            }
+            save_object["PlayerPlacement"].append(save_obj)
+        # for player_objects
+
+        save_object["ObjectsPlacement"] = []
+        for obj in self.objects:
+            if obj in self.player_objects:
+                continue
+            #
+            save_obj = {
+                "ObjectId" : obj.get_object_id(),
+                "Pos" : [obj.get_pos()[0],obj.get_pos()[1], obj.get_pos()[2]],
+                "Name" : obj.get_name() # FIXME : データ名
+            }
+            save_object["ObjectsPlacement"].append(save_obj)
+        
+        with open(save_json_path, "w") as f:
+            json.dump(save_object, f, indent=4)
+        print("Save End")
+    # def _save
 # class SandboxSimpleScene
 
 if __name__ == "__main__":
